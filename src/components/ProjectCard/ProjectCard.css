@@ -1,0 +1,7 @@
+.project-card {
+    background-color: #202022;
+}
+
+.project-card:hover {
+    border-radius: 10px;
+}

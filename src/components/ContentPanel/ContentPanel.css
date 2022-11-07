@@ -1,0 +1,5 @@
+.content-panel {
+    overflow-y: scroll;
+    max-height: 100vh;
+    scrollbar-width: none;
+}
