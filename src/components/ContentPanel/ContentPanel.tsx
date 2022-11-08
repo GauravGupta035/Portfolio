@@ -13,7 +13,7 @@ interface Props {
 }
 
 const handleButtonClick = () => {
-	fetch("GauravGupta-Resume.pdf").then((response) => {
+	fetch(process.env.PUBLIC_URL + "/GauravGupta-Resume.pdf").then((response) => {
 		response.blob().then((blob) => {
 			const fileURL = window.URL.createObjectURL(blob);
 
@@ -59,9 +59,26 @@ const ContentPanel: React.FC<Props> = ({
 					</GridItem>
 				</Grid>
 			</div>
-			<div id='resume'>
-				<Image alt='Gaurav Gupta Resume' src='#' />
-				<Button onClick={handleButtonClick}>Download Resume</Button>
+			<div
+				id='resume'
+				style={{
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "center",
+					width: "40vw",
+				}}
+			>
+				<Image
+					alt='Gaurav Gupta Resume'
+					src={process.env.PUBLIC_URL + "/images/portfolio-resume.png"}
+					w='40vw'
+					h='50%'
+					m='20px'
+					ml='80px'
+				/>
+				<Button onClick={handleButtonClick} maxW='200px'>
+					Download Resume
+				</Button>
 			</div>
 		</Box>
 	);

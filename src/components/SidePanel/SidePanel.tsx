@@ -76,7 +76,11 @@ const SidePanel: React.FC = () => {
 
 			<Box className='contact'>
 				<HStack spacing={6}>
-					<Avatar name='Gaurav Gupta' src='#' />
+					<Avatar
+						size='lg'
+						name='Gaurav Gupta'
+						src={process.env.PUBLIC_URL + "/images/profile-pic.jpg"}
+					/>
 					<Link
 						href='https://github.com/GauravGupta035'
 						color='white'
