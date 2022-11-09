@@ -19,7 +19,9 @@ const ProjectCard: React.FC<Props> = ({ project }) => {
 				color='white'
 				p={30}
 			>
-				<Heading mb='10px'>{project.name}</Heading>
+				<Heading mb='10px' className='project-name'>
+					{project.name}
+				</Heading>
 				<Text fontSize='13px' letterSpacing={3} mb='20px'>
 					{project.stack}
 				</Text>

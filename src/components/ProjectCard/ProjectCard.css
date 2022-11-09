@@ -1,7 +1,23 @@
 .project-card {
     background-color: #202022;
+    transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
 }
 
 .project-card:hover {
-    border-radius: 10px;
+    transform: translateY(-5px) scale(1.005) translateZ(0);
+    box-shadow: 0 24px 36px rgba(0, 0, 0, 0.11),
+    0 24px 46px rgba(26, 26, 26, 0.11);
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+
+.project-card:hover .project-name {
+    transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
+    color: rgb(202, 80, 202);
+}
+
+.project-card:active {
+    transform: scale(1) translateZ(0);
+    box-shadow: 0 15px 24px rgba(18, 216, 255, 0.11),
+      0 15px 24px rgba(184, 249, 211, 0.48);
 }

@@ -85,6 +85,7 @@ const SidePanel: React.FC = () => {
 						href='https://github.com/GauravGupta035'
 						color='white'
 						style={{ textDecoration: "none" }}
+						isExternal
 					>
 						<HStack>
 							<FaGithub />
@@ -93,9 +94,10 @@ const SidePanel: React.FC = () => {
 						</HStack>
 					</Link>
 					<Link
-						href='https://github.com/GauravGupta035'
+						href='https://www.linkedin.com/in/gauravgupta035/'
 						color='white'
 						style={{ textDecoration: "none" }}
+						isExternal
 					>
 						<HStack>
 							<FaLinkedin />
