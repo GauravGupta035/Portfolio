@@ -76,7 +76,7 @@ const ContentPanel: React.FC<Props> = ({
 					m='20px'
 					ml='80px'
 				/>
-				<Button onClick={handleButtonClick} maxW='200px'>
+				<Button onClick={handleButtonClick} maxW='200px' mb='20px'>
 					Download Resume
 				</Button>
 			</div>

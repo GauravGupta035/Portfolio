@@ -1,7 +1,8 @@
 .skill-card {
     background-color: #202022;
 }
-.skill-card:hover .skill {
+
+.skill-card:hover .skill  {
     color: white;
     cursor: default;
 }

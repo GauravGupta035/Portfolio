@@ -11,6 +11,8 @@ import {
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
 
+import "./SidePanel.css";
+
 const SidePanel: React.FC = () => {
 	return (
 		<Flex justify='center' flexDirection='column' ml='25%'>
@@ -51,25 +53,38 @@ const SidePanel: React.FC = () => {
 				</Text>
 			</Box>
 			<Box className='navigation' mb='80px'>
-				<Link color='white' style={{ textDecoration: "none" }}>
-					<HStack mb='20px'>
+				<Link
+					color='white'
+					style={{ textDecoration: "none" }}
+					className='nav-link'
+					width='200px'
+				>
+					<HStack mb='20px' className='link'>
 						<Text>01</Text>
-						<Divider width='200px' color='white' />
-						<Text>PROJECTS</Text>
+						<Divider color='white' width='100px' />
+						<Text className='section-name'>PROJECTS</Text>
 					</HStack>
 				</Link>
-				<Link color='white' style={{ textDecoration: "none" }}>
-					<HStack mb='20px'>
+				<Link
+					color='white'
+					style={{ textDecoration: "none" }}
+					className='nav-link'
+				>
+					<HStack mb='20px' className='link'>
 						<Text>02</Text>
-						<Divider width='200px' color='white' />
-						<Text>SKILLS</Text>
+						<Divider color='white' width='100px' />
+						<Text className='section-name'>SKILLS</Text>
 					</HStack>
 				</Link>
-				<Link color='white' style={{ textDecoration: "none" }}>
-					<HStack mb='50px'>
+				<Link
+					color='white'
+					style={{ textDecoration: "none" }}
+					className='nav-link'
+				>
+					<HStack mb='50px' className='link'>
 						<Text>03</Text>
-						<Divider width='200px' color='white' />
-						<Text>RESUME</Text>
+						<Divider color='white' width='100px' />
+						<Text className='section-name'>RESUME</Text>
 					</HStack>
 				</Link>
 			</Box>
@@ -82,6 +97,7 @@ const SidePanel: React.FC = () => {
 						src={process.env.PUBLIC_URL + "/images/profile-pic.jpg"}
 					/>
 					<Link
+						className='profile-link github'
 						href='https://github.com/GauravGupta035'
 						color='white'
 						style={{ textDecoration: "none" }}
@@ -94,6 +110,7 @@ const SidePanel: React.FC = () => {
 						</HStack>
 					</Link>
 					<Link
+						className='profile-link linkedin'
 						href='https://www.linkedin.com/in/gauravgupta035/'
 						color='white'
 						style={{ textDecoration: "none" }}

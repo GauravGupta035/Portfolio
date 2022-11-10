@@ -9,7 +9,11 @@ interface Props {
 
 const ProjectCard: React.FC<Props> = ({ project }) => {
 	return (
-		<Link href={project.link.href} isExternal>
+		<Link
+			href={project.link.href}
+			isExternal
+			style={{ textDecoration: "none" }}
+		>
 			<Box
 				className='project-card'
 				height='200px'
@@ -22,7 +26,12 @@ const ProjectCard: React.FC<Props> = ({ project }) => {
 				<Heading mb='10px' className='project-name'>
 					{project.name}
 				</Heading>
-				<Text fontSize='13px' letterSpacing={3} mb='20px'>
+				<Text
+					fontSize='13px'
+					letterSpacing={3}
+					mb='20px'
+					className='project-stack'
+				>
 					{project.stack}
 				</Text>
 				<Text color='gray.400'>{project.description}</Text>
