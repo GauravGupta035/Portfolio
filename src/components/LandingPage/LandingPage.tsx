@@ -1,4 +1,4 @@
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Box, SimpleGrid } from "@chakra-ui/react";
 import { useState } from "react";
 import { Project, Skill } from "../../model";
 import {
@@ -19,20 +19,20 @@ const LandingPage: React.FC = () => {
 
 	return (
 		<div>
-			<Grid
-				templateColumns='repeat(2, 1fr)'
+			<SimpleGrid
+				// templateColumns='repeat(2, 1fr)'
+				minChildWidth='500px'
 				gap={6}
-				justifyItems='center'
 				alignItems='center'
-				height='100vh'
+				height='100%'
 				className=''
 			>
-				<GridItem w='100%'>
+				<Box w='100%'>
 					<div style={{ zIndex: 10 }}>
 						<SidePanel />
 					</div>
-				</GridItem>
-				<GridItem w='100%'>
+				</Box>
+				<Box w='100%'>
 					<div style={{ zIndex: 10 }}>
 						<ContentPanel
 							projects={projects}
@@ -41,8 +41,8 @@ const LandingPage: React.FC = () => {
 							skillGrp3={skillGrp3}
 						/>
 					</div>
-				</GridItem>
-			</Grid>
+				</Box>
+			</SimpleGrid>
 			<ul className='circles'>
 				<li></li>
 				<li></li>

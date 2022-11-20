@@ -38,7 +38,7 @@ const ContentPanel: React.FC<Props> = ({
 					<ProjectCard project={project} key={project.id} />
 				))}
 			</div>
-			<div id='skills' style={{ marginLeft: "35px", marginTop: "20px" }}>
+			<div id='skills' style={{ marginLeft: "4.5rem", marginTop: "20px" }}>
 				<Grid templateColumns='repeat(3, 1fr)' w='40vw'>
 					<GridItem>
 						{skillGrp1.map((skill) => (

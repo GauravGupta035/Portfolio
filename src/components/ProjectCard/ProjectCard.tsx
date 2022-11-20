@@ -17,11 +17,11 @@ const ProjectCard: React.FC<Props> = ({ project }) => {
 			<Box
 				className='project-card'
 				height='200px'
-				width='40vw'
+				width={{ base: "40vw", xl: "40vw", lg: "42vw", md: "80vw", sm: "80vw" }}
 				mb='15px'
-				ml='35px'
+				mx='auto'
 				color='white'
-				p={30}
+				p={{ base: "30px", xl: "30px", lg: "20px", md: "30px", sm: "30px" }}
 			>
 				<Heading mb='10px' className='project-name'>
 					{project.name}

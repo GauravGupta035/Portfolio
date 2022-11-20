@@ -32,7 +32,7 @@
 }
 
 .project-card:hover .project-name {
-    transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
+    transition: color .3s linear, box-shadow .3s linear;
     color: rgb(202, 80, 202);
 }
 

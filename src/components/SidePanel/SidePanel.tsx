@@ -5,7 +5,6 @@ import {
 	Flex,
 	Box,
 	HStack,
-	Divider,
 	Avatar,
 } from "@chakra-ui/react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
@@ -15,8 +14,18 @@ import "./SidePanel.css";
 
 const SidePanel: React.FC = () => {
 	return (
-		<Flex justify='center' flexDirection='column' ml='25%'>
-			<Heading as='h2' size='3xl' color='white' mb='20px'>
+		<Flex
+			direction='column'
+			ml={{ base: "25%", xl: "25%", lg: "10%", md: "5%" }}
+			h='100%'
+		>
+			<Heading
+				as='h2'
+				size={{ base: "3xl", xl: "3xl", lg: "2xl", md: "xl" }}
+				color='white'
+				mb='20px'
+				mt='50px'
+			>
 				Gaurav Gupta
 			</Heading>
 
@@ -24,7 +33,11 @@ const SidePanel: React.FC = () => {
 				Final Year Computer Science Major
 			</Heading>
 
-			<Box className='introduction' width='450px' mb='80px'>
+			<Box
+				className='introduction'
+				width='450px'
+				mb={{ base: "80px", xl: "80px", lg: "40px", md: "20px", sm: "20px" }}
+			>
 				<Text color='gray.400'>
 					I am interested in UI/UX design, web and mobile development.
 					<br /> In my spare time, I sometimes share my ongoing project progress
@@ -52,44 +65,11 @@ const SidePanel: React.FC = () => {
 					</span>
 				</Text>
 			</Box>
-			<Box className='navigation' mb='80px'>
-				<Link
-					color='white'
-					style={{ textDecoration: "none" }}
-					className='nav-link'
-					width='200px'
-				>
-					<HStack mb='20px' className='link'>
-						<Text>01</Text>
-						<Divider color='white' width='100px' />
-						<Text className='section-name'>PROJECTS</Text>
-					</HStack>
-				</Link>
-				<Link
-					color='white'
-					style={{ textDecoration: "none" }}
-					className='nav-link'
-				>
-					<HStack mb='20px' className='link'>
-						<Text>02</Text>
-						<Divider color='white' width='100px' />
-						<Text className='section-name'>SKILLS</Text>
-					</HStack>
-				</Link>
-				<Link
-					color='white'
-					style={{ textDecoration: "none" }}
-					className='nav-link'
-				>
-					<HStack mb='50px' className='link'>
-						<Text>03</Text>
-						<Divider color='white' width='100px' />
-						<Text className='section-name'>RESUME</Text>
-					</HStack>
-				</Link>
-			</Box>
 
-			<Box className='contact'>
+			<Box
+				className='contact'
+				// mt={{ base: "20vh", xl: "20vh", lg: "10vh", md: "5vh", sm: "2vh" }}
+			>
 				<HStack spacing={6}>
 					<Avatar
 						size='lg'
