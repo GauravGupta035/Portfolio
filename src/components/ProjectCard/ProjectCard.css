@@ -1,8 +1,6 @@
 .project-card{
     background-color: #202022;
     transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
-    border-top-right-radius: 30px;
-    border-bottom-left-radius: 30px;
     z-index: 1000;
 }
 
@@ -25,24 +23,12 @@
 }
 
 .project-card:hover {
-    transform: translateY(-5px) scale(1.005) translateZ(0);
-    box-shadow: 0 24px 36px rgba(0, 0, 0, 0.11),
-    0 24px 46px rgba(26, 26, 26, 0.11);
-    border-radius: 0;
-}
-
-.project-card:hover .project-name {
-    transition: color .3s linear, box-shadow .3s linear;
-    color: rgb(202, 80, 202);
+    box-shadow: rgba(0, 135, 202, 0.15) 0px 4px 24px;
+    border-color: hsl(200, 45%, 24%);
+    border-width: 1px;
 }
 
 .project-card:hover .project-stack::after {
     transform: scaleX(1);
     transform-origin: bottom left;
-}
-
-.project-card:active {
-    transform: scale(1) translateZ(0);
-    box-shadow: 0 15px 24px rgba(18, 216, 255, 0.11),
-      0 15px 24px rgba(184, 249, 211, 0.48);
 }

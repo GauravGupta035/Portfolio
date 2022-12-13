@@ -21,6 +21,7 @@ const ProjectCard: React.FC<Props> = ({ project }) => {
 				mb='15px'
 				mx='auto'
 				color='white'
+				borderRadius='md'
 				p={{ base: "30px", xl: "30px", lg: "20px", md: "30px", sm: "30px" }}
 			>
 				<Heading mb='10px' className='project-name'>

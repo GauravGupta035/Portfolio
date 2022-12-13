@@ -1,4 +1,12 @@
-import { Box, Button, Grid, GridItem, Image } from "@chakra-ui/react";
+import {
+	Box,
+	Button,
+	Grid,
+	GridItem,
+	Image,
+	Text,
+	Link,
+} from "@chakra-ui/react";
 import React from "react";
 import { Project, Skill } from "../../model";
 import ProjectCard from "../ProjectCard/ProjectCard";
@@ -71,14 +79,27 @@ const ContentPanel: React.FC<Props> = ({
 				<Image
 					alt='Gaurav Gupta Resume'
 					src={process.env.PUBLIC_URL + "/images/portfolio-resume.png"}
-					w='40vw'
+					w='39vw'
 					h='50%'
 					m='20px'
-					ml='80px'
+					ml='10vw'
 				/>
-				<Button onClick={handleButtonClick} maxW='200px' mb='20px'>
+				<Button onClick={handleButtonClick} maxW='200px' mb='20px' ml='10vw'>
 					Download Resume
 				</Button>
+			</div>
+			<div id='credits'>
+				<Text color='gray.400' fontSize='sm' mb='20px' ml='17vw'>
+					Design inspired by{" "}
+					<Link
+						color='white'
+						textDecoration='underline'
+						href='https://dribbble.com/NicolasMzrd'
+						isExternal
+					>
+						Nicolas Meuzard
+					</Link>
+				</Text>
 			</div>
 		</Box>
 	);

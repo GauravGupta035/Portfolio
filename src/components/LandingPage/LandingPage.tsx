@@ -25,7 +25,6 @@ const LandingPage: React.FC = () => {
 				gap={6}
 				alignItems='center'
 				height='100%'
-				className=''
 			>
 				<Box w='100%'>
 					<div style={{ zIndex: 10 }}>
