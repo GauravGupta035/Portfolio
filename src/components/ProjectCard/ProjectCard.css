@@ -1,6 +1,6 @@
 .project-card {
     background-color: #202022;
-    transition: color .3s ease-in-out, box-shadow .3s ease-in-out, border .2s ease-in;
+    transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
     z-index: 1000;
 }
 
