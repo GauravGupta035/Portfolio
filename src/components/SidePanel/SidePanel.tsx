@@ -6,7 +6,6 @@ import {
 	Box,
 	HStack,
 	Avatar,
-	Spacer,
 } from "@chakra-ui/react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
