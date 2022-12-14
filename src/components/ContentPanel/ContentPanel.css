@@ -3,3 +3,8 @@
     max-height: 100vh;
     scrollbar-width: none;
 }
+
+.resume:hover {
+    background-color: black;
+    color: white;
+}

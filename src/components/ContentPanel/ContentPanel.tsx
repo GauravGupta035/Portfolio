@@ -84,7 +84,15 @@ const ContentPanel: React.FC<Props> = ({
 					m='20px'
 					ml='10vw'
 				/>
-				<Button onClick={handleButtonClick} maxW='200px' mb='20px' ml='10vw'>
+				<Button
+					onClick={handleButtonClick}
+					maxW='200px'
+					mb='20px'
+					ml='10vw'
+					bgColor='white'
+					color='black'
+					className='resume'
+				>
 					Download Resume
 				</Button>
 			</div>

@@ -6,6 +6,7 @@ import {
 	Box,
 	HStack,
 	Avatar,
+	Spacer,
 } from "@chakra-ui/react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
@@ -68,7 +69,7 @@ const SidePanel: React.FC = () => {
 
 			<Box
 				className='contact'
-				// mt={{ base: "20vh", xl: "20vh", lg: "10vh", md: "5vh", sm: "2vh" }}
+				mt={{ base: "20vh", xl: "20vh", lg: "10vh", md: "5vh", sm: "2vh" }}
 			>
 				<HStack spacing={6}>
 					<Avatar
