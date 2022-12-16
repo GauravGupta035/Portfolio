@@ -18,6 +18,7 @@ const SidePanel: React.FC = () => {
 			direction='column'
 			ml={{ base: "25%", xl: "25%", lg: "10%", md: "5%" }}
 			h='100%'
+			className='side-panel'
 		>
 			<Heading
 				as='h2'
@@ -68,11 +69,11 @@ const SidePanel: React.FC = () => {
 
 			<Box
 				className='contact'
-				mt={{ base: "20vh", xl: "20vh", lg: "10vh", md: "5vh", sm: "2vh" }}
+				mt={{ base: "15vh", xl: "15vh", lg: "10vh", md: "5vh", sm: "2vh" }}
 			>
-				<HStack spacing={6}>
+				<HStack spacing={{ base: 6, xl: 6, lg: 6, md: 4, sm: 4 }}>
 					<Avatar
-						size='lg'
+						size={{ base: "lg", xl: "lg", lg: "lg", md: "md", sm: "md" }}
 						name='Gaurav Gupta'
 						src={process.env.PUBLIC_URL + "/images/profile-pic.jpg"}
 					/>

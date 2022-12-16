@@ -46,8 +46,12 @@ const ContentPanel: React.FC<Props> = ({
 					<ProjectCard project={project} key={project.id} />
 				))}
 			</div>
-			<div id='skills' style={{ marginLeft: "4.5rem", marginTop: "20px" }}>
-				<Grid templateColumns='repeat(3, 1fr)' w='40vw'>
+			<Box mt='20px'>
+				<Grid
+					templateColumns='repeat(3, 1fr)'
+					ml={{ base: "10vw", xl: "5vw", lg: "3.5vw" }}
+					w={{ base: "40vw", xl: "40vw", lg: "42vw", md: "80vw", sm: "80vw" }}
+				>
 					<GridItem>
 						{skillGrp1.map((skill) => (
 							<SkillCard key={skill.id} skill={skill} />
@@ -66,38 +70,43 @@ const ContentPanel: React.FC<Props> = ({
 						))}
 					</GridItem>
 				</Grid>
-			</div>
-			<div
+				{/* </div> */}
+			</Box>
+			<Box
 				id='resume'
-				style={{
-					display: "flex",
-					flexDirection: "column",
-					alignItems: "center",
-					width: "40vw",
-				}}
+				display='flex'
+				flexDirection='column'
+				alignItems='center'
+				w={{ base: "40vw", xl: "40vw", lg: "42vw", md: "80vw", sm: "80vw" }}
 			>
 				<Image
 					alt='Gaurav Gupta Resume'
 					src={process.env.PUBLIC_URL + "/images/portfolio-resume.png"}
-					w='39vw'
+					w='100%'
 					h='50%'
 					m='20px'
-					ml='10vw'
+					ml={{ base: "10vw", xl: "10vw", lg: "8vw", md: "20vw", sm: "22vw" }}
 				/>
 				<Button
 					onClick={handleButtonClick}
 					maxW='200px'
 					mb='20px'
-					ml='10vw'
+					ml={{ base: "10vw", xl: "10vw", lg: "8vw", md: "20vw", sm: "22vw" }}
 					bgColor='white'
 					color='black'
-					className='resume'
+					// className='resume'
+					_hover={{ color: "white", bgColor: "#151515" }}
 				>
 					Download Resume
 				</Button>
-			</div>
+			</Box>
 			<div id='credits'>
-				<Text color='gray.400' fontSize='sm' mb='20px' ml='17vw'>
+				<Text
+					color='gray.400'
+					fontSize='sm'
+					mb='20px'
+					ml={{ base: "17vw", xl: "17vw", lg: "16vw", md: "38vw", sm: "35vw" }}
+				>
 					Design inspired by{" "}
 					<Link
 						color='white'

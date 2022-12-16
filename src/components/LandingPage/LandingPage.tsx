@@ -21,10 +21,10 @@ const LandingPage: React.FC = () => {
 		<div>
 			<SimpleGrid
 				// templateColumns='repeat(2, 1fr)'
-				minChildWidth='500px'
+				minChildWidth='600px'
 				gap={6}
 				alignItems='center'
-				height='100%'
+				height='auto'
 			>
 				<Box w='100%'>
 					<div style={{ zIndex: 10 }}>

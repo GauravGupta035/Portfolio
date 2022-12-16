@@ -4,7 +4,12 @@
     scrollbar-width: none;
 }
 
-.resume:hover {
-    background-color: black;
-    color: white;
+@media screen and (max-width: 1032px) {
+    
+    .content-panel {
+        overflow-y: visible;
+        /* max-height: 100vh; */
+        /* scrollbar-width: none; */
+    }
 }
+

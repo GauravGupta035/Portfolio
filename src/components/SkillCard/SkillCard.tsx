@@ -18,7 +18,13 @@ const SkillCard: React.FC<Props> = ({ skill }) => {
 			align='center'
 		>
 			<Text
-				fontSize='26px'
+				fontSize={{
+					base: "26px",
+					xl: "26px",
+					lg: "22px",
+					md: "22px",
+					sm: "20px",
+				}}
 				letterSpacing={2}
 				color='gray.400'
 				className='skill'
