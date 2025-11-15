@@ -21,13 +21,13 @@ interface Props {
 }
 
 const handleButtonClick = () => {
-	fetch(process.env.PUBLIC_URL + "/GauravGupta-Resume.pdf").then((response) => {
+	fetch(process.env.PUBLIC_URL + "/Gaurav_Alok_Gupta_Resume.pdf").then((response) => {
 		response.blob().then((blob) => {
 			const fileURL = window.URL.createObjectURL(blob);
 
 			let alink = document.createElement("a");
 			alink.href = fileURL;
-			alink.download = "GauravGupta-Resume.pdf";
+			alink.download = "Gaurav_Alok_Gupta_Resume.pdf";
 			alink.click();
 		});
 	});
@@ -80,7 +80,7 @@ const ContentPanel: React.FC<Props> = ({
 				w={{ base: "40vw", xl: "40vw", lg: "42vw", md: "80vw", sm: "80vw" }}
 			>
 				<Image
-					alt='Gaurav Gupta Resume'
+					alt='Gaurav_Alok_Gupta_Resume'
 					src={process.env.PUBLIC_URL + "/images/portfolio-resume.png"}
 					w='100%'
 					h='50%'
@@ -115,6 +115,15 @@ const ContentPanel: React.FC<Props> = ({
 						isExternal
 					>
 						Nicolas Meuzard
+					</Link>
+					 {" "}and developed by{" "}
+					<Link
+						color='white'
+						textDecoration='underline'
+						href='https://github.com/GauravGupta035/'
+						isExternal
+					>
+						Me
 					</Link>
 				</Text>
 			</div>

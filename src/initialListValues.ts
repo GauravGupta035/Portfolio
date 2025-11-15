@@ -4,9 +4,9 @@ export const projectList: Array<Project> = [
     {
         id: 1,
         name: 'GenieSpeaks',
-        description: 'It is one-stop shop for reviews for all varities of products aggregated from websites like Amazon and Flipkart.',
+        description: 'It is one-stop shop for reviews for tech products aggregated from websites like Amazon and Flipkart.',
         stack: 'REACTJS',
-        link: new URL('https://mango-bush-0d243c810.1.azurestaticapps.net/')
+        link: new URL('https://github.com/GauravGupta035/PD_GenieSpeaks')
     },
     {
         id: 2,
@@ -38,23 +38,23 @@ export const skillList1: Array<Skill> = [
     },
     {
         id: 2,
-        name: 'Flutter'
+        name: 'Flutter/Dart'
     },
     {
         id: 3,
-        name: 'Dart'
+        name: 'Docker'
     },
     {
         id: 4,
-        name: 'HTML'
+        name: 'AWS'
     },
     {
         id: 5,
-        name: 'CSS'
+        name: 'OCI'
     },
     {
         id: 6,
-        name: 'Sass'
+        name: 'Amazon S3'
     }
 ]
 
@@ -65,7 +65,7 @@ export const skillList2: Array<Skill> = [
     },
     {
         id: 2,
-        name: 'Java'
+        name: 'Kubernetes'
     },
     {
         id: 3,

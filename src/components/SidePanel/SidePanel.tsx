@@ -27,11 +27,11 @@ const SidePanel: React.FC = () => {
 				mb='20px'
 				mt='50px'
 			>
-				Gaurav Gupta
+				Gaurav Alok Gupta
 			</Heading>
 
 			<Heading as='h4' size='lg' color='white' mb='20px'>
-				Final Year Computer Science Major
+				MSc Computer Science Student @ University of St Andrews
 			</Heading>
 
 			<Box
@@ -40,30 +40,9 @@ const SidePanel: React.FC = () => {
 				mb={{ base: "80px", xl: "80px", lg: "40px", md: "20px", sm: "20px" }}
 			>
 				<Text color='gray.400'>
-					I am interested in UI/UX design, web and mobile development.
-					<br /> In my spare time, I sometimes share my ongoing project progress
-					or learnings blog on{" "}
-					<span>
-						<Link
-							href='https://hashnode.com/@Rakurai'
-							color='white'
-							textDecoration='underline'
-							isExternal
-						>
-							HashNode
-						</Link>
-					</span>{" "}
-					and{" "}
-					<span>
-						<Link
-							href='https://dev.to/gauravgupta'
-							color='white'
-							textDecoration='underline'
-							isExternal
-						>
-							Dev.to
-						</Link>
-					</span>
+					I am a postgraduate student pursuing MSc in Computer Science with 2 years experience as a Software Development Engineer
+					<br /> <br />
+					Currently I'm located in St Andrews, UK.
 				</Text>
 			</Box>
 
