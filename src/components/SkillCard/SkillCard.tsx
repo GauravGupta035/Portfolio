@@ -4,35 +4,37 @@ import { Skill } from "../../model";
 import "./SkillCard.css";
 
 interface Props {
-	skill: Skill;
+    skill: Skill;
 }
 
 const SkillCard: React.FC<Props> = ({ skill }) => {
-	return (
-		<Flex
-			className='skill-card'
-			w='95%'
-			h='100px'
-			mb='10px'
-			justify='center'
-			align='center'
-		>
-			<Text
-				fontSize={{
-					base: "26px",
-					xl: "26px",
-					lg: "22px",
-					md: "22px",
-					sm: "20px",
-				}}
-				letterSpacing={2}
-				color='gray.400'
-				className='skill'
-			>
-				{skill.name}
-			</Text>
-		</Flex>
-	);
+    return (
+        <Flex
+            className='skill-card'
+            w='100%'
+            minH='80px'
+            mb='3'
+            justify='center'
+            align='center'
+            p={4}
+        >
+            <Text
+                fontSize={{
+                    base: "md",
+                    sm: "lg",
+                    md: "xl",
+                    lg: "xl",
+                    xl: "2xl",
+                }}
+                letterSpacing={1}
+                color='gray.400'
+                className='skill'
+                textAlign='center'
+            >
+                {skill.name}
+            </Text>
+        </Flex>
+    );
 };
 
 export default SkillCard;

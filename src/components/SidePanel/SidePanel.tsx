@@ -1,91 +1,103 @@
 import {
-	Heading,
-	Link,
-	Text,
-	Flex,
-	Box,
-	HStack,
-	Avatar,
+    Heading,
+    Link,
+    Text,
+    Flex,
+    Box,
+    HStack,
+    Avatar,
+    Stack,
 } from "@chakra-ui/react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
-
 import "./SidePanel.css";
 
 const SidePanel: React.FC = () => {
-	return (
-		<Flex
-			direction='column'
-			ml={{ base: "25%", xl: "25%", lg: "10%", md: "5%" }}
-			h='100%'
-			className='side-panel'
-		>
-			<Heading
-				as='h2'
-				size={{ base: "3xl", xl: "3xl", lg: "2xl", md: "xl" }}
-				color='white'
-				mb='20px'
-				mt='50px'
-			>
-				Gaurav Alok Gupta
-			</Heading>
+    return (
+        <Flex
+            direction='column'
+            px={{ base: "6", md: "8", lg: "10%", xl: "15%" }}
+            py={{ base: "10", md: "12" }}
+            h={{ base: "auto", lg: "100vh" }}
+            w='100%'
+            className='side-panel'
+        >
+            <Heading
+                as='h2'
+                size={{ base: "xl", md: "2xl", lg: "2xl", xl: "3xl" }}
+                color='white'
+                mb={{ base: "4", md: "5" }}
+                mt={{ base: "8", md: "12" }}
+            >
+                Gaurav Alok Gupta
+            </Heading>
 
-			<Heading as='h4' size='lg' color='white' mb='20px'>
-				MSc Computer Science Student @ University of St Andrews
-			</Heading>
+            <Heading 
+                as='h4' 
+                size={{ base: "md", md: "lg" }}
+                color='white' 
+                mb={{ base: "4", md: "5" }}
+            >
+                MSc Computer Science Student @ University of St Andrews
+            </Heading>
 
-			<Box
-				className='introduction'
-				width='450px'
-				mb={{ base: "80px", xl: "80px", lg: "40px", md: "20px", sm: "20px" }}
-			>
-				<Text color='gray.400'>
-					I am a postgraduate student pursuing MSc in Computer Science with 2 years experience as a Software Development Engineer
-					<br /> <br />
-					Currently I'm located in St Andrews, UK.
-				</Text>
-			</Box>
+            <Box
+                className='introduction'
+                maxW='450px'
+                w='100%'
+                mb={{ base: "8", md: "12", lg: "16" }}
+            >
+                <Text color='gray.400' fontSize={{ base: "sm", md: "md" }}>
+                    I am a postgraduate student pursuing MSc in Computer Science with 2 years experience as a Software Development Engineer
+                    <br /> <br />
+                    Currently I'm located in St Andrews, UK.
+                </Text>
+            </Box>
 
-			<Box
-				className='contact'
-				mt={{ base: "15vh", xl: "15vh", lg: "10vh", md: "5vh", sm: "2vh" }}
-			>
-				<HStack spacing={{ base: 6, xl: 6, lg: 6, md: 4, sm: 4 }}>
-					<Avatar
-						size={{ base: "lg", xl: "lg", lg: "lg", md: "md", sm: "md" }}
-						name='Gaurav Gupta'
-						src={process.env.PUBLIC_URL + "/images/profile-pic.jpg"}
-					/>
-					<Link
-						className='profile-link github'
-						href='https://github.com/GauravGupta035'
-						color='white'
-						style={{ textDecoration: "none" }}
-						isExternal
-					>
-						<HStack>
-							<FaGithub />
-							<Text>GitHub</Text>
-							<FiExternalLink />
-						</HStack>
-					</Link>
-					<Link
-						className='profile-link linkedin'
-						href='https://www.linkedin.com/in/gauravgupta035/'
-						color='white'
-						style={{ textDecoration: "none" }}
-						isExternal
-					>
-						<HStack>
-							<FaLinkedin />
-							<Text>LinkedIn</Text>
-							<FiExternalLink />
-						</HStack>
-					</Link>
-				</HStack>
-			</Box>
-		</Flex>
-	);
+            <Box
+                className='contact'
+                mt={{ base: "6", md: "10", lg: "auto" }}
+            >
+                <Stack
+                    direction={{ base: "column", sm: "row" }}
+                    spacing={{ base: 4, md: 6 }}
+                    align={{ base: "flex-start", sm: "center" }}
+                >
+                    <Avatar
+                        size={{ base: "md", md: "lg" }}
+                        name='Gaurav Gupta'
+                        src={process.env.PUBLIC_URL + "/images/profile-pic.jpg"}
+                    />
+                    <Link
+                        className='profile-link github'
+                        href='https://github.com/GauravGupta035'
+                        color='white'
+                        style={{ textDecoration: "none" }}
+                        isExternal
+                    >
+                        <HStack spacing={2}>
+                            <FaGithub />
+                            <Text fontSize={{ base: "sm", md: "md" }}>GitHub</Text>
+                            <FiExternalLink />
+                        </HStack>
+                    </Link>
+                    <Link
+                        className='profile-link linkedin'
+                        href='https://www.linkedin.com/in/gauravgupta035/'
+                        color='white'
+                        style={{ textDecoration: "none" }}
+                        isExternal
+                    >
+                        <HStack spacing={2}>
+                            <FaLinkedin />
+                            <Text fontSize={{ base: "sm", md: "md" }}>LinkedIn</Text>
+                            <FiExternalLink />
+                        </HStack>
+                    </Link>
+                </Stack>
+            </Box>
+        </Flex>
+    );
 };
 
 export default SidePanel;

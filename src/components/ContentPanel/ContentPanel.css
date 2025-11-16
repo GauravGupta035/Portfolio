@@ -1,15 +1,18 @@
 .content-panel {
-    overflow-y: scroll;
-    max-height: 100vh;
+    /* Remove overflow-y: scroll and max-height from here */
     scrollbar-width: none;
+    width: 100%;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* For webkit browsers (Chrome, Safari) */
+.content-panel::-webkit-scrollbar {
+    display: none;
 }
 
 @media screen and (max-width: 1032px) {
-    
     .content-panel {
         overflow-y: visible;
-        /* max-height: 100vh; */
-        /* scrollbar-width: none; */
+        max-height: none; /* Remove height constraint on mobile */
     }
 }
-

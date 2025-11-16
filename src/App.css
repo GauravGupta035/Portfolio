@@ -4,3 +4,22 @@
   background-color: transparent;
   font-family: 'Inter';
 }
+
+/* Prevent horizontal overflow globally */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Ensure all images are responsive */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Fix for mobile viewport height issues */
+@supports (height: 100dvh) {
+  .content-panel {
+    max-height: 100dvh; /* Dynamic viewport height for mobile */
+  }
+}
