@@ -13,7 +13,7 @@ export const projectList: Array<Project> = [
         name: 'Smart Notes',
         description: 'Mobile application that aims to provide concise and thoroughly explained notes to students.',
         stack: 'FLUTTER',
-        link: new URL('https://github.com/shivansh1012/SmartNotes')
+        link: new URL('https://github.com/GauravGupta035/SmartNotes')
     },
     {
         id: 3,
@@ -34,15 +34,15 @@ export const projectList: Array<Project> = [
 export const skillList1: Array<Skill> = [
     {
         id: 1,
-        name: 'ReactJS'
+        name: 'C++'
     },
     {
         id: 2,
-        name: 'Flutter/Dart'
+        name: 'Python'
     },
     {
         id: 3,
-        name: 'Docker'
+        name: 'JavaScript'
     },
     {
         id: 4,
@@ -61,11 +61,11 @@ export const skillList1: Array<Skill> = [
 export const skillList2: Array<Skill> = [
     {
         id: 1,
-        name: 'Python'
+        name: 'HTML'
     },
     {
         id: 2,
-        name: 'Kubernetes'
+        name: 'CSS/Sass'
     },
     {
         id: 3,
@@ -88,15 +88,15 @@ export const skillList2: Array<Skill> = [
 export const skillList3: Array<Skill> = [
     {
         id: 1,
-        name: 'Javascript'
+        name: 'FastAPI'
     },
     {
         id: 2,
-        name: 'Typescript'
+        name: 'ReactJS'
     },
     {
         id: 3,
-        name: 'C++'
+        name: 'GitHub'
     },
     {
         id: 4,
@@ -104,7 +104,7 @@ export const skillList3: Array<Skill> = [
     },
     {
         id: 5,
-        name: 'GitHub'
+        name: 'Postman'
     },
     {
         id: 6,

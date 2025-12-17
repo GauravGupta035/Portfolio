@@ -38,7 +38,7 @@ const SidePanel: React.FC = () => {
                 color='white' 
                 mb={{ base: "4", md: "5" }}
             >
-                MSc Computer Science Student @ University of St Andrews
+                MSc Computer Science Student @ University of St Andrews, UK
             </Heading>
 
             <Box
@@ -48,9 +48,7 @@ const SidePanel: React.FC = () => {
                 mb={{ base: "8", md: "12", lg: "16" }}
             >
                 <Text color='gray.400' fontSize={{ base: "sm", md: "md" }}>
-                    I am a postgraduate student pursuing MSc in Computer Science with 2 years experience as a Software Development Engineer
-                    <br /> <br />
-                    Currently I'm located in St Andrews, UK.
+                    Backend-focused Software Engineer with 2+ years of industry experience, previously working as an SDE-2 at Tally Solutions.
                 </Text>
             </Box>
 
