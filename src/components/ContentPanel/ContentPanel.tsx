@@ -1,148 +1,68 @@
 import {
-    Box,
-    Button,
-    Grid,
-    GridItem,
-    Image,
-    Text,
-    Link,
-    VStack,
+  Box,
+  Heading,
+  VStack,
+  Icon,
 } from "@chakra-ui/react";
 import React from "react";
-import { Project, Skill } from "../../model";
+import { Project } from "../../model";
 import ProjectCard from "../ProjectCard/ProjectCard";
-import SkillCard from "../SkillCard/SkillCard";
+import ExperienceSection from "../ExperienceSection/ExperienceSection";
+import SkillsSection from "../SkillsSection/SkillsSection";
+import { FaFolder } from "react-icons/fa";
 import "./ContentPanel.css";
 
 interface Props {
-    projects: Project[];
-    skillGrp1: Skill[];
-    skillGrp2: Skill[];
-    skillGrp3: Skill[];
+  projects: Project[];
+  skillGrp1?: any[];
+  skillGrp2?: any[];
+  skillGrp3?: any[];
 }
 
-const handleButtonClick = () => {
-	fetch(process.env.PUBLIC_URL + "/Gaurav_Alok_Gupta_Resume.pdf").then((response) => {
-		response.blob().then((blob) => {
-			const fileURL = window.URL.createObjectURL(blob);
+const ContentPanel: React.FC<Props> = ({ projects }) => {
+  return (
+    <Box
+      className="content-panel"
+      pt={{ base: "8", md: "16", lg: "20" }}
+      pb="10"
+      w="100%"
+    >
+      {/* Centered container with max width for all sections */}
+      <Box 
+        maxW="900px" 
+        mx="auto"
+        px={{ base: "6", md: "8", lg: "10" }}
+      >
+        {/* Experience Section */}
+        <ExperienceSection />
 
-			let alink = document.createElement("a");
-			alink.href = fileURL;
-			alink.download = "Gaurav_Alok_Gupta_Resume.pdf";
-			alink.click();
-		});
-	});
-};
+        {/* Projects Section */}
+        <Box w="100%" mb={{ base: "12", md: "16" }}>
+          <Heading
+            as="h2"
+            size={{ base: "lg", md: "xl" }}
+            color="white"
+            mb={{ base: "6", md: "8" }}
+            display="flex"
+            alignItems="center"
+            gap={3}
+          >
+            <Icon as={FaFolder} color="#48bb78" />
+            Featured Projects
+          </Heading>
 
-const ContentPanel: React.FC<Props> = ({
-    projects,
-    skillGrp1,
-    skillGrp2,
-    skillGrp3,
-}) => {
-    return (
-        <Box 
-            className='content-panel' 
-            pt={{ base: "8", md: "16", lg: "20" }}
-            px={{ base: "6", md: "8", lg: "10" }}
-            pb='10'
-            w='100%'
-        >
-            {/* Projects Section */}
-            <VStack spacing={4} w='100%' id='projects'>
-                {projects.map((project) => (
-                    <ProjectCard project={project} key={project.id} />
-                ))}
-            </VStack>
-
-            {/* Skills Section */}
-            <Box mt='10' w='100%'>
-                <Grid
-                    templateColumns={{ 
-                        base: '1fr',
-                        md: 'repeat(2, 1fr)',
-                        lg: 'repeat(3, 1fr)'
-                    }}
-                    gap={{ base: 4, md: 6 }}
-                    w='100%'
-                >
-                    <GridItem>
-                        {skillGrp1.map((skill) => (
-                            <SkillCard key={skill.id} skill={skill} />
-                        ))}
-                    </GridItem>
-
-                    <GridItem mt={{ base: 0, lg: '50px' }}>
-                        {skillGrp2.map((skill) => (
-                            <SkillCard key={skill.id} skill={skill} />
-                        ))}
-                    </GridItem>
-
-                    <GridItem>
-                        {skillGrp3.map((skill) => (
-                            <SkillCard key={skill.id} skill={skill} />
-                        ))}
-                    </GridItem>
-                </Grid>
-            </Box>
-
-            {/* Resume Section */}
-            <VStack
-                id='resume'
-                spacing={5}
-                align='center'
-                w='100%'
-                mt='10'
-				px={{ base: 4, md: 6 }}
-            >
-                <Image
-                    alt='Gaurav_Alok_Gupta_Resume'
-                    src={process.env.PUBLIC_URL + "/images/portfolio-resume.png"}
-                    w={{ base: '100%', md: '80%', lg: '60%' }}
-                    h='auto'
-                    objectFit='contain'
-                />
-                <Button
-                    onClick={handleButtonClick}
-                    maxW='200px'
-                    bgColor='white'
-                    color='black'
-                    _hover={{ color: "white", bgColor: "#151515" }}
-                >
-                    Download Resume
-                </Button>
-            </VStack>
-
-            {/* Credits */}
-            <Box id='credits' mt='10'>
-                <Text
-                    color='gray.400'
-                    fontSize={{ base: 'xs', md: 'sm' }}
-                    textAlign='center'
-                    px={4}
-                >
-                    Design inspired by{" "}
-                    <Link
-                        color='white'
-                        textDecoration='underline'
-                        href='https://dribbble.com/NicolasMzrd'
-                        isExternal
-                    >
-                        Nicolas Meuzard
-                    </Link>
-                    {" "}and developed by{" "}
-                    <Link
-                        color='white'
-                        textDecoration='underline'
-                        href='https://github.com/GauravGupta035/'
-                        isExternal
-                    >
-                        Me
-                    </Link>
-                </Text>
-            </Box>
+          <VStack spacing={{ base: 4, md: 5 }} w="100%" id="projects">
+            {projects.map((project) => (
+              <ProjectCard project={project} key={project.id} />
+            ))}
+          </VStack>
         </Box>
-    );
+
+        {/* Skills Section */}
+        <SkillsSection />
+      </Box>
+    </Box>
+  );
 };
 
 export default ContentPanel;
