@@ -1,3 +1,10 @@
+export interface Experience {
+  title: string;
+  company: string;
+  period: string;
+  achievements: string[];
+}
+
 export interface Project {
     id: number;
     name: string;
@@ -6,7 +13,7 @@ export interface Project {
     link: URL;
 }
 
-export interface Skill {
-    id: number;
-    name: string;
+export interface SkillCategory {
+  category: string;
+  skills: string[];
 }

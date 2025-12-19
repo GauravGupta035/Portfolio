@@ -1,7 +1,10 @@
 .project-card {
     background-color: #202022;
-    transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
-    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.project-card:hover {
+    background-color: #252527;
 }
 
 .project-card .project-stack {
@@ -17,15 +20,9 @@
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: #0087ca;
+    background-color: green.400;
     transform-origin: bottom right;
     transition: transform 0.25s ease-out;
-}
-
-.project-card:hover {
-    box-shadow: rgba(0, 135, 202, 0.15) 0px 4px 24px;
-    border-color: hsl(200, 45%, 24%);
-    border-width: 1px;
 }
 
 .project-card:hover .project-stack::after {

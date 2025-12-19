@@ -1,29 +1,68 @@
-.profile-link {
-    display: inline-block;
-    position: relative;
+/* Side Panel Container */
+.side-panel {
+  position: relative;
 }
 
+/* Profile Links */
+.profile-link {
+  display: inline-block;
+  position: relative;
+  transition: all 0.2s ease;
+  padding: 8px 0;
+}
+
+.profile-link:hover {
+  color: #48bb78 !important;
+}
+
+/* Animated Underline */
 .profile-link::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    transform: scaleX(0);
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    transform-origin: bottom right;
-    transition: transform 0.25s ease-out;
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 4px;
+  left: 0;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.github:hover {
+    color: #a855f7 !important;
 }
 
 .github::after {
-    background-color: rgb(202, 80, 202);
+  background-color: #a855f7; /* purple.400 */
 }
 
+.linkedin:hover {
+    color: #0087ca !important;
+}
 .linkedin::after {
-    background-color: #0087ca;
+  background-color: #0087ca;
 }
 
-.profile-link:hover:after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
+.email::after {
+  background-color: #48bb78;
+}
+
+.profile-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Avatar border animation on hover */
+.chakra-avatar {
+  transition: all 0.3s ease;
+}
+
+.chakra-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(72, 187, 120, 0.4);
 }

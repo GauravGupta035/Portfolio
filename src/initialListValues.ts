@@ -1,4 +1,37 @@
-import { Project, Skill } from "./model";
+import { Experience, Project, SkillCategory } from "./model";
+
+
+export const experiences: Experience[] = [
+  {
+    title: "Software Development Engineer - II",
+    company: "Tally Solutions",
+    period: "April 2025 - June 2025",
+    achievements: [
+      "Developed 20+ custom lambda functions across 10+ components to reduce dependency on AWS-native solutions, enabling smooth and efficient migration process between cloud platforms without loss of functionality",
+      "Engineered an automated failover and self-healing system in TallyPrime on AWS, restoring operations for 30+ client systems during outages. Recognized with SPOT Award as Customer Delight Champion",
+      "Enhanced XML and Math parsers and the Tally-to-Tally migration tool by addressing key defects, ensuring smooth data migration and stable core functionality"
+    ]
+  },
+  {
+    title: "Software Development Engineer - I",
+    company: "Tally Solutions",
+    period: "April 2024 - April 2025",
+    achievements: [
+      "Spearheaded development of core features like file load source identification and placeholder collection attributes in Tally Prime Developer, optimizing third-party TDL file integration",
+      "Identified and resolved critical bugs in Tally Prime, boosting product reliability and user satisfaction"
+    ]
+  },
+  {
+    title: "Software Development Intern",
+    company: "Tally Solutions",
+    period: "September 2023 - April 2024",
+    achievements: [
+      "Contributed to development of core features for Tally Prime and Tally Prime Developer",
+      "Worked on bug fixes and feature enhancements to improve product stability"
+    ]
+  }
+];
+
 
 export const projectList: Array<Project> = [
     {
@@ -31,83 +64,21 @@ export const projectList: Array<Project> = [
     }
 ]
 
-export const skillList1: Array<Skill> = [
-    {
-        id: 1,
-        name: 'C++'
-    },
-    {
-        id: 2,
-        name: 'Python'
-    },
-    {
-        id: 3,
-        name: 'JavaScript'
-    },
-    {
-        id: 4,
-        name: 'AWS'
-    },
-    {
-        id: 5,
-        name: 'OCI'
-    },
-    {
-        id: 6,
-        name: 'Amazon S3'
-    }
-]
-
-export const skillList2: Array<Skill> = [
-    {
-        id: 1,
-        name: 'HTML'
-    },
-    {
-        id: 2,
-        name: 'CSS/Sass'
-    },
-    {
-        id: 3,
-        name: 'Jira'
-    },
-    {
-        id: 4,
-        name: 'Confluence'
-    },
-    {
-        id: 5,
-        name: 'SQL'
-    },
-    {
-        id: 6,
-        name: 'MongoDB'
-    },
-]
-
-export const skillList3: Array<Skill> = [
-    {
-        id: 1,
-        name: 'FastAPI'
-    },
-    {
-        id: 2,
-        name: 'ReactJS'
-    },
-    {
-        id: 3,
-        name: 'GitHub'
-    },
-    {
-        id: 4,
-        name: 'Git'
-    },
-    {
-        id: 5,
-        name: 'Postman'
-    },
-    {
-        id: 6,
-        name: 'Figma'
-    },
-]
+export const skillCategories: SkillCategory[] = [
+  {
+    category: "Languages & Frameworks",
+    skills: ["C++", "Python", "JavaScript", "HTML", "CSS", "Sass", "ReactJS", "FastAPI"]
+  },
+  {
+    category: "Database Technologies",
+    skills: ["SQL", "MongoDB", "Amazon S3"]
+  },
+  {
+    category: "Cloud Technologies",
+    skills: ["Amazon Web Services (AWS)", "Oracle Cloud Infrastructure (OCI)"]
+  },
+  {
+    category: "Tools & Platforms",
+    skills: ["Jira", "Confluence", "Postman", "Figma", "Git", "GitHub"]
+  }
+];

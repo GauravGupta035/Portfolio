@@ -1,0 +1,34 @@
+.experience-card {
+  background-color: #202022;
+}
+
+.experience-card:hover {
+  background-color: #252527;
+}
+
+/* SPOT award underline animation */
+.spot-award {
+  position: relative;
+  display: inline-block;
+  color: #48bb78;
+  font-weight: 500;
+}
+
+.spot-award::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  left: 0;
+  bottom: -2px;
+  background-color: #48bb78;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+/* Hover underline effect for spot award */
+.experience-card:hover .spot-award::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
