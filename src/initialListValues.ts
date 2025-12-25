@@ -67,7 +67,7 @@ export const projectList: Array<Project> = [
 export const skillCategories: SkillCategory[] = [
   {
     category: "Languages & Frameworks",
-    skills: ["C++", "Python", "JavaScript", "HTML", "CSS", "Sass", "ReactJS", "FastAPI"]
+    skills: ["C++", "Python", "Java", "JavaScript", "HTML", "CSS", "Sass", "ReactJS", "FastAPI"]
   },
   {
     category: "Database Technologies",
