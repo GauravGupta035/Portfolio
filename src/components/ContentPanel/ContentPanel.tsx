@@ -48,7 +48,7 @@ const ContentPanel: React.FC<Props> = ({ projects }) => {
             gap={3}
           >
             <Icon as={FaFolder} color="#48bb78" />
-            Featured Projects
+            Projects
           </Heading>
 
           <VStack spacing={{ base: 4, md: 5 }} w="100%" id="projects">
