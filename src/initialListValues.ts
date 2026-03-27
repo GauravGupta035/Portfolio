@@ -34,6 +34,14 @@ export const experiences: Experience[] = [
 export const projectList: Array<Project> = [
   {
     id: 1,
+    name: "Interview Preparation Agent",
+    description:
+      "Console based AI-powered agent that generates personalised learning, revision and behavioural questions and uses LLM APIs to provide feedback.",
+    stack: "PYTHON + LLM APIs",
+    link: new URL("https://github.com/GauravGupta035/interview-prep-agent"),
+  },
+  {
+    id: 2,
     name: "GenieSpeaks",
     description:
       "It is one-stop shop for reviews for tech products aggregated from websites like Amazon and Flipkart.",
@@ -41,28 +49,20 @@ export const projectList: Array<Project> = [
     link: new URL("https://github.com/GauravGupta035/PD_GenieSpeaks"),
   },
   {
-    id: 2,
-    name: "Smart Notes",
-    description:
-      "Mobile application that aims to provide concise and thoroughly explained notes to students.",
-    stack: "FLUTTER",
-    link: new URL("https://github.com/GauravGupta035/SmartNotes"),
-  },
-  {
     id: 3,
-    name: "News Aggregator",
-    description:
-      "An application to scrape latest news articles of various fields according to user interests and send scheduled emails to their respective email IDs.",
-    stack: "PYTHON",
-    link: new URL("https://github.com/GauravGupta035/PyNewsAggregator"),
-  },
-  {
-    id: 4,
     name: "Plagiarism Detector",
     description:
       "Application to help users detect plagiarism between two documents using Knuth Morris Pratt (KMP) Algorithm.",
     stack: "PYTHON",
     link: new URL("https://github.com/GauravGupta035/PlagiarismDetector"),
+  },
+  {
+    id: 4,
+    name: "Smart Notes",
+    description:
+      "Mobile application that aims to provide concise and thoroughly explained notes to students.",
+    stack: "FLUTTER",
+    link: new URL("https://github.com/GauravGupta035/SmartNotes"),
   },
 ];
 
@@ -73,23 +73,28 @@ export const skillCategories: SkillCategory[] = [
       "C++",
       "Python",
       "JavaScript",
+      "Haskell",
+      "ReactJS",
+      "FastAPI",
       "HTML",
       "CSS",
       "Sass",
-      "ReactJS",
-      "FastAPI",
     ],
-  },
-  {
-    category: "Database Technologies",
-    skills: ["SQL", "MongoDB", "Amazon S3"],
   },
   {
     category: "Cloud Technologies",
     skills: ["Amazon Web Services (AWS)", "Oracle Cloud Infrastructure (OCI)"],
   },
   {
+    category: "AI and Intelligent Systems",
+    skills: ["Gemini API", "LangChain / LangGraph", "LLM Integration"],
+  },
+  {
+    category: "Database Technologies",
+    skills: ["SQL", "MongoDB", "Amazon S3"],
+  },
+  {
     category: "Tools & Platforms",
-    skills: ["Jira", "Confluence", "Postman", "Figma", "Git", "GitHub"],
+    skills: ["Git", "GitHub", "Jira", "Confluence", "Postman", "Figma"],
   },
 ];
