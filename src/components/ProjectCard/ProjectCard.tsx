@@ -34,15 +34,17 @@ const ProjectCard: React.FC<Props> = ({ project }) => {
         >
           {project.name}
         </Heading>
-        <Link
-          href={project.link.href}
-          isExternal
-          color="gray.400"
-          _hover={{ color: "#48bb78" }}
-          transition="all 0.2s"
-        >
-          <Icon as={FiExternalLink} boxSize={{ base: 5, md: 6 }} />
-        </Link>
+        {project.link && (
+          <Link
+            href={project.link.href}
+            isExternal
+            color="gray.400"
+            _hover={{ color: "#48bb78" }}
+            transition="all 0.2s"
+          >
+            <Icon as={FiExternalLink} boxSize={{ base: 5, md: 6 }} />
+          </Link>
+        )}
       </HStack>
 
       <Text

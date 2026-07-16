@@ -34,6 +34,13 @@ export const experiences: Experience[] = [
 export const projectList: Array<Project> = [
   {
     id: 1,
+    name: "Primaros: Drug-Drug Interaction Platform",
+    description:
+      "A clinical decision support system integrating 3 heterogeneous medical data sources into a unified domain model of 21,500+ drugs and 2.9 million directional interactions.",
+    stack: "PYTHON + fastAPI + POSTGRESQL + REDIS",
+  },
+  {
+    id: 2,
     name: "Interview Preparation Agent",
     description:
       "Console based AI-powered agent that generates personalised learning, revision and behavioural questions and uses LLM APIs to provide feedback.",
@@ -41,7 +48,7 @@ export const projectList: Array<Project> = [
     link: new URL("https://github.com/GauravGupta035/interview-prep-agent"),
   },
   {
-    id: 2,
+    id: 3,
     name: "GenieSpeaks",
     description:
       "It is one-stop shop for reviews for tech products aggregated from websites like Amazon and Flipkart.",
@@ -49,20 +56,12 @@ export const projectList: Array<Project> = [
     link: new URL("https://github.com/GauravGupta035/PD_GenieSpeaks"),
   },
   {
-    id: 3,
+    id: 4,
     name: "Plagiarism Detector",
     description:
       "Application to help users detect plagiarism between two documents using Knuth Morris Pratt (KMP) Algorithm.",
     stack: "PYTHON",
     link: new URL("https://github.com/GauravGupta035/PlagiarismDetector"),
-  },
-  {
-    id: 4,
-    name: "Smart Notes",
-    description:
-      "Mobile application that aims to provide concise and thoroughly explained notes to students.",
-    stack: "FLUTTER",
-    link: new URL("https://github.com/GauravGupta035/SmartNotes"),
   },
 ];
 

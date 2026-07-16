@@ -6,11 +6,11 @@ export interface Experience {
 }
 
 export interface Project {
-    id: number;
-    name: string;
-    description: string;
-    stack: string;
-    link: URL;
+  id: number;
+  name: string;
+  description: string;
+  stack: string;
+  link?: URL;
 }
 
 export interface SkillCategory {
