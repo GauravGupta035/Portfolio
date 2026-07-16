@@ -1,6 +1,8 @@
+//@ts-ignore
 import { Box, Heading, Text, Wrap, WrapItem, Icon } from "@chakra-ui/react";
 import { FaCode } from "react-icons/fa";
 import { skillCategories } from "../../initialListValues";
+//@ts-ignore
 import "./SkillsSection.css";
 
 const SkillsSection: React.FC = () => {
@@ -22,7 +24,6 @@ const SkillsSection: React.FC = () => {
       <Box>
         {skillCategories.map((category, index) => (
           <Box key={index} mb={{ base: "6", md: "7" }}>
-            
             <Text
               color="#48bb78"
               fontSize={{ base: "sm", md: "md" }}
@@ -34,7 +35,6 @@ const SkillsSection: React.FC = () => {
               {category.category}
             </Text>
 
-            
             <Wrap spacing={{ base: 2, md: 3 }}>
               {category.skills.map((skill: string, idx: number) => (
                 <WrapItem key={idx}>

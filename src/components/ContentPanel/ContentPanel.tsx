@@ -1,15 +1,12 @@
-import {
-  Box,
-  Heading,
-  VStack,
-  Icon,
-} from "@chakra-ui/react";
+//@ts-ignore
+import { Box, Heading, VStack, Icon } from "@chakra-ui/react";
 import React from "react";
 import { Project } from "../../model";
 import ProjectCard from "../ProjectCard/ProjectCard";
 import ExperienceSection from "../ExperienceSection/ExperienceSection";
 import SkillsSection from "../SkillsSection/SkillsSection";
 import { FaFolder } from "react-icons/fa";
+//@ts-ignore
 import "./ContentPanel.css";
 
 interface Props {
@@ -28,11 +25,7 @@ const ContentPanel: React.FC<Props> = ({ projects }) => {
       w="100%"
     >
       {/* Centered container with max width for all sections */}
-      <Box 
-        maxW="900px" 
-        mx="auto"
-        px={{ base: "6", md: "8", lg: "10" }}
-      >
+      <Box maxW="900px" mx="auto" px={{ base: "6", md: "8", lg: "10" }}>
         {/* Experience Section */}
         <ExperienceSection />
 

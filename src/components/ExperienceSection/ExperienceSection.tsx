@@ -1,7 +1,10 @@
+// @ts-ignore: Could not find a declaration file for module '@chakra-ui/react'.
 import { Box, Heading, Text, VStack, HStack, Icon } from "@chakra-ui/react";
 import { FaBriefcase } from "react-icons/fa";
 import { experiences } from "../../initialListValues";
 
+// Suppress TypeScript error for side-effect CSS import when no declaration file is present
+// @ts-ignore: Implicitly has an 'any' type because import of './ExperienceSection.css' has no declaration
 import "./ExperienceSection.css";
 
 const ExperienceSection: React.FC = () => {
@@ -74,15 +77,16 @@ const ExperienceSection: React.FC = () => {
                     lineHeight="1.7"
                   >
                     {achievement.includes(
-                      "Recognized with SPOT Award as Customer Delight Champion"
+                      "Recognized with SPOT Award as Customer Delight Champion",
                     ) ? (
                       <>
                         {achievement.replace(
                           "Recognized with SPOT Award as Customer Delight Champion",
-                          ""
+                          "",
                         )}
                         <span className="spot-award">
-                          Recognized with SPOT Award as Customer Delight Champion
+                          Recognized with SPOT Award as Customer Delight
+                          Champion
                         </span>
                       </>
                     ) : (

@@ -1,9 +1,11 @@
+//@ts-ignore
 import { Box, Stack } from "@chakra-ui/react";
 import { useState } from "react";
 import { Project } from "../../model";
 import { projectList } from "../../initialListValues";
 import ContentPanel from "../ContentPanel/ContentPanel";
 import SidePanel from "../SidePanel/SidePanel";
+//@ts-ignore
 import "./LandingPage.css";
 
 const LandingPage: React.FC = () => {
@@ -29,10 +31,7 @@ const LandingPage: React.FC = () => {
         </Box>
 
         {/* Right Column - Content Panel */}
-        <Box
-          w={{ base: "100%", lg: "65%" }}
-          style={{ zIndex: 10 }}
-        >
+        <Box w={{ base: "100%", lg: "65%" }} style={{ zIndex: 10 }}>
           <ContentPanel projects={projects} />
         </Box>
       </Stack>

@@ -73,6 +73,7 @@ export const skillCategories: SkillCategory[] = [
       "C++",
       "Python",
       "JavaScript",
+      "TypeScript",
       "Haskell",
       "ReactJS",
       "FastAPI",
@@ -82,8 +83,14 @@ export const skillCategories: SkillCategory[] = [
     ],
   },
   {
-    category: "Cloud Technologies",
-    skills: ["Amazon Web Services (AWS)", "Oracle Cloud Infrastructure (OCI)"],
+    category: "Cloud and DevOps",
+    skills: [
+      "AWS (Lambda, EC2, S3)",
+      "Oracle Cloud Infrastructure (OCI)",
+      "Docker",
+      "CI/CD",
+      "GitHub Actions",
+    ],
   },
   {
     category: "AI and Intelligent Systems",
@@ -91,10 +98,19 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     category: "Database Technologies",
-    skills: ["SQL", "MongoDB", "Amazon S3"],
+    skills: ["SQL", "PostgreSQL", "MongoDB", "Redis"],
   },
   {
-    category: "Tools & Platforms",
-    skills: ["Git", "GitHub", "Jira", "Confluence", "Postman", "Figma"],
+    category: "Testing and Tools",
+    skills: [
+      "pytest",
+      "Unit Testing",
+      "Git",
+      "GitHub",
+      "Jira",
+      "Confluence",
+      "Postman",
+      "Figma",
+    ],
   },
 ];

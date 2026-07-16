@@ -8,10 +8,17 @@ import {
   Avatar,
   VStack,
   Button,
-  Icon,
+  Icon, //@ts-ignore
 } from "@chakra-ui/react";
-import { FaGithub, FaLinkedin, FaEnvelope, FaMapMarkerAlt, FaDownload } from "react-icons/fa";
+import {
+  FaGithub,
+  FaLinkedin,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaDownload,
+} from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
+//@ts-ignore
 import "./SidePanel.css";
 
 const SidePanel: React.FC = () => {
@@ -25,9 +32,7 @@ const SidePanel: React.FC = () => {
       className="side-panel"
       justifyContent="space-between"
     >
-      
       <Box>
-        
         <Avatar
           size={{ base: "xl", md: "2xl" }}
           name="Gaurav Gupta"
@@ -75,9 +80,13 @@ const SidePanel: React.FC = () => {
         </HStack>
 
         <Box maxW="450px" w="100%" mb={{ base: "6", md: "8" }}>
-          <Text color="gray.400" fontSize={{ base: "sm", md: "md" }} lineHeight="1.7">
-            I'm a Software Engineer with 2+ years of experience building distributed 
-            systems and cloud-native applications on AWS and OCI.
+          <Text
+            color="gray.400"
+            fontSize={{ base: "sm", md: "md" }}
+            lineHeight="1.7"
+          >
+            I'm a Software Engineer with 2+ years of experience building
+            distributed systems and cloud-native applications on AWS and OCI.
           </Text>
         </Box>
 
@@ -115,7 +124,9 @@ const SidePanel: React.FC = () => {
           >
             <HStack spacing={3}>
               <Icon as={FaEnvelope} boxSize={{ base: 4, md: 5 }} />
-              <Text fontSize={{ base: "sm", md: "md" }}>guptagaurav035@gmail.com</Text>
+              <Text fontSize={{ base: "sm", md: "md" }}>
+                guptagaurav035@gmail.com
+              </Text>
             </HStack>
           </Link>
 
