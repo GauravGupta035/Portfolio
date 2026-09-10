@@ -93,7 +93,7 @@ const SidePanel: React.FC = () => {
         {/* Download Resume Button */}
         <Button
           as="a"
-          href={process.env.PUBLIC_URL + "/Gaurav_Alok_Gupta_Resume.pdf"}
+          href={process.env.PUBLIC_URL + "/Gaurav_Gupta_Resume.pdf"}
           download
           leftIcon={<FaDownload />}
           colorScheme="green"
