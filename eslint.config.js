@@ -22,7 +22,7 @@ export default defineConfig([
     },
   },
   {
-    files: ['*.config.{js,ts}', 'e2e/**/*.ts'],
+    files: ['*.config.{js,ts}', 'e2e/**/*.ts', 'remotion/render.ts'],
     languageOptions: {
       globals: globals.node,
     },
