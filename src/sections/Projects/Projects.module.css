@@ -20,7 +20,7 @@
 }
 
 .rule {
-  margin-top: -12px;
+  margin-top: -4px;
   border: 0;
   border-top: var(--stroke-strong) solid var(--color-border-strong);
 }
