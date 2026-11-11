@@ -1,0 +1,20 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.grid {
+  height: 100%;
+}
+
+.column {
+  background-color: color-mix(in srgb, var(--color-accent-primary) 15%, transparent);
+}
+
+@media (max-width: 767px) {
+  .column:not(:first-child) {
+    display: none;
+  }
+}
