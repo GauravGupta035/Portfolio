@@ -1,0 +1,27 @@
+/* The label comes first in the markup so the list reads as term and value,
+   but the value sits on top visually. */
+.metric {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  gap: var(--space-8);
+}
+
+.value {
+  font-size: min(var(--type-data-l-size), 3.7vw);
+  font-weight: var(--type-data-l-weight);
+  line-height: normal;
+}
+
+.label {
+  font-size: var(--type-heading-s-size);
+  font-weight: var(--type-heading-s-weight);
+  line-height: normal;
+}
+
+/* No mobile design yet: the value keeps its full size in the single column. */
+@media (max-width: 767px) {
+  .value {
+    font-size: var(--type-data-l-size);
+  }
+}
