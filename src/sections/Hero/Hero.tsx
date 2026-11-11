@@ -1,23 +1,55 @@
-import { OrganicMask, OrganicShape } from '../../components/OrganicShape';
+import {
+  OrganicMask,
+  OrganicShape,
+  organicShapes,
+  useMorphPath,
+  wobblePath,
+} from '../../components/OrganicShape';
 import { navigation, profile } from '../../content';
 import styles from './Hero.module.css';
+import { usePortraitSequence } from './usePortraitSequence';
+
+const frames = [profile.portrait.src, ...profile.portraitHoverFrames];
+
+// Frame 01 keeps the Figma outline; every later frame nudges the blob a little.
+const maskPaths = frames.map((_, index) =>
+  index === 0
+    ? organicShapes.portrait.path
+    : wobblePath('portrait', { amount: 0.025, phase: index * 1.9 }),
+);
 
 export function Hero() {
   const { portrait } = profile;
+  const { frame, preload, handlers } = usePortraitSequence(frames.length);
+  const maskPath = useMorphPath(maskPaths[frame], 300);
   return (
     <section className={styles.hero} aria-labelledby="hero-name">
       <h1 id="hero-name" className={styles.name}>
         {profile.name}
       </h1>
-      <OrganicMask shape="portrait" className={styles.portrait}>
-        <img
-          className={styles.image}
-          src={`${import.meta.env.BASE_URL}${portrait.src}`}
-          alt={portrait.alt}
-          width={1200}
-          height={1600}
-          fetchPriority="high"
-        />
+      <OrganicMask
+        shape="portrait"
+        path={maskPath}
+        className={styles.portrait}
+        tabIndex={0}
+        {...handlers}
+      >
+        {frames.map(
+          (src, index) =>
+            (index === 0 || preload) && (
+              <img
+                key={src}
+                className={styles.image}
+                src={`${import.meta.env.BASE_URL}${src}`}
+                alt={portrait.alt}
+                aria-hidden={index === frame ? undefined : true}
+                data-active={index === frame}
+                width={1200}
+                height={1600}
+                fetchPriority={index === 0 ? 'high' : 'low'}
+              />
+            ),
+        )}
       </OrganicMask>
       <p className={styles.role}>{profile.role}</p>
       <a className={styles.scroll} href={`#${navigation.links[0].sectionId}`}>
