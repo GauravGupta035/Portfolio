@@ -1,2 +1,4 @@
+export { interpolatePath, wobblePath } from './morph';
 export { OrganicMask, OrganicShape } from './OrganicShape';
-export { organicShapes, type OrganicShapeName } from './shapes';
+export { logoArrowTip, organicShapes, type OrganicShapeName } from './shapes';
+export { easeInOut, easeLiquid, useMorphPath } from './useMorphPath';
