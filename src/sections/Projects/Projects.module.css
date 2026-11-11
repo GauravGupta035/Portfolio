@@ -1,0 +1,70 @@
+/* Desktop positions follow Figma Page 1 at 1440px. The rows and heading start
+   10px inside the left grid margin, at 40px, and end on the right margin. */
+.projects {
+  max-width: var(--grid-width);
+  margin-inline: auto;
+  padding: 200px var(--grid-margin) var(--space-48) calc(var(--grid-margin) - 10px);
+}
+
+.header {
+  display: grid;
+  grid-template-columns: minmax(0, 574fr) minmax(0, 342fr) minmax(0, 434fr);
+  align-items: center;
+}
+
+.heading {
+  font-size: min(var(--type-heading-l-size), 4.45vw);
+  font-weight: var(--type-heading-l-weight);
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+.rule {
+  margin-top: -12px;
+  border: 0;
+  border-top: var(--stroke-strong) solid var(--color-border-strong);
+}
+
+.range {
+  justify-self: end;
+  font-size: min(var(--type-data-l-size), 3.7vw);
+  font-weight: var(--type-data-l-weight);
+  line-height: normal;
+  color: var(--color-accent-primary);
+  white-space: nowrap;
+}
+
+.list {
+  margin-top: 89px;
+  border-top: var(--stroke-hairline) solid var(--color-border-strong);
+}
+
+.item {
+  border-bottom: var(--stroke-hairline) solid var(--color-border-strong);
+}
+
+/* No mobile design yet: heading and range on one line, rule dropped. */
+@media (max-width: 767px) {
+  .projects {
+    padding: var(--space-48) var(--grid-mobile-margin);
+  }
+
+  .header {
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+    gap: var(--space-16);
+  }
+
+  .heading,
+  .range {
+    font-size: min(var(--type-heading-m-size), 8.5vw);
+  }
+
+  .rule {
+    display: none;
+  }
+
+  .list {
+    margin-top: var(--space-32);
+  }
+}
