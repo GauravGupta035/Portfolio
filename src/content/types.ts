@@ -58,6 +58,10 @@ export interface Post {
   url: string;
 }
 
+export interface BlogSection {
+  heading: string;
+}
+
 export interface HeroMetadata {
   label: string;
   lines: readonly string[];
