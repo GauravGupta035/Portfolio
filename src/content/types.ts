@@ -19,6 +19,15 @@ export interface Project {
   techRail: readonly string[];
 }
 
+export interface ProjectsSection {
+  heading: string;
+  /** Year range shown beside the index heading. */
+  range: string;
+  detailLabel: string;
+  viewSourceLabel: string;
+  techRailLabel: string;
+}
+
 export interface Experience {
   title: string;
   company: string;
