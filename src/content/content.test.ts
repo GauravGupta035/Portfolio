@@ -40,7 +40,7 @@ describe('content', () => {
   });
 
   it('keeps every legacy skill string unchanged', () => {
-    expect(skillCategories).toEqual(
+    expect(skillCategories.map(({ category, skills }) => ({ category, skills }))).toEqual(
       legacySkillCategories.map(({ category, skills }) => ({
         category: renamedSkillCategories[category] ?? category,
         skills,
@@ -69,7 +69,12 @@ describe('content', () => {
   });
 
   it('points at files that exist in public/', () => {
-    const paths = [profile.cvPath, profile.portrait.src, ...posts.map((post) => post.image.src)];
+    const paths = [
+      profile.cvPath,
+      profile.portrait.src,
+      ...posts.map((post) => post.image.src),
+      ...skillCategories.flatMap(({ illustration }) => (illustration ? [illustration.src] : [])),
+    ];
     for (const path of paths) expect(existsSync(join(publicDir, path)), path).toBe(true);
   });
 });

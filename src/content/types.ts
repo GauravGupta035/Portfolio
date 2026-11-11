@@ -44,6 +44,8 @@ export interface ExperienceSection {
 export interface SkillCategory {
   category: string;
   skills: readonly string[];
+  /** The card illustration. Figma only shows art for the first three categories. */
+  illustration?: Image;
 }
 
 export interface Image {
@@ -78,6 +80,16 @@ export interface ContactSection {
   linksLabel: string;
   /** Socials shown in the footer row, in order. The CV link follows them. */
   links: readonly Social['label'][];
+}
+
+export interface AboutSection {
+  heading: string;
+  intro: string;
+  /** Accessible name for the capability card rail. */
+  cardsLabel: string;
+  /** Accessible name for the vertical social links. */
+  socialsLabel: string;
+  cvLabel: string;
 }
 
 export interface HeroMetadata {
