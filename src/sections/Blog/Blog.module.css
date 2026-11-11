@@ -8,9 +8,11 @@
   padding-inline: var(--grid-margin);
 }
 
+/* 9.87vw rather than 142 / 1440 so the size is a whole 142px at 1440px and
+   the sections below do not land on a fractional offset. */
 .heading {
   text-align: right;
-  font-size: min(var(--type-display-2xl-size), 9.86vw);
+  font-size: min(var(--type-display-2xl-size), 9.87vw);
   font-weight: var(--type-display-2xl-weight);
   line-height: 1;
   text-transform: uppercase;
