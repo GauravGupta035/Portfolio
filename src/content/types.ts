@@ -62,6 +62,24 @@ export interface BlogSection {
   heading: string;
 }
 
+export interface ContactTag {
+  label: string;
+  /** Top-left corner in Figma Page 1 at 1440px, measured from the tag field's top-left. */
+  x: number;
+  y: number;
+}
+
+export interface ContactSection {
+  heading: string;
+  /** Accessible name for the tag cloud. */
+  tagsLabel: string;
+  tags: readonly ContactTag[];
+  /** Accessible name for the footer link row. */
+  linksLabel: string;
+  /** Socials shown in the footer row, in order. The CV link follows them. */
+  links: readonly Social['label'][];
+}
+
 export interface HeroMetadata {
   label: string;
   lines: readonly string[];
