@@ -35,10 +35,26 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Read Playwright version
+        id: playwright
+        run: echo "version=$(npx playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+
+      # The runner image already has Chromium's system libraries, so skip
+      # --with-deps (its apt step is slow and fails when Ubuntu mirrors are down).
       - name: Install Playwright Chromium
-        run: npx playwright install --with-deps chromium
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        timeout-minutes: 5
+        run: npx playwright install chromium --only-shell
 
       - name: End-to-end tests
+        timeout-minutes: 5
         run: npm run e2e
 
       - name: Upload production-ready build files
