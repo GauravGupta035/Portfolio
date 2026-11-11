@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 348 420" width="348" height="420">
+  <defs>
+    <clipPath id="blob">
+      <path d="M170 12c72-6 140 30 160 104 20 74 8 160-30 222-34 56-96 82-160 74C78 404 30 352 18 280 6 206 14 128 54 74 82 36 122 16 170 12Z" />
+    </clipPath>
+  </defs>
+  <rect width="348" height="420" fill="#010101" />
+  <g clip-path="url(#blob)">
+    <rect width="348" height="420" fill="#EEEDE6" />
+    <rect x="214" y="70" width="150" height="120" fill="#B3B3B3" />
+    <path d="M90 290c0 14 38 26 86 26s86-12 86-26v60c0 14-38 26-86 26s-86-12-86-26Z" fill="#010101" />
+    <ellipse cx="176" cy="290" rx="86" ry="26" fill="#666666" />
+    <path d="M90 206c0 14 38 26 86 26s86-12 86-26v60c0 14-38 26-86 26s-86-12-86-26Z" fill="#010101" />
+    <ellipse cx="176" cy="206" rx="86" ry="26" fill="#B3B3B3" />
+    <path d="M90 122c0 14 38 26 86 26s86-12 86-26v60c0 14-38 26-86 26s-86-12-86-26Z" fill="#010101" />
+    <ellipse cx="176" cy="122" rx="86" ry="26" fill="#666666" />
+    <path d="M90 236c0 14 38 26 86 26s86-12 86-26M90 320c0 14 38 26 86 26s86-12 86-26M90 152c0 14 38 26 86 26s86-12 86-26" fill="none" stroke="#EEEDE6" stroke-width="3" />
+    <rect x="16" y="178" width="58" height="40" fill="#666666" />
+    <rect x="16" y="226" width="58" height="22" fill="#010101" />
+    <path d="M262 170h40v-96M262 260h52v100M74 198h16M176 96V40" fill="none" stroke="#010101" stroke-width="3" />
+    <circle cx="296" cy="74" r="10" fill="#D7262C" />
+    <circle cx="176" cy="36" r="9" fill="#010101" />
+    <circle cx="314" cy="362" r="10" fill="#010101" />
+    <circle cx="232" cy="276" r="8" fill="#D7262C" />
+    <circle cx="124" cy="190" r="6" fill="#D7262C" />
+  </g>
+</svg>
