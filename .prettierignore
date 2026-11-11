@@ -1,0 +1,13 @@
+dist
+coverage
+playwright-report
+test-results
+legacy
+public
+package-lock.json
+.agents
+.claude
+.tessl
+.cloud-launch
+AGENTS.md
+CLAUDE.md
