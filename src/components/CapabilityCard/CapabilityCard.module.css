@@ -1,0 +1,44 @@
+/* Sizes follow Figma Page 1 at 1440px: a 352 x 522 card with a 10px inset,
+   the title in Heading Feature, a 174 x 210 illustration, then a hairline
+   rule 24px above 20px skill tags, which sit at the bottom of the card. */
+.card {
+  display: flex;
+  flex-direction: column;
+  width: var(--capability-card-width, 352px);
+  min-height: var(--capability-card-height, 522px);
+  padding: var(--space-12) 10px 28px;
+  border-radius: var(--radius-default);
+}
+
+.title {
+  font-size: var(--type-heading-feature-size);
+  font-weight: var(--type-heading-feature-weight);
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.illustration {
+  display: block;
+  width: 174px;
+  height: auto;
+  margin: 20px auto var(--space-24);
+}
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: var(--space-24);
+  border-top: var(--stroke-hairline) solid var(--color-border-strong);
+}
+
+.skill {
+  padding: var(--space-4) var(--space-8);
+  border: var(--stroke-hairline) solid currentColor;
+  border-radius: var(--radius-default);
+  font-size: var(--type-utility-m-size);
+  font-weight: var(--type-utility-m-weight);
+  line-height: 1.2;
+  white-space: nowrap;
+}
