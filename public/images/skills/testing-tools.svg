@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 348 420" width="348" height="420">
+  <defs>
+    <clipPath id="blob">
+      <path d="M182 10c64 2 124 40 146 106 22 66 12 150-24 216-32 58-90 88-156 80C84 404 30 358 16 288 2 218 18 132 56 76 88 30 132 8 182 10Z" />
+    </clipPath>
+  </defs>
+  <rect width="348" height="420" fill="#010101" />
+  <g clip-path="url(#blob)">
+    <rect width="348" height="420" fill="#EEEDE6" />
+    <rect x="-10" y="40" width="130" height="150" fill="#B3B3B3" />
+    <rect x="58" y="86" width="168" height="230" fill="#010101" />
+    <rect x="58" y="86" width="168" height="34" fill="#666666" />
+    <path d="M82 152l12 12 22-24M82 206l12 12 22-24M82 260l12 12 22-24" fill="none" stroke="#EEEDE6" stroke-width="5" />
+    <rect x="132" y="146" width="72" height="12" fill="#666666" />
+    <rect x="132" y="200" width="72" height="12" fill="#666666" />
+    <rect x="132" y="254" width="52" height="12" fill="#666666" />
+    <circle cx="244" cy="248" r="52" fill="#B3B3B3" stroke="#010101" stroke-width="14" />
+    <path d="M280 286l58 62" stroke="#010101" stroke-width="22" stroke-linecap="square" />
+    <path d="M30 352l72-72" stroke="#666666" stroke-width="16" />
+    <path d="M102 280a20 20 0 1 1 18-30l-12 4-4 12 12-4a20 20 0 0 1-14 18Z" fill="#666666" />
+    <path d="M226 120h44V60M226 300v70h-60" fill="none" stroke="#010101" stroke-width="3" />
+    <circle cx="270" cy="56" r="10" fill="#D7262C" />
+    <circle cx="160" cy="370" r="9" fill="#010101" />
+    <circle cx="244" cy="248" r="10" fill="#D7262C" />
+    <circle cx="40" cy="70" r="8" fill="#010101" />
+  </g>
+</svg>

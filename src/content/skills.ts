@@ -44,10 +44,18 @@ export const skillCategories: readonly SkillCategory[] = [
   },
   {
     category: 'Database Technologies',
+    illustration: {
+      src: 'images/skills/database-technologies.svg',
+      alt: 'A stack of black database cylinders wired with lines to red and black dots',
+    },
     skills: ['SQL', 'PostgreSQL', 'MongoDB', 'Redis'],
   },
   {
     category: 'Testing and Tools',
+    illustration: {
+      src: 'images/skills/testing-tools.svg',
+      alt: 'A black checklist with ticks, a magnifier with a red centre and a grey wrench',
+    },
     skills: ['pytest', 'Unit Testing', 'Git', 'GitHub', 'Jira', 'Confluence', 'Postman', 'Figma'],
   },
 ];
