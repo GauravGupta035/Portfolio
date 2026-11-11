@@ -1,10 +1,39 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { NavLink } from '../../components/NavLink';
-import { OrganicShape } from '../../components/OrganicShape';
+import {
+  easeLiquid,
+  logoArrowTip,
+  OrganicShape,
+  organicShapes,
+  useMorphPath,
+  wobblePath,
+} from '../../components/OrganicShape';
 import { navigation, profile } from '../../content';
+import { reducedMotionQuery } from '../../motion';
 import styles from './Nav.module.css';
 
 const desktopQuery = '(min-width: 768px)';
+
+// The hover shape pins the arrow tip's point, so the tip stays on the border while it morphs.
+const logoPaths = {
+  rest: organicShapes.logo.path,
+  hover: wobblePath('logo', { amount: 0.12, phase: 2.2, anchor: logoArrowTip }),
+};
+const arrowTip = {
+  left: `${(logoArrowTip.x / organicShapes.logo.width) * 100}%`,
+  top: `${(logoArrowTip.y / organicShapes.logo.height) * 100}%`,
+};
+
+function useLogoMorph() {
+  const [hovered, setHovered] = useState(false);
+  const path = useMorphPath(hovered ? logoPaths.hover : logoPaths.rest, 300, easeLiquid);
+  const enter = () => setHovered(window.matchMedia?.(reducedMotionQuery).matches === false);
+  const leave = () => setHovered(false);
+  return {
+    path,
+    handlers: { onPointerEnter: enter, onPointerLeave: leave, onFocus: enter, onBlur: leave },
+  };
+}
 
 function useLocationHash() {
   const [hash, setHash] = useState(() => window.location.hash);
@@ -18,6 +47,7 @@ function useLocationHash() {
 
 export function Nav() {
   const hash = useLocationHash();
+  const logo = useLogoMorph();
   const [open, setOpen] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
   const panel = useRef<HTMLDivElement>(null);
@@ -80,8 +110,19 @@ export function Nav() {
 
   return (
     <header className={styles.nav} id="top">
-      <a className={styles.logo} href="#top" aria-label={navigation.logoLabel}>
-        <OrganicShape shape="logo" className={styles.logoShape} />
+      <a className={styles.logo} href="#top" aria-label={navigation.logoLabel} {...logo.handlers}>
+        <span className={styles.logoMark}>
+          <OrganicShape shape="logo" path={logo.path} className={styles.logoShape} />
+          <svg
+            className={styles.logoArrow}
+            style={arrowTip}
+            viewBox="0 0 54 54"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M0 0H54V54H44V17L8 53L1 46L37 10H0Z" />
+          </svg>
+        </span>
         <span className={styles.monogram} aria-hidden="true">
           {profile.monogram}
         </span>

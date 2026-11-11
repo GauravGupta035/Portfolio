@@ -15,9 +15,22 @@
   text-decoration: none;
 }
 
+.logoMark {
+  position: relative;
+}
+
 .logoShape {
   width: 41px;
   height: 37px;
+}
+
+/* Positioned by its top-right corner, the arrow's tip, from inline left/top. */
+.logoArrow {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  translate: -100% 0;
+  fill: var(--color-background-page);
 }
 
 .monogram {
