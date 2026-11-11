@@ -1,28 +1,17 @@
-import { useEffect, useRef, type CSSProperties } from 'react';
+import { useEffect, useRef } from 'react';
 import { CapabilityCard } from '../../components/CapabilityCard';
 import { SocialLinks } from '../../components/SocialLinks';
 import { aboutSection, profile, skillCategories } from '../../content';
 import { loadScrollMotion } from '../../motion';
 import styles from './About.module.css';
 
-// Tilt and drift are a wide-screen effect. Below 768px, or with reduced
-// motion, the cards stay upright in a rail that scrolls by swipe or scrollbar.
-export const driftQuery = '(min-width: 768px) and (prefers-reduced-motion: no-preference)';
+// The cards slide into their wall from 768px up. Below that, or with reduced
+// motion, they stay put: in the wall, or in a rail that scrolls sideways.
+export const entranceQuery = '(min-width: 768px) and (prefers-reduced-motion: no-preference)';
 
-// Each card's resting pose in Figma Page 1 at 1440px: its rotation in degrees,
-// how far it sits below the rail top and, for the first card, how far it is
-// pulled under the social column. Cards past the fifth reuse the poses.
-const poses = [
-  { tilt: -38, drop: 0, shift: -48 },
-  { tilt: -12, drop: 39, shift: 0 },
-  { tilt: 0, drop: 54, shift: 0 },
-  { tilt: 18, drop: 66, shift: 0 },
-  { tilt: -8, drop: 30, shift: 0 },
-];
-
-// Degrees each card turns off its Figma tilt as the section enters. It reaches the
-// tilt at the Figma pose and twice this the other way as the section leaves.
-const sway = 3;
+// Share of the entrance each card takes to slide in. The rest of the entrance
+// staggers the cards' starts, so they arrive one after another in content order.
+const slide = 0.6;
 
 const cvFile = profile.cvPath.split('/').pop();
 
@@ -39,29 +28,33 @@ export function About() {
     void loadScrollMotion().then(({ gsap }) => {
       if (cancelled) return;
       const media = gsap.matchMedia();
-      media.add(driftQuery, () => {
-        // The rail drifts left while the section crosses the viewport: the
-        // first card shows whole as it enters, the Figma pose a third of the
-        // way through and the last card whole as it leaves.
-        const overflow = () =>
-          Math.max(list.scrollWidth - (list.parentElement?.clientWidth ?? 0), 0);
-        const scrollTrigger = {
-          trigger: element,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-          invalidateOnRefresh: true,
-        };
-        gsap.fromTo(
-          list,
-          { x: () => overflow() / 2 },
-          { x: () => -overflow(), ease: 'none', scrollTrigger },
-        );
-        gsap.fromTo(
-          list.querySelectorAll('article'),
-          { rotation: sway },
-          { rotation: -2 * sway, ease: 'none', scrollTrigger },
-        );
+      media.add(entranceQuery, () => {
+        // Every card starts just past the right edge of the viewport. The
+        // entrance runs from the section's top at the bottom of the viewport
+        // to its bottom there, before the contact heading below comes into view.
+        const slots = gsap.utils.toArray<HTMLElement>(list.children);
+        const offscreen = (slot: HTMLElement) =>
+          window.innerWidth -
+          slot.getBoundingClientRect().left +
+          (Number(gsap.getProperty(slot, 'x')) || 0);
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: element,
+            start: 'top bottom',
+            end: 'bottom bottom',
+            scrub: true,
+            invalidateOnRefresh: true,
+          },
+        });
+        const stagger = slots.length > 1 ? (1 - slide) / (slots.length - 1) : 0;
+        slots.forEach((slot, index) => {
+          timeline.fromTo(
+            slot,
+            { x: () => offscreen(slot) },
+            { x: 0, duration: slide, ease: 'power2.out' },
+            index * stagger,
+          );
+        });
       });
       revert = () => media.revert();
     });
@@ -93,24 +86,11 @@ export function About() {
       </header>
       <div className={styles.rail}>
         <ul ref={track} className={styles.track} aria-label={aboutSection.cardsLabel}>
-          {skillCategories.map((category, index) => {
-            const { tilt, drop, shift } = poses[index % poses.length];
-            return (
-              <li
-                key={category.category}
-                className={styles.slot}
-                style={
-                  {
-                    '--tilt': `${tilt}deg`,
-                    '--drop': `${drop}px`,
-                    '--shift': `${shift}px`,
-                  } as CSSProperties
-                }
-              >
-                <CapabilityCard category={category} />
-              </li>
-            );
-          })}
+          {skillCategories.map((category) => (
+            <li key={category.category} className={styles.slot}>
+              <CapabilityCard category={category} />
+            </li>
+          ))}
         </ul>
       </div>
       <div className={styles.side}>

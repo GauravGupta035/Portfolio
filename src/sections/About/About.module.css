@@ -1,14 +1,14 @@
 /* Desktop positions follow Figma Page 1 at 1440px: a 900px section with the
    social column in the first 120px behind a hairline, the heading caps at
-   91px, the intro at 852px and the card rail from 281px. Between 768px and
-   1440px the header scales with the viewport and the cards keep their size. */
+   91px, the intro at 852px and the cards from 281px. Between 768px and
+   1440px the section, the header and the cards scale with the viewport. */
 .about {
   --side: clamp(88px, 8.33vw, 120px);
 
   display: grid;
   grid-template-columns: var(--side) minmax(0, 1fr);
   grid-template-rows: auto 1fr;
-  min-height: 900px;
+  min-height: min(900px, 62.5vw);
   overflow: clip;
 }
 
@@ -73,7 +73,7 @@
   stroke-width: var(--stroke-strong);
 }
 
-/* Without drift the rail scrolls by swipe or scrollbar and the cards stand upright. */
+/* Below 768px the rail scrolls by swipe or scrollbar and the cards stand upright. */
 .rail {
   grid-area: 2 / 2;
   overflow-x: auto;
@@ -103,15 +103,30 @@
   border-right: var(--stroke-hairline) solid var(--color-border-strong);
 }
 
-@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+/* From 768px the cards rest upright in one row that fits the rail: five
+   cards share its width, up to 240px each at 1440px. The rail is a size
+   container so the card width follows it. */
+@media (min-width: 768px) {
   .rail {
+    container-type: inline-size;
     overflow-x: clip;
     padding-bottom: 0;
   }
 
+  .track {
+    --capability-card-width: min(
+      240px,
+      (100cqw - 22px - var(--space-48) - 4 * var(--space-16)) / 5
+    );
+    --capability-card-height: calc(522 * var(--capability-card-width) / 352);
+
+    gap: var(--space-16);
+    width: auto;
+  }
+
+  /* Cards in the wall share the tallest card's height. */
   .slot {
-    translate: var(--shift) var(--drop);
-    rotate: var(--tilt);
+    display: flex;
   }
 }
 
@@ -153,6 +168,7 @@
   .track {
     --capability-card-width: min(300px, 80vw);
     --capability-card-height: 0;
+    --capability-card-unit: 1px;
 
     gap: var(--space-16);
     padding-inline: var(--grid-mobile-margin);
