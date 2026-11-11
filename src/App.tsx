@@ -1,4 +1,5 @@
 import { lazy, Suspense } from 'react';
+import { Cursor } from './components/Cursor';
 import { useSmoothScroll } from './motion';
 import { About } from './sections/About';
 import { Blog } from './sections/Blog';
@@ -31,6 +32,7 @@ export function App() {
         <About />
         <Contact />
       </main>
+      <Cursor />
       {showGrid() && (
         <Suspense fallback={null}>
           <GridOverlay />

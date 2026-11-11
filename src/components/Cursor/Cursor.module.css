@@ -1,0 +1,79 @@
+/* Added to <html> while the blob is on screen, so the native cursor hides everywhere except
+   text entry, which keeps its caret. */
+:global(html).active,
+:global(html).active * {
+  cursor: none;
+}
+
+:global(html).active
+  :is(
+    input:not([type='button'], [type='submit'], [type='reset'], [type='checkbox'], [type='radio']),
+    textarea,
+    select,
+    [contenteditable=''],
+    [contenteditable='true']
+  ) {
+  cursor: auto;
+}
+
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.blob {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: var(--space-16);
+  height: var(--space-16);
+  color: var(--color-accent-primary);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition:
+    width 200ms ease,
+    height 200ms ease,
+    opacity 150ms ease;
+}
+
+.cursor[data-visible='true'] .blob {
+  opacity: 1;
+}
+
+.shape {
+  position: absolute;
+  inset: 0;
+}
+
+/* Over links and buttons the blob grows to an outline, so the text under it stays readable. */
+.cursor[data-state='hover'] .blob {
+  width: var(--space-48);
+  height: var(--space-48);
+}
+
+.cursor[data-state='hover'] .shape path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: var(--stroke-strong);
+  vector-effect: non-scaling-stroke;
+}
+
+.cursor[data-state='label'] .blob {
+  width: var(--space-96);
+  height: var(--space-96);
+}
+
+.label {
+  position: relative;
+  color: var(--color-neutral-00);
+  font-size: var(--type-label-s-size);
+  font-weight: var(--type-label-s-weight);
+  line-height: normal;
+  white-space: nowrap;
+}
