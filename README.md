@@ -17,5 +17,3 @@ npm run e2e       # Playwright smoke test against the built site (Chromium)
 ```
 
 Install the Playwright browser once with `npx playwright install chromium`.
-
-`legacy/` holds the content data from the old Create React App site until it moves into `src/content/`.
