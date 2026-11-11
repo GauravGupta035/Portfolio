@@ -1,4 +1,5 @@
-import { Component, lazy, Suspense, useEffect, useState, type ReactNode } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
+import { SceneBoundary } from '../SceneBoundary';
 import { introMode, markIntroSeen, type IntroMode } from './session';
 import styles from './WaterLoader.module.css';
 
@@ -13,20 +14,6 @@ export const loaderCap = 2500;
 const fallbackFade = 400;
 
 type Phase = 'cover' | 'draining' | 'fading' | 'done';
-
-/** Falls back to the plain fade if three.js fails to load or the WebGL context cannot start. */
-class SceneBoundary extends Component<{ onError: () => void; children: ReactNode }> {
-  state = { failed: false };
-  static getDerivedStateFromError() {
-    return { failed: true };
-  }
-  componentDidCatch() {
-    this.props.onError();
-  }
-  render() {
-    return this.state.failed ? null : this.props.children;
-  }
-}
 
 /** The intro: water covers the page on the first visit of a session, then drains to reveal the
  * hero. The hero renders underneath from the start; this only ever sits on top of it. */
