@@ -8,11 +8,12 @@
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 791fr) minmax(0, 503fr);
-  grid-template-rows: auto auto 1fr;
+  grid-template-rows: auto auto auto 1fr;
   grid-template-areas:
     'title meta'
     'subtitle meta'
-    'description metrics';
+    'description metrics'
+    'description preview';
   align-content: start;
   max-width: var(--grid-width);
   min-height: 900px;
@@ -96,6 +97,26 @@
   padding-left: var(--indent);
 }
 
+/* The preview loop fills the empty area beside the description, under the
+   metrics when a project has them. */
+.preview {
+  grid-area: metrics;
+  align-self: start;
+  display: block;
+  width: calc(100% - var(--indent));
+  height: auto;
+  aspect-ratio: 16 / 9;
+  margin: 167px 0 0 var(--indent);
+  border: var(--stroke-hairline) solid var(--color-border-default);
+  background-color: var(--color-background-page);
+  object-fit: cover;
+}
+
+.metrics + .preview {
+  grid-area: preview;
+  margin-top: var(--space-48);
+}
+
 .rail {
   position: absolute;
   top: 0;
@@ -115,6 +136,7 @@
       'meta'
       'description'
       'metrics'
+      'preview'
       'rail';
     gap: var(--space-24);
     min-height: 0;
@@ -158,6 +180,13 @@
     gap: var(--space-16);
     margin-top: 0;
     padding-left: 0;
+  }
+
+  .preview,
+  .metrics + .preview {
+    grid-area: preview;
+    width: 100%;
+    margin: 0;
   }
 
   .rail {

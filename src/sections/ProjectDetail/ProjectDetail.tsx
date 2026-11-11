@@ -3,6 +3,7 @@ import { NavLink } from '../../components/NavLink';
 import { TechRail } from '../../components/TechRail';
 import { projects, projectsSection, type Project } from '../../content';
 import { projectAnchor } from './anchor';
+import { PreviewVideo } from './PreviewVideo';
 import styles from './ProjectDetail.module.css';
 
 function ProjectBlock({ project }: { project: Project }) {
@@ -34,6 +35,11 @@ function ProjectBlock({ project }: { project: Project }) {
           ))}
         </dl>
       )}
+      <PreviewVideo
+        className={styles.preview}
+        preview={project.preview}
+        label={`${projectsSection.previewLabel}, ${project.name}`}
+      />
       <TechRail
         className={styles.rail}
         items={project.techRail}
