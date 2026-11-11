@@ -2,8 +2,12 @@ import { useEffect } from 'react';
 
 export const reducedMotionQuery = '(prefers-reduced-motion: reduce)';
 
-/** GSAP, ScrollTrigger and Lenis load in their own chunk, so the first paint never waits on them. */
-export const loadScrollMotion = () => import('./scroll');
+let scrollMotion: Promise<typeof import('./scroll')> | undefined;
+
+/** GSAP, ScrollTrigger and Lenis load in their own chunk, so the first paint never waits on them.
+ * Every caller shares one promise, so sections set up their triggers in the order they asked,
+ * which is page order. ScrollTrigger needs that for a pin to push the triggers below it. */
+export const loadScrollMotion = () => (scrollMotion ??= import('./scroll'));
 
 /** Runs the one Lenis instance for the app while the visitor allows motion. Call it once, in App. */
 export function useSmoothScroll() {
