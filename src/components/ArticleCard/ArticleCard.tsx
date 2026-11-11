@@ -1,4 +1,6 @@
+import { useRef } from 'react';
 import type { Post } from '../../content';
+import { useLiquidHover } from '../../three/LiquidHover';
 import styles from './ArticleCard.module.css';
 
 type ArticleCardProps = {
@@ -7,16 +9,26 @@ type ArticleCardProps = {
   mark: string;
 };
 
-/** Blog / Article Card: one link to the post, with the dark variant on hover and focus. */
+/** Blog / Article Card: one link to the post, with the dark variant on hover and focus. Inside a
+ * LiquidHoverProvider its image also ripples on hover. */
 export function ArticleCard({ post, mark }: ArticleCardProps) {
+  const image = useRef<HTMLImageElement>(null);
+  const liquid = useLiquidHover(image);
   return (
     <div className={styles.frame}>
       <span className={styles.marks} aria-hidden="true">
         <span>{mark}</span>
         <span>{mark}</span>
       </span>
-      <a className={styles.card} href={post.url} target="_blank" rel="noopener noreferrer">
+      <a
+        className={styles.card}
+        href={post.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        {...liquid}
+      >
         <img
+          ref={image}
           className={styles.image}
           src={`${import.meta.env.BASE_URL}${post.image.src}`}
           alt={post.image.alt}
