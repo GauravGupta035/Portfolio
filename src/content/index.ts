@@ -1,5 +1,6 @@
 export * from './types';
 export { experiences } from './experience';
+export { experienceSection } from './experienceSection';
 export { navigation } from './navigation';
 export { posts } from './posts';
 export { profile } from './profile';
