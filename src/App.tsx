@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { navigation, type SectionId } from './content';
+import { useSmoothScroll } from './motion';
 import { Hero } from './sections/Hero';
 import { Nav } from './sections/Nav';
 import { ProjectDetail } from './sections/ProjectDetail';
@@ -17,6 +18,7 @@ const shippedSections = new Set<SectionId>(['projects']);
 const showGrid = () => new URLSearchParams(window.location.search).has('grid');
 
 export function App() {
+  useSmoothScroll();
   return (
     <>
       <Nav />
