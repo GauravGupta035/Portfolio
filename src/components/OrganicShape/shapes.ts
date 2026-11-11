@@ -19,3 +19,7 @@ export const organicShapes = {
 } as const;
 
 export type OrganicShapeName = keyof typeof organicShapes;
+
+/** The on-curve point of the logo outline where the nav arrow's tip sits, in viewBox units.
+ * The hover morph keeps this point fixed, so the tip stays on the border in both states. */
+export const logoArrowTip = { x: 36.2, y: 1.5 } as const;
