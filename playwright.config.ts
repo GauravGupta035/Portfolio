@@ -13,7 +13,8 @@ export default defineConfig({
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {
-    command: `npm run build && npm run preview -- --port ${port} --strictPort`,
+    // CI builds the site in an earlier step, so only serve it there.
+    command: `${process.env.CI ? '' : 'npm run build && '}npm run preview -- --port ${port} --strictPort`,
     url: `http://localhost:${port}/Portfolio/`,
     reuseExistingServer: !process.env.CI,
   },
