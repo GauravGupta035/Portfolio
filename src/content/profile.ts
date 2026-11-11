@@ -8,6 +8,7 @@ export const profile: Profile = {
     src: 'images/01.jpg',
     alt: 'Gaurav Gupta smiling in a black T-shirt in front of a rock wall',
   },
+  portraitHoverFrames: ['images/02.jpg', 'images/03.jpg', 'images/04.jpg', 'images/05.jpg'],
   heroMetadata: [
     { label: 'Education', lines: ['MSc Computer Science', 'University of St Andrews'] },
     { label: 'Based in', lines: ['United Kingdom'] },

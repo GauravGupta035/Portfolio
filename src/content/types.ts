@@ -108,6 +108,8 @@ export interface Profile {
   monogram: string;
   role: string;
   portrait: Image;
+  /** Frames shown after `portrait.src` while the portrait is hovered, in order. */
+  portraitHoverFrames: readonly PublicPath[];
   heroMetadata: readonly HeroMetadata[];
   socials: readonly Social[];
   cvPath: PublicPath;

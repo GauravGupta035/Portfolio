@@ -72,6 +72,7 @@ describe('content', () => {
     const paths = [
       profile.cvPath,
       profile.portrait.src,
+      ...profile.portraitHoverFrames,
       ...posts.map((post) => post.image.src),
       ...skillCategories.flatMap(({ illustration }) => (illustration ? [illustration.src] : [])),
     ];
