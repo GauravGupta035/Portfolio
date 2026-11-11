@@ -1,0 +1,35 @@
+/* Sits over the hero, which is already in the DOM underneath. It never takes pointer events, so
+   the page is usable the moment it is painted. */
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 300ms ease-out;
+}
+
+/* Solid cover until the shader draws its first frame, so the hand-off is seamless. */
+.loader[data-mode='water'][data-phase='cover'] {
+  background: var(--color-violet-500);
+}
+
+/* No WebGL or reduced motion: a plain fade from the page colour. */
+.loader[data-mode='fade'] {
+  background: var(--color-background-page);
+  animation: fade-out 300ms ease-out forwards;
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.loader[data-phase='fading'] {
+  opacity: 0;
+}
+
+.loader canvas {
+  display: block;
+}
