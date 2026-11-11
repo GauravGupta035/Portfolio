@@ -1,17 +1,22 @@
 /* Sizes follow Figma Page 1 at 1440px: a 352 x 522 card with a 10px inset,
    the title in Heading Feature, a 174 x 210 illustration, then a hairline
-   rule 24px above 20px skill tags, which sit at the bottom of the card. */
+   rule 24px above 20px skill tags, which sit at the bottom of the card.
+   The about section sets the card's width and height; every inner size is a
+   Figma size in `--unit`, one Figma pixel scaled to the card's width, so a
+   smaller card keeps the same layout. */
 .card {
+  --unit: var(--capability-card-unit, calc(var(--capability-card-width, 352px) / 352));
+
   display: flex;
   flex-direction: column;
   width: var(--capability-card-width, 352px);
   min-height: var(--capability-card-height, 522px);
-  padding: var(--space-12) 10px 28px;
+  padding: calc(12 * var(--unit)) calc(10 * var(--unit)) calc(28 * var(--unit));
   border-radius: var(--radius-default);
 }
 
 .title {
-  font-size: var(--type-heading-feature-size);
+  font-size: calc(36 * var(--unit));
   font-weight: var(--type-heading-feature-weight);
   line-height: 1.25;
   text-transform: uppercase;
@@ -19,26 +24,27 @@
 
 .illustration {
   display: block;
-  width: 174px;
+  width: calc(174 * var(--unit));
   height: auto;
-  margin: 20px auto var(--space-24);
+  margin: calc(20 * var(--unit)) auto calc(24 * var(--unit));
 }
 
 .skills {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: calc(10 * var(--unit));
   margin-top: auto;
-  padding-top: var(--space-24);
+  padding-top: calc(24 * var(--unit));
   border-top: var(--stroke-hairline) solid var(--color-border-strong);
 }
 
+/* A tag wider than the card wraps inside its border rather than spill out. */
 .skill {
-  padding: var(--space-4) var(--space-8);
+  max-width: 100%;
+  padding: calc(4 * var(--unit)) calc(8 * var(--unit));
   border: var(--stroke-hairline) solid currentColor;
   border-radius: var(--radius-default);
-  font-size: var(--type-utility-m-size);
+  font-size: calc(20 * var(--unit));
   font-weight: var(--type-utility-m-weight);
   line-height: 1.2;
-  white-space: nowrap;
 }
