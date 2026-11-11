@@ -1,36 +1,97 @@
 import { expect, test, type Page } from '@playwright/test';
 import { aboutSection } from '../src/content/aboutSection.ts';
+import { contactSection } from '../src/content/contactSection.ts';
 import { skillCategories } from '../src/content/skills.ts';
 
 const section = (page: Page) => page.getByRole('region', { name: aboutSection.heading });
 const cards = (page: Page) =>
   section(page).getByRole('list', { name: aboutSection.cardsLabel }).getByRole('article');
 
-// Every card's on-screen centre and rotation, the rotation read from the
-// slot's `rotate` and the card's own transform.
-const cardPoses = (page: Page) =>
+type Box = { left: number; right: number; top: number; bottom: number };
+
+// Every card's box in the viewport and its rotation, read from the slot's
+// `rotate` and the slot's and the card's transforms.
+const cardBoxes = (page: Page) =>
   cards(page).evaluateAll((items) =>
     items.map((item) => {
-      const { left, top, width, height } = item.getBoundingClientRect();
+      const { left, right, top, bottom } = item.getBoundingClientRect();
       const slot = item.parentElement;
+      const turns = [
+        slot ? getComputedStyle(slot).rotate : 'none',
+        getComputedStyle(item).rotate,
+        new DOMMatrix(slot ? getComputedStyle(slot).transform : 'none').b,
+        new DOMMatrix(getComputedStyle(item).transform).b,
+      ];
       return {
-        x: Math.round(left + width / 2),
-        y: Math.round(top + height / 2 + scrollY),
-        rotate: slot ? getComputedStyle(slot).rotate : '',
-        transform: getComputedStyle(item).transform,
+        left: Math.round(left),
+        right: Math.round(right),
+        top: Math.round(top),
+        bottom: Math.round(bottom),
+        upright: turns[0] === 'none' && turns[1] === 'none' && turns[2] === 0 && turns[3] === 0,
       };
     }),
   );
 
-async function scrollToSection(page: Page, offset: number) {
-  const top = await section(page).evaluate(
-    (element) => element.getBoundingClientRect().top + scrollY,
-  );
-  await page.evaluate((y) => window.scrollTo(0, y), top + offset);
+// Waits for the cards to stop moving, since Lenis eases every scroll.
+async function settledBoxes(page: Page) {
+  let previous = '';
+  await expect
+    .poll(async () => {
+      const current = JSON.stringify(await cardBoxes(page));
+      const settled = current === previous;
+      previous = current;
+      return settled;
+    })
+    .toBe(true);
+  return JSON.parse(previous) as Awaited<ReturnType<typeof cardBoxes>>;
+}
+
+async function scrollTo(page: Page, y: number) {
+  await page.evaluate((target) => window.scrollTo(0, target), y);
+  await expect.poll(() => page.evaluate(() => Math.round(scrollY))).toBe(Math.round(y));
+}
+
+// The scroll position where the section's top sits at the bottom of the viewport.
+const sectionEntry = (page: Page) =>
+  section(page).evaluate((element) => element.getBoundingClientRect().top + scrollY - innerHeight);
+
+// The scroll position where the contact heading's bottom sits on the viewport's bottom edge.
+const contactHeadingInView = (page: Page) =>
+  page
+    .getByRole('heading', { name: contactSection.heading })
+    .evaluate((element) =>
+      Math.ceil(element.getBoundingClientRect().bottom + scrollY - innerHeight),
+    );
+
+async function load(page: Page) {
+  await page.goto('/Portfolio/');
+  await page.waitForLoadState('networkidle');
+  await expect(cards(page)).toHaveCount(skillCategories.length);
+  // Late enough for every section's scroll setup, including the experience pin above.
+  await page.waitForTimeout(1000);
+}
+
+const overlaps = (a: Box, b: Box) =>
+  a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
+
+function expectWall(boxes: Box[], viewport: { width: number; height: number }) {
+  expect(boxes).toHaveLength(skillCategories.length);
+  for (const box of boxes) {
+    expect(box.left).toBeGreaterThanOrEqual(0);
+    expect(box.top).toBeGreaterThanOrEqual(0);
+    expect(box.right).toBeLessThanOrEqual(viewport.width);
+    expect(box.bottom).toBeLessThanOrEqual(viewport.height);
+  }
+  for (let i = 1; i < boxes.length; i++) {
+    // Content order runs left to right.
+    expect(boxes[i].left).toBeGreaterThanOrEqual(boxes[i - 1].right);
+    for (let j = 0; j < i; j++) expect(overlaps(boxes[i], boxes[j])).toBe(false);
+  }
 }
 
 test.describe('about at 1440px', () => {
-  test.use({ viewport: { width: 1440, height: 900 }, acceptDownloads: true });
+  const viewport = { width: 1440, height: 900 };
+  test.use({ viewport, acceptDownloads: true });
 
   test('downloads the CV from the CV button', async ({ page }) => {
     await page.goto('/Portfolio/');
@@ -42,56 +103,64 @@ test.describe('about at 1440px', () => {
     expect(download.suggestedFilename()).toBe('Gaurav_Gupta_Resume.pdf');
   });
 
-  test('moves the rail horizontally as the page scrolls', async ({ page }) => {
-    await page.goto('/Portfolio/');
-    await page.waitForLoadState('networkidle');
-    await expect(cards(page)).toHaveCount(skillCategories.length);
-    await scrollToSection(page, -600);
-    await page.waitForTimeout(500);
-    const before = await cardPoses(page);
-    await scrollToSection(page, 300);
-    await expect.poll(async () => (await cardPoses(page))[0].x).toBeLessThan(before[0].x - 100);
-    const after = await cardPoses(page);
-    // The rail moves as one piece: the gap between cards stays the same.
-    expect(after[1].x - after[0].x).toBe(before[1].x - before[0].x);
+  test('the cards start beyond the right edge as the section enters', async ({ page }) => {
+    await load(page);
+    await scrollTo(page, await sectionEntry(page));
+    const boxes = await settledBoxes(page);
+    expect(boxes.at(-1)?.left).toBeGreaterThanOrEqual(viewport.width);
   });
 
-  test('shows the Figma pose a third of the way through the drift', async ({ page }) => {
-    await page.goto('/Portfolio/');
-    await page.waitForLoadState('networkidle');
-    // Late enough for every section's scroll setup, including the experience pin above.
-    await page.waitForTimeout(1000);
-    // The drift runs over 1800px of scroll, from the section's top at the bottom of the
-    // viewport, so a third of the way is its top 300px below the viewport top.
-    await scrollToSection(page, -300);
-    // The third card is upright and sits at 1038px in Figma.
-    await expect
-      .poll(async () =>
-        cards(page)
-          .nth(2)
-          .evaluate((card) => Math.round(card.parentElement?.getBoundingClientRect().left ?? 0)),
-      )
-      .toBe(1038);
+  test('the cards rest as an upright wall once the contact heading is in view', async ({
+    page,
+  }) => {
+    await load(page);
+    const y = await contactHeadingInView(page);
+    await scrollTo(page, y);
+    const wall = await settledBoxes(page);
+    expectWall(wall, viewport);
+    for (const box of wall) expect(box.upright).toBe(true);
+
+    const socialsEdge = await section(page)
+      .getByRole('list', { name: aboutSection.socialsLabel })
+      .evaluate((list) => list.parentElement?.getBoundingClientRect().right ?? 0);
+    expect(wall[0].left - socialsEdge).toBeGreaterThanOrEqual(0);
+    expect(wall[0].left - socialsEdge).toBeLessThanOrEqual(48);
+
+    await scrollTo(page, y + 300);
+    const later = await settledBoxes(page);
+    expect(later.map((box) => box.left)).toEqual(wall.map((box) => box.left));
+  });
+});
+
+test.describe('about at 1024px', () => {
+  const viewport = { width: 1024, height: 768 };
+  test.use({ viewport });
+
+  test('all five cards fit once the contact heading is in view', async ({ page }) => {
+    await load(page);
+    await scrollTo(page, await contactHeadingInView(page));
+    expectWall(await settledBoxes(page), viewport);
   });
 });
 
 test.describe('about with reduced motion', () => {
   test.use({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
 
-  test('cards are upright and do not move on scroll', async ({ page }) => {
-    await page.goto('/Portfolio/');
-    await page.waitForLoadState('networkidle');
-    await scrollToSection(page, -600);
-    await page.waitForTimeout(500);
-    const before = await cardPoses(page);
+  test('the cards are already in the wall and do not move on scroll', async ({ page }) => {
+    await load(page);
+    const entry = await sectionEntry(page);
+    await scrollTo(page, entry + 100);
+    const before = await settledBoxes(page);
     expect(before).toHaveLength(skillCategories.length);
-    for (const pose of before) {
-      expect(pose.rotate).toBe('none');
-      expect(pose.transform).toBe('none');
-    }
-    await scrollToSection(page, 300);
-    await page.waitForTimeout(500);
-    expect(await cardPoses(page)).toEqual(before);
+    for (const box of before) expect(box.upright).toBe(true);
+    // In the wall: the last card ends inside the viewport, not past its right edge.
+    expect(before.at(-1)?.right).toBeLessThanOrEqual(1440);
+    await scrollTo(page, entry + 500);
+    const after = await settledBoxes(page);
+    // Only the page scrolls: every card moves up by the same 400px and not sideways.
+    expect(after).toEqual(
+      before.map((box) => ({ ...box, top: box.top - 400, bottom: box.bottom - 400 })),
+    );
   });
 });
 
@@ -102,8 +171,8 @@ test.describe('about at 375px', () => {
     page,
   }) => {
     await page.goto('/Portfolio/');
-    await scrollToSection(page, 0);
-    for (const pose of await cardPoses(page)) expect(pose.rotate).toBe('none');
+    await section(page).scrollIntoViewIfNeeded();
+    for (const box of await cardBoxes(page)) expect(box.upright).toBe(true);
     const rail = section(page).getByRole('list', { name: aboutSection.cardsLabel }).locator('..');
     const scroll = await rail.evaluate((element) => {
       element.scrollLeft = 200;

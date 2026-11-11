@@ -1,3 +1,6 @@
+/// <reference types="node" />
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { render, screen, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { aboutSection, profile, skillCategories } from '../../content';
@@ -35,6 +38,24 @@ describe('About', () => {
         expect(within(card).queryByRole('img')).not.toBeInTheDocument();
       }
     });
+  });
+
+  it('shows an illustration with alt text on every card', () => {
+    render(<About />);
+    cards().forEach((card) => {
+      const image = within(card).getByRole('img');
+      expect(image.getAttribute('alt')?.trim()).not.toBe('');
+    });
+  });
+
+  it('draws the database and testing illustrations as SVGs in the skills folder', () => {
+    for (const name of ['Database Technologies', 'Testing and Tools']) {
+      const src = skillCategories.find(({ category }) => category === name)?.illustration?.src;
+      expect(src, name).toMatch(/^images\/skills\/[\w-]+\.svg$/);
+      if (!src) continue;
+      const svg = readFileSync(join(process.cwd(), 'public', src), 'utf8');
+      expect(svg).toContain('viewBox="0 0 348 420"');
+    }
   });
 
   it('downloads the CV from the CV button', () => {
