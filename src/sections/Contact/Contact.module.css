@@ -1,0 +1,104 @@
+/* Desktop positions follow Figma Page 1 at 1440px: the heading caps start at
+   143px, the tag field runs from 214px to 730px, and the footer links sit on
+   the 50px margins at the bottom of the 900px section. Between 768px and
+   1440px the same layout scales with the viewport. */
+.contact {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-top: min(138px, 9.58vw);
+}
+
+/* A line height of 0.8 makes the box hug the caps, so the tag field can start
+   right under the letters without overlapping them. */
+.heading {
+  align-self: center;
+  font-size: min(var(--type-display-l-size), 6.67vw);
+  font-weight: var(--type-display-l-weight);
+  line-height: 0.8;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.headingLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.tags {
+  --tech-tag-size: min(var(--type-subtitle-l-size), 3.68vw);
+
+  position: relative;
+  width: 100%;
+  max-width: var(--grid-width);
+  height: min(516px, 35.83vw);
+  margin: 2px auto 0;
+}
+
+.tag {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+}
+
+.footer {
+  margin-top: auto;
+  padding: var(--space-48) var(--grid-margin);
+}
+
+.links {
+  display: flex;
+  justify-content: space-between;
+  max-width: calc(var(--grid-width) - 2 * var(--grid-margin));
+  margin-inline: auto;
+}
+
+.link {
+  padding: 0;
+  font-size: var(--type-data-m-size);
+  font-weight: var(--type-data-m-weight);
+}
+
+/* No mobile design yet: the tags wrap as a static list under the heading. */
+@media (max-width: 767px) {
+  .contact {
+    min-height: auto;
+    padding-top: var(--space-96);
+  }
+
+  .heading {
+    align-self: stretch;
+    padding-inline: var(--grid-mobile-margin);
+    font-size: min(var(--type-heading-l-size), 11vw);
+    white-space: normal;
+  }
+
+  .tags {
+    --tech-tag-size: var(--type-body-m-size);
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-12);
+    height: auto;
+    margin-top: var(--space-32);
+    padding-inline: var(--grid-mobile-margin);
+  }
+
+  .tag {
+    position: static;
+  }
+
+  .footer {
+    padding: var(--space-64) var(--grid-mobile-margin) var(--space-48);
+  }
+
+  .links {
+    flex-wrap: wrap;
+    gap: var(--space-16) var(--space-24);
+    justify-content: flex-start;
+  }
+
+  .link {
+    font-size: var(--type-utility-m-size);
+  }
+}

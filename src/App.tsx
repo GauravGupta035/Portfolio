@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { navigation, type SectionId } from './content';
 import { useSmoothScroll } from './motion';
 import { Blog } from './sections/Blog';
+import { Contact } from './sections/Contact';
 import { Experience } from './sections/Experience';
 import { Hero } from './sections/Hero';
 import { Nav } from './sections/Nav';
@@ -13,7 +14,7 @@ const GridOverlay = lazy(() =>
   import('./components/GridOverlay').then((module) => ({ default: module.GridOverlay })),
 );
 
-const shippedSections = new Set<SectionId>(['projects', 'experience', 'blog']);
+const shippedSections = new Set<SectionId>(['projects', 'experience', 'blog', 'contact']);
 
 // The overlay ships in every build so it can be checked on the deployed site,
 // but it only loads when the URL has a `?grid` flag.
@@ -36,6 +37,7 @@ export function App() {
           .map(({ label, sectionId }) => (
             <section key={sectionId} id={sectionId} aria-label={label} className={styles.section} />
           ))}
+        <Contact />
       </main>
       {showGrid() && (
         <Suspense fallback={null}>
