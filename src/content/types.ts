@@ -55,8 +55,27 @@ export interface Social {
 
 export interface Profile {
   name: string;
+  /** Short mark shown beside the logo shape in the nav. */
+  monogram: string;
   role: string;
+  portrait: Image;
   heroMetadata: readonly HeroMetadata[];
   socials: readonly Social[];
   cvPath: PublicPath;
+}
+
+export type SectionId = 'projects' | 'experience' | 'blog' | 'about' | 'contact';
+
+export interface NavigationLink {
+  label: string;
+  sectionId: SectionId;
+}
+
+export interface Navigation {
+  links: readonly NavigationLink[];
+  cvLabel: string;
+  logoLabel: string;
+  menuLabel: string;
+  closeLabel: string;
+  scrollLabel: string;
 }

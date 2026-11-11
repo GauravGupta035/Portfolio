@@ -69,7 +69,7 @@ describe('content', () => {
   });
 
   it('points at files that exist in public/', () => {
-    const paths = [profile.cvPath, ...posts.map((post) => post.image.src)];
+    const paths = [profile.cvPath, profile.portrait.src, ...posts.map((post) => post.image.src)];
     for (const path of paths) expect(existsSync(join(publicDir, path)), path).toBe(true);
   });
 });
