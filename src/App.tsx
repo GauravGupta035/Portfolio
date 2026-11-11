@@ -9,6 +9,7 @@ import { Hero } from './sections/Hero';
 import { Nav } from './sections/Nav';
 import { ProjectDetail } from './sections/ProjectDetail';
 import { Projects } from './sections/Projects';
+import { WaterLoader } from './three/WaterLoader';
 
 const GridOverlay = lazy(() =>
   import('./components/GridOverlay').then((module) => ({ default: module.GridOverlay })),
@@ -33,6 +34,7 @@ export function App() {
         <Contact />
       </main>
       <Cursor />
+      <WaterLoader />
       {showGrid() && (
         <Suspense fallback={null}>
           <GridOverlay />
