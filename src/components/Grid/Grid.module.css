@@ -1,0 +1,22 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+  width: 100%;
+  max-width: var(--grid-width);
+  margin-inline: auto;
+  padding-inline: var(--grid-margin);
+}
+
+/* No mobile design yet: one column with 16px side gutters. Children always
+   span the single track so spans set for desktop cannot overflow. */
+@media (max-width: 767px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    padding-inline: var(--grid-mobile-margin);
+  }
+
+  .grid > * {
+    grid-column: 1 / -1;
+  }
+}

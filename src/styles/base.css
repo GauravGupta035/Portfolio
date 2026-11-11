@@ -1,0 +1,23 @@
+@import './reset.css';
+
+/* Font: Helvetica Neue is resolved from the visitor's system for now, so no
+   font is fetched from a third-party origin. Self-hosted files are pending
+   licensed font files, see the PR for issue #4. */
+body {
+  background-color: var(--color-background-page);
+  color: var(--color-text-primary);
+  font-family: var(--font-family);
+  font-size: var(--type-body-xs-size);
+  font-weight: var(--type-body-xs-weight);
+}
+
+.surface-light,
+.surface-dark {
+  background-color: var(--color-background-page);
+  color: var(--color-text-primary);
+}
+
+:focus-visible {
+  outline: var(--stroke-strong) solid var(--color-accent-primary);
+  outline-offset: var(--space-4);
+}
