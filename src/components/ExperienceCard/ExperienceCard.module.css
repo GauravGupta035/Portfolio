@@ -1,0 +1,127 @@
+/* Desktop positions follow Figma Page 1 at 1440px, where each card is a 700px
+   frame: two vertical rules at 101px and 121px, the role column at 242px, the
+   achievements at 729px and the indicator ending at 1318px. Horizontal
+   positions are percentages of the 1440px frame so the layout scales down to
+   768px. */
+.card {
+  min-height: 700px;
+  background-color: var(--color-background-page);
+  border-bottom: var(--stroke-hairline) solid var(--color-border-strong);
+}
+
+.inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 487fr) minmax(0, 589fr);
+  align-items: start;
+  max-width: var(--grid-width);
+  height: 100%;
+  min-height: inherit;
+  margin-inline: auto;
+  padding: var(--card-padding-top, 197px) min(122px, 8.47vw) var(--space-128) min(242px, 16.8vw);
+}
+
+.inner::before,
+.inner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-left: var(--stroke-hairline) solid var(--color-border-default);
+}
+
+.inner::before {
+  left: min(101px, 7.01vw);
+}
+
+.inner::after {
+  left: min(121px, 8.4vw);
+  border-color: var(--color-border-strong);
+}
+
+.role {
+  display: flex;
+  flex-direction: column;
+}
+
+.title,
+.company {
+  font-size: var(--type-heading-s-strong-size);
+  font-weight: var(--type-heading-s-strong-weight);
+  line-height: normal;
+}
+
+.company {
+  margin-top: 6px;
+  color: var(--color-text-secondary);
+}
+
+.period {
+  margin-top: 212px;
+  font-size: var(--type-body-m-size);
+  font-weight: var(--type-body-m-weight);
+  line-height: normal;
+}
+
+.achievements {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+  font-size: var(--type-body-s-size);
+  font-weight: var(--type-body-s-weight);
+  line-height: normal;
+}
+
+.progress {
+  position: absolute;
+  right: min(122px, 8.47vw);
+  bottom: 66px;
+}
+
+/* No tablet design yet: the achievements move under the role so long lists
+   still fit the pinned frame. */
+@media (max-width: 1023px) {
+  .inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-32);
+  }
+
+  .period {
+    margin-top: var(--space-16);
+  }
+}
+
+/* No mobile design yet: one column in normal flow, without the vertical rules. */
+@media (max-width: 767px) {
+  .card {
+    min-height: 0;
+  }
+
+  .inner {
+    gap: var(--space-24);
+    padding: var(--space-48) var(--grid-mobile-margin);
+  }
+
+  .inner::before,
+  .inner::after {
+    display: none;
+  }
+
+  .title,
+  .company {
+    font-size: var(--type-body-s-size);
+  }
+
+  .period {
+    font-size: var(--type-body-xs-size);
+  }
+
+  .achievements {
+    gap: var(--space-16);
+    font-size: var(--type-body-xs-size);
+  }
+
+  .progress {
+    position: static;
+  }
+}

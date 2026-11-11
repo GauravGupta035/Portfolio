@@ -1,0 +1,35 @@
+.indicator {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.count {
+  font-size: var(--type-utility-m-size);
+  font-weight: var(--type-utility-m-weight);
+  line-height: normal;
+}
+
+.hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* A hairline track with a strong violet fill sitting on it. */
+.track {
+  position: relative;
+  width: 100px;
+  border-top: var(--stroke-hairline) solid var(--color-border-strong);
+}
+
+.fill {
+  position: absolute;
+  top: calc(-1 * (var(--stroke-strong) + var(--stroke-hairline)) / 2);
+  left: 0;
+  height: var(--stroke-strong);
+  background-color: var(--color-accent-primary);
+}
