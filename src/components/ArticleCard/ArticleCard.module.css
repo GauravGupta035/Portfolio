@@ -1,0 +1,80 @@
+/* Desktop sizes follow Figma Page 1 at 1440px: a 352 x 546 card with a 10px
+   inset, a 5:4 image, the title 12px below it and a hairline 120px above the
+   bottom edge. The corner marks sit 8px outside the top and bottom edges. */
+.frame {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.marks {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--type-label-s-size);
+  font-weight: var(--type-label-s-weight);
+  line-height: 1;
+}
+
+.card {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 546px;
+  padding: 10px 10px var(--space-24);
+  border: var(--stroke-hairline) solid var(--color-border-strong);
+  border-radius: var(--radius-default);
+  background-color: var(--color-background-page);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+/* Dark variant: the card takes the dark surface roles on hover and focus. */
+.card:hover,
+.card:focus-visible {
+  --color-background-page: var(--color-dark-background-page);
+  --color-text-primary: var(--color-dark-text-primary);
+  --color-border-strong: var(--color-dark-border-strong);
+
+  border-color: var(--color-dark-background-page);
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 5 / 4;
+  object-fit: cover;
+}
+
+.title {
+  flex: 1;
+  margin-top: var(--space-12);
+  font-size: var(--type-heading-s-size);
+  font-weight: var(--type-heading-s-weight);
+  line-height: normal;
+}
+
+.excerpt {
+  margin-top: var(--space-24);
+  padding-top: var(--space-12);
+  border-top: var(--stroke-hairline) solid var(--color-border-strong);
+  font-size: var(--type-body-xs-size);
+  font-weight: var(--type-body-xs-weight);
+  line-height: normal;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+}
+
+/* No mobile design yet: the card is as tall as its content. */
+@media (max-width: 767px) {
+  .card {
+    min-height: 0;
+  }
+}
