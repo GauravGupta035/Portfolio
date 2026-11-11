@@ -1,0 +1,16 @@
+.root {
+  position: relative;
+}
+
+/* Covers the cards, over their images but under the cursor. It never takes pointer events, so
+   every card stays clickable through it. */
+.layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.layer canvas {
+  display: block;
+}
