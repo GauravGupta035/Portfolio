@@ -1,4 +1,10 @@
-import type { Project } from './types';
+import type { Project, ProjectPreview } from './types';
+
+// `npm run render:previews` writes each project's loop and poster to these paths in public/.
+const preview = (id: number): ProjectPreview => ({
+  video: `previews/project-${id}.mp4`,
+  poster: `previews/project-${id}.jpg`,
+});
 
 export const projects: readonly Project[] = [
   {
@@ -17,6 +23,7 @@ export const projects: readonly Project[] = [
     ],
     // Private project, so there is no source link.
     techRail: ['Python', 'FastAPI', 'PostgreSQL', 'Redis'],
+    preview: preview(1),
   },
   {
     id: 2,
@@ -28,6 +35,7 @@ export const projects: readonly Project[] = [
       'Console based AI-powered agent that generates personalised learning, revision and behavioural questions and uses LLM APIs to provide feedback.',
     sourceUrl: 'https://github.com/GauravGupta035/interview-prep-agent',
     techRail: ['Python', 'LLM APIs'],
+    preview: preview(2),
   },
   {
     id: 3,
@@ -40,6 +48,7 @@ export const projects: readonly Project[] = [
       'It is one-stop shop for reviews for tech products aggregated from websites like Amazon and Flipkart.',
     sourceUrl: 'https://github.com/GauravGupta035/PD_GenieSpeaks',
     techRail: ['React'],
+    preview: preview(3),
   },
   {
     id: 4,
@@ -52,5 +61,6 @@ export const projects: readonly Project[] = [
       'Application to help users detect plagiarism between two documents using Knuth Morris Pratt (KMP) Algorithm.',
     sourceUrl: 'https://github.com/GauravGupta035/PlagiarismDetector',
     techRail: ['Python'],
+    preview: preview(4),
   },
 ];

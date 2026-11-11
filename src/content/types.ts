@@ -17,6 +17,15 @@ export interface Project {
   metrics?: readonly Metric[];
   sourceUrl?: string;
   techRail: readonly string[];
+  /** Pre-rendered loop from the project's Remotion composition, see `remotion/`. */
+  preview: ProjectPreview;
+}
+
+export interface ProjectPreview {
+  /** H.264 MP4, muted and looping. */
+  video: PublicPath;
+  /** The loop's first frame, shown until it plays and in place of it with reduced motion. */
+  poster: PublicPath;
 }
 
 export interface ProjectsSection {
@@ -26,6 +35,8 @@ export interface ProjectsSection {
   detailLabel: string;
   viewSourceLabel: string;
   techRailLabel: string;
+  /** Prefix for each preview video's accessible name, as in "Preview, Primaros". */
+  previewLabel: string;
 }
 
 export interface Experience {

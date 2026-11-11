@@ -6,4 +6,5 @@ export const projectsSection: ProjectsSection = {
   detailLabel: 'Project details',
   viewSourceLabel: 'View source',
   techRailLabel: 'Technologies',
+  previewLabel: 'Preview',
 };
