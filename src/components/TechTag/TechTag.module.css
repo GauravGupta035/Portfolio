@@ -1,0 +1,13 @@
+/* Subtitle L at 1440px. The size is a custom property so a section can scale it. */
+.tag {
+  display: inline-block;
+  /* 8px at Subtitle L, scaling with the size. */
+  padding: 0 0.15em;
+  border: var(--stroke-hairline) solid currentColor;
+  border-radius: var(--radius-default);
+  color: var(--color-accent-primary);
+  font-size: var(--tech-tag-size, var(--type-subtitle-l-size));
+  font-weight: var(--type-subtitle-l-weight);
+  line-height: 1.2;
+  white-space: nowrap;
+}
