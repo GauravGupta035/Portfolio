@@ -35,6 +35,12 @@ export interface Experience {
   achievements: readonly string[];
 }
 
+export interface ExperienceSection {
+  heading: string;
+  /** Prefix for the progress indicator's accessible name, as in "Role 1 of 3". */
+  progressLabel: string;
+}
+
 export interface SkillCategory {
   category: string;
   skills: readonly string[];
