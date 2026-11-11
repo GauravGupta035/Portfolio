@@ -1,0 +1,48 @@
+/* Desktop positions follow Figma Page 1 at 1440px: the heading cap ends at
+   1278px, and three 352px cards with 32px gaps fill 1120px. */
+.blog {
+  max-width: 1120px;
+  margin-inline: auto;
+  padding-block: 65px var(--space-64);
+  box-sizing: content-box;
+  padding-inline: var(--grid-margin);
+}
+
+.heading {
+  text-align: right;
+  font-size: min(var(--type-display-2xl-size), 9.86vw);
+  font-weight: var(--type-display-2xl-weight);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-16) var(--space-32);
+  margin-top: 45px;
+}
+
+/* No tablet design yet: two columns. */
+@media (max-width: 1023px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-16);
+  }
+}
+
+/* No mobile design yet: one column with a smaller heading. */
+@media (max-width: 767px) {
+  .blog {
+    padding: var(--space-48) var(--grid-mobile-margin);
+  }
+
+  .heading {
+    text-align: left;
+    font-size: min(var(--type-heading-l-size), 11vw);
+  }
+
+  .cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
