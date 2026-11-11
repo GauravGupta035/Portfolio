@@ -1,0 +1,175 @@
+/* Desktop positions follow Figma Page 1 at 1440px: a 900px section with the
+   social column in the first 120px behind a hairline, the heading caps at
+   91px, the intro at 852px and the card rail from 281px. Between 768px and
+   1440px the header scales with the viewport and the cards keep their size. */
+.about {
+  --side: clamp(88px, 8.33vw, 120px);
+
+  display: grid;
+  grid-template-columns: var(--side) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  min-height: 900px;
+  overflow: clip;
+}
+
+.header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  grid-area: 1 / 2;
+  align-items: flex-start;
+  min-height: 281px;
+  padding: min(83px, 5.76vw) 0 var(--space-24) min(120px, 8.33vw);
+}
+
+/* A line height of 0.8 makes the box hug the caps, as in the contact heading. */
+.heading {
+  font-size: min(var(--type-display-2xl-size), 9.86vw);
+  font-weight: var(--type-display-2xl-weight);
+  line-height: 0.8;
+  text-transform: uppercase;
+}
+
+.intro {
+  width: min(440px, 30.56vw);
+  margin: 0 min(148px, 10.28vw) 0 auto;
+}
+
+.text {
+  font-size: var(--type-body-m-size);
+  font-weight: var(--type-body-m-weight);
+  line-height: 1.2;
+}
+
+/* The bigger CV call to action asked for in the Figma review comment. */
+.cv {
+  display: inline-flex;
+  gap: var(--space-16);
+  align-items: center;
+  min-height: 56px;
+  margin-top: var(--space-24);
+  padding: var(--space-8) var(--space-24);
+  border-radius: var(--radius-default);
+  background-color: var(--color-accent-primary);
+  color: var(--color-dark-text-primary);
+  font-size: min(var(--type-action-size), 3.6vw);
+  font-weight: var(--type-action-weight);
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 150ms ease;
+}
+
+.cv:hover {
+  background-color: var(--color-text-primary);
+}
+
+.cvIcon {
+  flex: none;
+  width: 0.7em;
+  height: 0.7em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: var(--stroke-strong);
+}
+
+/* Without drift the rail scrolls by swipe or scrollbar and the cards stand upright. */
+.rail {
+  grid-area: 2 / 2;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding-bottom: var(--space-24);
+}
+
+.track {
+  display: flex;
+  gap: var(--space-96);
+  width: max-content;
+  padding-inline: 22px var(--space-48);
+}
+
+.slot {
+  flex: none;
+  scroll-snap-align: start;
+  scroll-margin-left: 22px;
+}
+
+.side {
+  display: flex;
+  grid-area: 1 / 1 / 3;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 44px;
+  border-right: var(--stroke-hairline) solid var(--color-border-strong);
+}
+
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .rail {
+    overflow-x: clip;
+    padding-bottom: 0;
+  }
+
+  .slot {
+    translate: var(--shift) var(--drop);
+    rotate: var(--tilt);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cv {
+    transition: none;
+  }
+}
+
+/* No mobile design yet: heading, intro and CV button stack above a swipeable
+   rail, and the social links run in a row underneath. */
+@media (max-width: 767px) {
+  .about {
+    display: flex;
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: var(--space-24);
+    min-height: 0;
+    padding: var(--space-96) var(--grid-mobile-margin) var(--space-32);
+  }
+
+  .heading {
+    font-size: min(var(--type-heading-l-size), 11vw);
+  }
+
+  .intro {
+    width: auto;
+    margin: 0;
+  }
+
+  .cv {
+    font-size: min(var(--type-action-size), 9vw);
+  }
+
+  .track {
+    --capability-card-width: min(300px, 80vw);
+    --capability-card-height: 0;
+
+    gap: var(--space-16);
+    padding-inline: var(--grid-mobile-margin);
+  }
+
+  .slot {
+    scroll-margin-left: var(--grid-mobile-margin);
+  }
+
+  .side {
+    padding: var(--space-32) var(--grid-mobile-margin) var(--space-48);
+    border-top: var(--stroke-hairline) solid var(--color-border-strong);
+    border-right: 0;
+  }
+
+  .side .socials {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
