@@ -1,0 +1,82 @@
+/* Desktop positions follow Figma Page 1 at 1440px: each 900px frame is a
+   700px card above a 200px band with the shape at 101px and the heading cap
+   at 243px. Between 768px and 1440px the band scales with the viewport. */
+.experience {
+  --band: min(200px, 13.9vw);
+}
+
+.header {
+  border-bottom: var(--stroke-hairline) solid var(--color-border-strong);
+}
+
+.headerInner {
+  display: flex;
+  align-items: center;
+  max-width: var(--grid-width);
+  height: var(--band);
+  margin-inline: auto;
+  padding-left: min(101px, 7.01vw);
+}
+
+.shape {
+  flex: none;
+  width: min(77px, 5.35vw);
+  height: auto;
+  aspect-ratio: 77 / 101;
+}
+
+.heading {
+  margin-left: min(55px, 3.82vw);
+  font-size: min(var(--type-display-2xl-size), 9.86vw);
+  font-weight: var(--type-display-2xl-weight);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* While pinned the section fills the viewport: cards on top, the heading
+   band fixed underneath, and each card stacked in the same cell. */
+.experience[data-pinned] {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) var(--band);
+  height: 100vh;
+}
+
+.experience[data-pinned] .header {
+  grid-row: 2;
+  border-bottom: 0;
+}
+
+.experience[data-pinned] .cards {
+  grid-row: 1;
+  display: grid;
+  overflow: hidden;
+}
+
+.experience[data-pinned] .item {
+  grid-area: 1 / 1;
+}
+
+.experience[data-pinned] .card {
+  --card-padding-top: clamp(var(--space-48), calc(100vh - var(--band) - 503px), 197px);
+
+  height: 100%;
+  min-height: 0;
+}
+
+/* No mobile design yet: a smaller heading above the list. */
+@media (max-width: 767px) {
+  .headerInner {
+    gap: var(--space-16);
+    height: auto;
+    padding: var(--space-48) var(--grid-mobile-margin) var(--space-24);
+  }
+
+  .shape {
+    width: 40px;
+  }
+
+  .heading {
+    margin-left: 0;
+    font-size: min(var(--type-heading-l-size), 11vw);
+  }
+}
