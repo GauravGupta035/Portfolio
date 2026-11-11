@@ -1,4 +1,5 @@
 export * from './types';
+export { blogSection } from './blogSection';
 export { experiences } from './experience';
 export { experienceSection } from './experienceSection';
 export { navigation } from './navigation';
