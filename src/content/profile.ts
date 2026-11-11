@@ -2,7 +2,12 @@ import type { Profile } from './types';
 
 export const profile: Profile = {
   name: 'Gaurav Gupta',
+  monogram: 'GG',
   role: 'Software Engineer',
+  portrait: {
+    src: 'images/01.jpg',
+    alt: 'Gaurav Gupta smiling in a black T-shirt in front of a rock wall',
+  },
   heroMetadata: [
     { label: 'Education', lines: ['MSc Computer Science', 'University of St Andrews'] },
     { label: 'Based in', lines: ['United Kingdom'] },
