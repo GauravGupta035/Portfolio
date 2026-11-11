@@ -1,0 +1,153 @@
+/* Desktop positions follow Figma Page 1 at 1440px. Between 768px and 1440px
+   the same layout scales with the viewport. */
+.hero {
+  --portrait-width: min(324px, 22.5vw);
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) calc(var(--portrait-width) + 15px);
+  grid-template-areas:
+    'name portrait'
+    'role role'
+    'scroll scroll'
+    'rule rule'
+    'meta meta';
+  align-items: end;
+  max-width: var(--grid-width);
+  margin-inline: auto;
+  padding: 66px var(--grid-margin) var(--space-96);
+}
+
+.name {
+  grid-area: name;
+  /* Pulls the G's side bearing back so the ink sits on the margin, as in Figma. */
+  margin: 0 0 12px -0.07em;
+  font-size: min(var(--type-display-xl-size), calc(10vw - 16px));
+  font-weight: var(--type-display-xl-weight);
+  line-height: normal;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.portrait {
+  grid-area: portrait;
+  aspect-ratio: 324 / 391;
+  margin-inline-end: 15px;
+  color: var(--color-accent-primary);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1);
+}
+
+.role {
+  grid-area: role;
+  justify-self: end;
+  margin: -10px 22.4% 0 0;
+  font-size: min(var(--type-subtitle-l-size), 3.7vw);
+  font-weight: var(--type-subtitle-l-weight);
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+.scroll {
+  grid-area: scroll;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 77px;
+  height: 101px;
+  margin-top: 13px;
+  color: var(--color-dark-text-primary);
+  text-decoration: none;
+  font-size: var(--type-utility-m-size);
+  font-weight: var(--type-utility-m-weight);
+}
+
+.scrollShape {
+  position: absolute;
+  inset: 0;
+  color: var(--color-accent-primary);
+}
+
+.scrollLabel,
+.scrollArrow {
+  position: relative;
+}
+
+.scrollArrow {
+  width: 16px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: var(--stroke-hairline);
+}
+
+.rule {
+  grid-area: rule;
+  margin-top: 27px;
+  border: 0;
+  border-top: var(--stroke-hairline) solid var(--color-border-strong);
+}
+
+.metadata {
+  grid-area: meta;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-24);
+  margin-top: var(--space-16);
+}
+
+.metadataLabel {
+  margin-bottom: var(--space-12);
+  font-size: var(--type-label-s-size);
+  font-weight: var(--type-label-s-weight);
+}
+
+.metadataBlock dd {
+  font-size: var(--type-meta-size);
+  font-weight: var(--type-meta-weight);
+}
+
+/* No mobile design yet: one column, stacked on the same tokens. */
+@media (max-width: 767px) {
+  .hero {
+    --portrait-width: min(324px, 72vw);
+
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'portrait'
+      'name'
+      'role'
+      'scroll'
+      'rule'
+      'meta';
+    padding: var(--space-48) var(--grid-mobile-margin) var(--space-64);
+  }
+
+  .portrait {
+    width: var(--portrait-width);
+    justify-self: center;
+    margin: 0 0 var(--space-32);
+  }
+
+  .name {
+    margin: 0;
+    font-size: 13vw;
+    white-space: normal;
+  }
+
+  .role {
+    justify-self: start;
+    margin: 0;
+    font-size: min(var(--type-heading-m-size), 7.5vw);
+  }
+
+  .metadata {
+    flex-direction: column;
+  }
+}

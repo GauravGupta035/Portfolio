@@ -21,3 +21,13 @@ body {
   outline: var(--stroke-strong) solid var(--color-accent-primary);
   outline-offset: var(--space-4);
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

@@ -1,11 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import { App } from './App';
+import { navigation } from './content';
 
 describe('App', () => {
-  it('renders an empty main landmark', () => {
+  it('renders a target section for every nav link', () => {
     render(<App />);
-    expect(screen.getByRole('main')).toBeEmptyDOMElement();
+    for (const { sectionId } of navigation.links) {
+      expect(document.getElementById(sectionId)).toBeInTheDocument();
+    }
   });
 });
 
