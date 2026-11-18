@@ -3,24 +3,15 @@ import { describe, expect, it } from 'vitest';
 import { contactSection, navigation, profile } from '../../content';
 import { Contact } from './Contact';
 
-const email = profile.socials.find((social) => social.label === 'Email')?.url;
 const footer = () => screen.getByRole('list', { name: contactSection.linksLabel });
 
 describe('Contact', () => {
-  it('links the heading to the email address', () => {
+  it('is a footer with the contact id and no heading or tag cloud', () => {
     render(<Contact />);
-    const heading = screen.getByRole('heading', { level: 2, name: contactSection.heading });
-    expect(within(heading).getByRole('link')).toHaveAttribute('href', email);
-  });
-
-  it('shows every tag from content', () => {
-    render(<Contact />);
-    const list = screen.getByRole('list', { name: contactSection.tagsLabel });
-    expect(
-      within(list)
-        .getAllByRole('listitem')
-        .map((item) => item.textContent),
-    ).toEqual(contactSection.tags.map((tag) => tag.label));
+    const element = screen.getByRole('contentinfo');
+    expect(element).toHaveAttribute('id', 'contact');
+    expect(within(element).queryByRole('heading')).not.toBeInTheDocument();
+    expect(within(element).getAllByRole('list')).toHaveLength(1);
   });
 
   it('points the footer links at the email, LinkedIn, GitHub and CV from content', () => {
@@ -43,14 +34,16 @@ describe('Contact', () => {
     );
   });
 
-  it('opens LinkedIn, GitHub and the CV in a new tab, and only the CV shows the arrow', () => {
+  it('opens LinkedIn, GitHub and the CV in a new tab, and every link shows the arrow', () => {
     render(<Contact />);
     for (const label of ['LinkedIn', 'GitHub', navigation.cvLabel]) {
       const link = within(footer()).getByRole('link', { name: label });
       expect(link).toHaveAttribute('target', '_blank');
-      expect(link.getAttribute('rel')?.split(' ')).toContain('noopener');
-      expect(link.querySelector('svg') !== null).toBe(label === navigation.cvLabel);
+      expect(link.getAttribute('rel')?.split(' ')).toEqual(['noopener', 'noreferrer']);
     }
     expect(within(footer()).getByRole('link', { name: 'Email' })).not.toHaveAttribute('target');
+    for (const link of within(footer()).getAllByRole('link')) {
+      expect(link.querySelector('svg')).not.toBeNull();
+    }
   });
 });

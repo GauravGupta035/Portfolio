@@ -34,7 +34,7 @@ export function About() {
       media.add(entranceQuery, () => {
         // Every card starts tilted just past the right edge of the viewport. The
         // entrance runs from the section's top at the bottom of the viewport
-        // to its bottom there, before the contact heading below comes into view.
+        // to its bottom there, which is where the footer's top edge reaches it.
         const slots = gsap.utils.toArray<HTMLElement>(list.children);
         const offscreen = (slot: HTMLElement) =>
           window.innerWidth -
