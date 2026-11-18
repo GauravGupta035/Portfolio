@@ -20,7 +20,7 @@ const maskPaths = frames.map((_, index) =>
 
 export function Hero() {
   const { portrait } = profile;
-  const { frame, preload, handlers } = usePortraitSequence(frames.length);
+  const { frame, preload, frameLoaded, handlers } = usePortraitSequence(frames.length);
   const maskPath = useMorphPath(maskPaths[frame], 300);
   return (
     <section className={styles.hero} aria-labelledby="hero-name">
@@ -47,6 +47,7 @@ export function Hero() {
                 width={1200}
                 height={1600}
                 fetchPriority={index === 0 ? 'high' : 'low'}
+                onLoad={(event) => frameLoaded(index, event.currentTarget)}
               />
             ),
         )}
