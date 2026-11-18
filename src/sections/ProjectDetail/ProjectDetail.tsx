@@ -16,14 +16,14 @@ function ProjectBlock({ project }: { project: Project }) {
       {project.subtitle && <p className={styles.subtitle}>{project.subtitle}</p>}
       <div className={styles.meta}>
         <p className={styles.year}>{project.year}</p>
-        {project.sourceUrl && (
+        {project.link && (
           <NavLink
             className={styles.source}
-            href={project.sourceUrl}
+            href={project.link.url}
             external
-            aria-label={`${projectsSection.viewSourceLabel}, ${project.name}`}
+            aria-label={`${projectsSection.linkLabels[project.link.kind]}, ${project.name}`}
           >
-            {projectsSection.viewSourceLabel}
+            {projectsSection.linkLabels[project.link.kind]}
           </NavLink>
         )}
       </div>

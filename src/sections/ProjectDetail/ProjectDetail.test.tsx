@@ -19,20 +19,51 @@ describe('ProjectDetail', () => {
     }
   });
 
-  it('shows VIEW SOURCE only for projects with a source URL, opening it in a new tab', () => {
+  it('shows each link with its own label, opening it in a new tab, and none without a link', () => {
     render(<ProjectDetail />);
-    const viewSource = new RegExp(projectsSection.viewSourceLabel, 'i');
+    const labels = Object.values(projectsSection.linkLabels).join('|');
     for (const project of projects) {
-      const link = within(block(project.name)).queryByRole('link', { name: viewSource });
-      if (!project.sourceUrl) {
+      const link = within(block(project.name)).queryByRole('link', {
+        name: new RegExp(`^(${labels}), `),
+      });
+      if (!project.link) {
         expect(link).not.toBeInTheDocument();
         continue;
       }
-      expect(link).toHaveAttribute('href', project.sourceUrl);
+      const label = projectsSection.linkLabels[project.link.kind];
+      expect(link).toHaveAccessibleName(`${label}, ${project.name}`);
+      expect(link).toHaveTextContent(label);
+      expect(link).toHaveAttribute('href', project.link.url);
       expect(link).toHaveAttribute('target', '_blank');
       expect(link?.getAttribute('rel')?.split(' ')).toContain('noopener');
     }
-    expect(projects.some((project) => !project.sourceUrl)).toBe(true);
+  });
+
+  it.each([
+    ['Jot', 'Visit site', 'https://jotyourday.com'],
+    ['nimble-triage', 'View source', 'https://github.com/GauravGupta035/nimble-triage'],
+    [
+      'Interview Preparation Agent',
+      'View source',
+      'https://github.com/GauravGupta035/interview-prep-agent',
+    ],
+  ])('links %s with "%s"', (name, label, href) => {
+    render(<ProjectDetail />);
+    const link = within(block(name)).getByRole('link', { name: `${label}, ${name}` });
+    expect(link).toHaveAttribute('href', href);
+    expect(link).toHaveAttribute('target', '_blank');
+  });
+
+  it('shows 2026 on the Jot and nimble-triage blocks', () => {
+    render(<ProjectDetail />);
+    for (const name of ['Jot', 'nimble-triage']) {
+      expect(within(block(name)).getByText('2026')).toBeInTheDocument();
+    }
+  });
+
+  it('shows no link on Primaros', () => {
+    render(<ProjectDetail />);
+    expect(within(block('Primaros')).queryByRole('link')).not.toBeInTheDocument();
   });
 
   it('shows the three Primaros metrics with their labels', () => {

@@ -15,10 +15,18 @@ export interface Project {
   year: number;
   description: string;
   metrics?: readonly Metric[];
-  sourceUrl?: string;
+  link?: ProjectLink;
   techRail: readonly string[];
   /** Pre-rendered loop from the project's Remotion composition, see `remotion/`. */
   preview: ProjectPreview;
+}
+
+/** Where a project's link goes, which picks its label from `ProjectsSection.linkLabels`. */
+export type ProjectLinkKind = 'source' | 'site';
+
+export interface ProjectLink {
+  kind: ProjectLinkKind;
+  url: string;
 }
 
 export interface ProjectPreview {
@@ -33,7 +41,7 @@ export interface ProjectsSection {
   /** Year range shown beside the index heading. */
   range: string;
   detailLabel: string;
-  viewSourceLabel: string;
+  linkLabels: Record<ProjectLinkKind, string>;
   techRailLabel: string;
   /** Prefix for each preview video's accessible name, as in "Preview, Primaros". */
   previewLabel: string;

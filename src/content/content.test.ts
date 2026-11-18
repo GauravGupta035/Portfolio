@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { experiences, posts, profile, projects, skillCategories } from '.';
@@ -26,7 +26,6 @@ describe('content', () => {
   });
 
   it('keeps every legacy project string unchanged', () => {
-    expect(projects).toHaveLength(legacyProjects.length);
     for (const legacy of legacyProjects) {
       const project = projects.find((p) => p.id === legacy.id);
       expect(project).toBeDefined();
@@ -35,7 +34,7 @@ describe('content', () => {
       expect([project.name, fullName]).toContain(legacy.name);
       expect(project.description).toBe(legacy.description);
       expect(project.stack).toBe(legacy.stack);
-      expect(project.sourceUrl).toBe(legacy.link);
+      expect(project.link?.url).toBe(legacy.link);
     }
   });
 
@@ -48,14 +47,47 @@ describe('content', () => {
     );
   });
 
-  it('gives every project with a source URL a valid https URL', () => {
-    for (const { name, sourceUrl } of projects) {
-      if (sourceUrl === undefined) continue;
-      expect(isHttpsUrl(sourceUrl), `${name}: ${sourceUrl}`).toBe(true);
+  it('lists the projects newest first, with Jot and nimble-triage as ids 3 and 4', () => {
+    expect(projects.map(({ id, name }) => ({ id, name }))).toEqual([
+      { id: 3, name: 'Jot' },
+      { id: 4, name: 'nimble-triage' },
+      { id: 1, name: 'Primaros' },
+      { id: 2, name: 'Interview Preparation Agent' },
+    ]);
+  });
+
+  it('links Jot to its website and nimble-triage to its source, both in 2026', () => {
+    const jot = projects.find((p) => p.name === 'Jot');
+    const triage = projects.find((p) => p.name === 'nimble-triage');
+    expect(jot).toMatchObject({
+      year: 2026,
+      link: { kind: 'site', url: 'https://jotyourday.com' },
+    });
+    expect(triage).toMatchObject({
+      year: 2026,
+      link: { kind: 'source', url: 'https://github.com/GauravGupta035/nimble-triage' },
+    });
+    expect(triage?.metrics).toBeUndefined();
+  });
+
+  it('no longer mentions the dropped projects', () => {
+    const contentDir = join(process.cwd(), 'src/content');
+    // This file names them to search for them, so it is the one file not checked.
+    const files = readdirSync(contentDir).filter((file) => file !== 'content.test.ts');
+    for (const file of files) {
+      const text = readFileSync(join(contentDir, file), 'utf8');
+      expect(text, file).not.toMatch(/GenieSpeaks|Plagiarism Detector/);
     }
   });
 
-  it('flags an invalid source URL', () => {
+  it('gives every project link a valid https URL', () => {
+    for (const { name, link } of projects) {
+      if (link === undefined) continue;
+      expect(isHttpsUrl(link.url), `${name}: ${link.url}`).toBe(true);
+    }
+  });
+
+  it('flags an invalid link URL', () => {
     expect(isHttpsUrl('github.com/GauravGupta035')).toBe(false);
     expect(isHttpsUrl('not a url')).toBe(false);
   });
