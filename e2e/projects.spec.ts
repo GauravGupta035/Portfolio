@@ -1,9 +1,37 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import { projectsSection } from '../src/content/projectsSection.ts';
 import { projects } from '../src/content/projects.ts';
 
+// The bar is the heading row above the index; the range is its last child.
+const bar = (page: Page) => page.getByRole('region', { name: 'Projects' }).locator('header');
+
+// Horizontal overflow inside the bar, and between the bar and the page.
+const barOverflow = (page: Page) =>
+  bar(page).evaluate(
+    (header) =>
+      header.scrollWidth -
+      header.clientWidth +
+      Math.max(0, header.getBoundingClientRect().right - document.documentElement.clientWidth),
+  );
+
 test.describe('projects index', () => {
   test.use({ viewport: { width: 1440, height: 900 } });
+
+  test('shows the range in violet, aligned to the right edge of the bar', async ({ page }) => {
+    await page.goto('/Portfolio/');
+    const range = bar(page).getByText(projectsSection.range, { exact: true });
+    await expect(range).toHaveText('‘25 - ’26');
+    await expect(bar(page)).not.toContainText('21');
+    // Accent/Primary on the light surface is Violet 500.
+    await expect(range).toHaveCSS('color', 'rgb(98, 69, 245)');
+    const [rangeBox, barBox] = await Promise.all([range.boundingBox(), bar(page).boundingBox()]);
+    expect(
+      Math.abs(
+        (rangeBox?.x ?? 0) + (rangeBox?.width ?? 0) - (barBox?.x ?? 0) - (barBox?.width ?? 0),
+      ),
+    ).toBeLessThanOrEqual(1);
+    expect(await barOverflow(page)).toBeLessThanOrEqual(0);
+  });
 
   test('lists the four projects newest first', async ({ page }) => {
     await page.goto('/Portfolio/');
@@ -53,6 +81,13 @@ test.describe('projects index', () => {
 
 test.describe('projects at 375px', () => {
   test.use({ viewport: { width: 375, height: 812 } });
+
+  test('shows the range without overflowing the bar', async ({ page }) => {
+    await page.goto('/Portfolio/');
+    await expect(bar(page).getByText(projectsSection.range, { exact: true })).toBeVisible();
+    await expect(bar(page)).not.toContainText('21');
+    expect(await barOverflow(page)).toBeLessThanOrEqual(0);
+  });
 
   test('has no horizontal scroll', async ({ page }) => {
     await page.goto('/Portfolio/');
