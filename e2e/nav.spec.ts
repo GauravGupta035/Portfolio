@@ -19,7 +19,8 @@ test.describe('desktop nav', () => {
         .poll(() =>
           section.evaluate((element, atBottom) => {
             const box = element.getBoundingClientRect();
-            return Math.round(atBottom ? box.bottom - innerHeight : box.top);
+            // A section can sit a fraction of a pixel above the edge, which rounds to -0.
+            return Math.abs(Math.round(atBottom ? box.bottom - innerHeight : box.top));
           }, footer),
         )
         .toBe(0);
