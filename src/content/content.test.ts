@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { experiences, posts, profile, projects, skillCategories } from '.';
@@ -77,5 +77,21 @@ describe('content', () => {
       ...skillCategories.flatMap(({ illustration }) => (illustration ? [illustration.src] : [])),
     ];
     for (const path of paths) expect(existsSync(join(publicDir, path)), path).toBe(true);
+  });
+
+  it('lists the factory post second with its own illustration', () => {
+    expect(posts).toHaveLength(2);
+    const post = posts[1];
+    expect(post.title).toBe('Test the factory before you trust it');
+    expect(post.excerpt).toBe(
+      "I used Tessl to build Jot's waitlist website, learned what it takes to build a truly reliable AI software factory and then rebuilt the pipeline on Claude.",
+    );
+    expect(post.url).toBe(
+      'https://medium.com/@guptagaurav035/test-the-factory-before-you-trust-it-82b7f3467fd5?sharedUserId=guptagaurav035',
+    );
+    expect(post.image.src).toBe('images/blog/test-the-factory.svg');
+    expect(post.image.alt.trim()).not.toBe('');
+    const svg = readFileSync(join(publicDir, post.image.src), 'utf8');
+    expect(svg).toMatch(/viewBox="0 0 660 528"/);
   });
 });
