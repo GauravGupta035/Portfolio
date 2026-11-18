@@ -1,5 +1,6 @@
 // Every string from the deleted legacy/initialListValues.ts, kept so the tests can prove the
-// migration lost or changed nothing. The two projects dropped in #36 are gone.
+// migration lost or changed nothing. The two projects dropped in #36 are gone, and the skills
+// were replaced with the CV's list in #42.
 export const legacyExperiences = [
   {
     title: 'Software Development Engineer - II',
@@ -46,45 +47,5 @@ export const legacyProjects = [
       'Console based AI-powered agent that generates personalised learning, revision and behavioural questions and uses LLM APIs to provide feedback.',
     stack: 'PYTHON + LLM APIs',
     link: 'https://github.com/GauravGupta035/interview-prep-agent',
-  },
-];
-
-export const legacySkillCategories = [
-  {
-    category: 'Languages & Frameworks',
-    skills: [
-      'C++',
-      'Python',
-      'JavaScript',
-      'TypeScript',
-      'Haskell',
-      'ReactJS',
-      'FastAPI',
-      'HTML',
-      'CSS',
-      'Sass',
-    ],
-  },
-  {
-    category: 'Cloud and DevOps',
-    skills: [
-      'AWS (Lambda, EC2, S3)',
-      'Oracle Cloud Infrastructure (OCI)',
-      'Docker',
-      'CI/CD',
-      'GitHub Actions',
-    ],
-  },
-  {
-    category: 'AI and Intelligent Systems',
-    skills: ['Gemini API', 'LangChain / LangGraph', 'LLM Integration'],
-  },
-  {
-    category: 'Database Technologies',
-    skills: ['SQL', 'PostgreSQL', 'MongoDB', 'Redis'],
-  },
-  {
-    category: 'Testing and Tools',
-    skills: ['pytest', 'Unit Testing', 'Git', 'GitHub', 'Jira', 'Confluence', 'Postman', 'Figma'],
   },
 ];

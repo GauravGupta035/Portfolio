@@ -67,7 +67,7 @@ remotion/        Remotion compositions and render scripts
 4. Project detail (dark): per project title, subtitle, description, metrics (Data L), year marker, VIEW SOURCE link, vertical tech rail on the right edge.
 5. Experience: pinned "EXPERIENCE" heading with stacked cards and a 01/03 progress indicator.
 6. Blog: article card grid.
-7. About: intro text, rotated capability cards (Languages & Frameworks, Cloud & DevOps, AI & Intelligent Systems) in a horizontal rail, vertical social links.
+7. About: intro text, rotated capability cards (Backend Engineering, Cloud & DevOps, AI Engineering, Testing & Tooling, Frontend) in a horizontal rail, vertical social links.
 8. Footer (dark, `#contact`): a slim single row of links Email, LinkedIn, GitHub, CV, regular weight, each arrow right after its word. This replaces the Figma "Get in touch" heading and tag cloud (issue #37).
 
 ## Animation spec

@@ -48,8 +48,8 @@ describe('About', () => {
     });
   });
 
-  it('draws the database and testing illustrations as SVGs in the skills folder', () => {
-    for (const name of ['Database Technologies', 'Testing and Tools']) {
+  it('draws the backend and testing illustrations as SVGs in the skills folder', () => {
+    for (const name of ['Backend Engineering', 'Testing & Tooling']) {
       const src = skillCategories.find(({ category }) => category === name)?.illustration?.src;
       expect(src, name).toMatch(/^images\/skills\/[\w-]+\.svg$/);
       if (!src) continue;
