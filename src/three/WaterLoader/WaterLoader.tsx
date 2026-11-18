@@ -25,6 +25,14 @@ export function WaterLoader() {
 function Intro({ mode }: { mode: Exclude<IntroMode, 'none'> }) {
   const [phase, setPhase] = useState<Phase>('cover');
   const [mountedAt] = useState(() => performance.now());
+  // The scene mounts after the first commit, so its chunk is only requested once the hero text is
+  // in the DOM.
+  const [booted, setBooted] = useState(false);
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setBooted(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
   useEffect(() => {
     markIntroSeen();
@@ -62,7 +70,7 @@ function Intro({ mode }: { mode: Exclude<IntroMode, 'none'> }) {
       data-phase={phase}
       aria-hidden="true"
     >
-      {mode === 'water' && (
+      {mode === 'water' && booted && (
         <SceneBoundary onError={() => setPhase('fading')}>
           <Suspense fallback={null}>
             <WaterScene
