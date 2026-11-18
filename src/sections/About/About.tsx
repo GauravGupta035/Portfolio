@@ -9,6 +9,9 @@ import styles from './About.module.css';
 // motion, they stay put: in the wall, or in a rail that scrolls sideways.
 export const entranceQuery = '(min-width: 768px) and (prefers-reduced-motion: no-preference)';
 
+// Each card arrives turned this far clockwise and lands upright.
+const tilt = 12;
+
 // Share of the entrance each card takes to slide in. The rest of the entrance
 // staggers the cards' starts, so they arrive one after another in content order.
 const slide = 0.6;
@@ -29,7 +32,7 @@ export function About() {
       if (cancelled) return;
       const media = gsap.matchMedia();
       media.add(entranceQuery, () => {
-        // Every card starts just past the right edge of the viewport. The
+        // Every card starts tilted just past the right edge of the viewport. The
         // entrance runs from the section's top at the bottom of the viewport
         // to its bottom there, before the contact heading below comes into view.
         const slots = gsap.utils.toArray<HTMLElement>(list.children);
@@ -50,8 +53,9 @@ export function About() {
         slots.forEach((slot, index) => {
           timeline.fromTo(
             slot,
-            { x: () => offscreen(slot) },
-            { x: 0, duration: slide, ease: 'power2.out' },
+            // Turning on the bottom-left corner keeps a card past the right edge at the start.
+            { x: () => offscreen(slot), rotation: tilt, transformOrigin: '0% 100%' },
+            { x: 0, rotation: 0, duration: slide, ease: 'power2.out' },
             index * stagger,
           );
         });
