@@ -4,8 +4,7 @@ import { posts } from '../src/content/posts.ts';
 // The dark variant uses Neutral 950 for the card and Neutral 00 for its text.
 const dark = { background: 'rgb(1, 1, 1)', color: 'rgb(245, 245, 243)' };
 
-const firstCard = (page: Page) =>
-  page.getByRole('region', { name: 'Blog' }).getByRole('link', { name: posts[0].title });
+const cards = (page: Page) => page.getByRole('region', { name: 'Blog' }).getByRole('link');
 
 async function expectDark(card: Locator) {
   await expect(card).toHaveCSS('background-color', dark.background);
@@ -22,26 +21,53 @@ const columns = (page: Page) =>
 test.describe('blog card states at 1440px', () => {
   test.use({ viewport: { width: 1440, height: 900 } });
 
-  test('hover shows the dark variant', async ({ page }) => {
+  test('shows both posts in order, the factory post second', async ({ page }) => {
     await page.goto('/Portfolio/');
-    const card = firstCard(page);
-    await card.scrollIntoViewIfNeeded();
-    await expect(card).not.toHaveCSS('background-color', dark.background);
-    await card.hover();
-    await expectDark(card);
+    await expect(cards(page)).toHaveCount(2);
+    await expect(cards(page).nth(1).getByRole('heading', { level: 3 })).toHaveText(
+      'Test the factory before you trust it',
+    );
+    await expect(cards(page).nth(1).locator('img')).toHaveAttribute(
+      'src',
+      /images\/blog\/test-the-factory\.svg$/,
+    );
   });
 
-  test('keyboard focus shows the dark variant', async ({ page }) => {
-    await page.goto('/Portfolio/');
-    const card = firstCard(page);
-    // Tab from the link just before the card so focus arrives by keyboard.
-    await card.evaluate((element) => {
-      const links = Array.from(document.querySelectorAll('a'));
-      links[links.indexOf(element as HTMLAnchorElement) - 1]?.focus();
+  for (const [index, post] of posts.entries()) {
+    test(`hover shows the dark variant on "${post.title}"`, async ({ page }) => {
+      await page.goto('/Portfolio/');
+      const card = cards(page).nth(index);
+      await card.scrollIntoViewIfNeeded();
+      await expect(card).not.toHaveCSS('background-color', dark.background);
+      await card.hover();
+      await expectDark(card);
     });
-    await page.keyboard.press('Tab');
-    await expect(card).toBeFocused();
-    await expectDark(card);
+
+    test(`keyboard focus shows the dark variant on "${post.title}"`, async ({ page }) => {
+      await page.goto('/Portfolio/');
+      const card = cards(page).nth(index);
+      // Tab from the link just before the card so focus arrives by keyboard.
+      await card.evaluate((element) => {
+        const links = Array.from(document.querySelectorAll('a'));
+        links[links.indexOf(element as HTMLAnchorElement) - 1]?.focus();
+      });
+      await page.keyboard.press('Tab');
+      await expect(card).toBeFocused();
+      await expectDark(card);
+    });
+  }
+
+  test('the factory image loads at the card ratio', async ({ page }) => {
+    await page.goto('/Portfolio/');
+    const image = cards(page).nth(1).locator('img');
+    await image.scrollIntoViewIfNeeded();
+    await expect
+      .poll(() => image.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0))
+      .toBe(true);
+    const ratio = await image.evaluate(
+      (img: HTMLImageElement) => img.naturalWidth / img.naturalHeight,
+    );
+    expect(ratio).toBeCloseTo(660 / 528, 3);
   });
 });
 
@@ -55,6 +81,7 @@ for (const [width, count] of [
 
     test(`lays the cards out in ${count} column${count > 1 ? 's' : ''}`, async ({ page }) => {
       await page.goto('/Portfolio/');
+      await expect(cards(page)).toHaveCount(2);
       expect(await columns(page)).toBe(count);
       const overflow = await page.evaluate(
         () => document.documentElement.scrollWidth - document.documentElement.clientWidth,

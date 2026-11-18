@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 528" width="660" height="528">
+  <title>Tickets on an assembly line pass through checks and a test gate into a merge</title>
+  <defs>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" />
+      <feColorMatrix values="0 0 0 0 0.004  0 0 0 0 0.004  0 0 0 0 0.004  0 0 0 0.09 0" />
+      <feComposite in2="SourceGraphic" operator="in" />
+    </filter>
+  </defs>
+
+  <!-- Ground and large constructivist planes -->
+  <rect width="660" height="528" fill="#F5F5F3" />
+  <polygon points="0,0 230,0 0,250" fill="#6245F5" />
+  <circle cx="92" cy="74" r="48" fill="#F5F5F3" />
+  <polygon points="420,0 660,0 660,210" fill="#B3B3B3" />
+  <polygon points="660,300 660,528 470,528" fill="#010101" />
+  <polygon points="0,400 260,528 0,528" fill="#E9E9E7" />
+  <rect x="0" y="0" width="660" height="528" fill="#F5F5F3" filter="url(#grain)" opacity="0.9" />
+
+  <!-- Conveyor belt rising left to right -->
+  <polygon points="-10,402 520,250 540,286 -10,446" fill="#010101" />
+  <polygon points="-10,446 540,286 540,300 -10,462" fill="#666666" />
+  <g fill="#F5F5F3">
+    <circle cx="40" cy="436" r="7" /><circle cx="140" cy="407" r="7" />
+    <circle cx="240" cy="378" r="7" /><circle cx="340" cy="350" r="7" />
+    <circle cx="440" cy="321" r="7" />
+  </g>
+
+  <!-- Ticket 1: raw, unchecked -->
+  <g transform="translate(36 330) rotate(-16)">
+    <rect width="92" height="68" fill="#E9E9E7" stroke="#010101" stroke-width="4" />
+    <rect x="12" y="14" width="44" height="8" fill="#010101" />
+    <rect x="12" y="30" width="66" height="6" fill="#666666" />
+    <rect x="12" y="44" width="54" height="6" fill="#666666" />
+  </g>
+
+  <!-- Check station: lint, types, unit -->
+  <g transform="translate(150 150)">
+    <rect width="112" height="150" fill="#010101" />
+    <circle cx="30" cy="34" r="14" fill="#7B61FF" />
+    <circle cx="30" cy="76" r="14" fill="#7B61FF" />
+    <circle cx="30" cy="118" r="14" fill="#666666" />
+    <rect x="54" y="30" width="44" height="8" fill="#F5F5F3" />
+    <rect x="54" y="72" width="36" height="8" fill="#F5F5F3" />
+    <rect x="54" y="114" width="40" height="8" fill="#B3B3B3" />
+    <line x1="56" y1="150" x2="56" y2="236" stroke="#010101" stroke-width="6" />
+  </g>
+
+  <!-- Ticket 2: under inspection -->
+  <g transform="translate(176 286) rotate(-16)">
+    <rect width="92" height="68" fill="#F5F5F3" stroke="#010101" stroke-width="4" />
+    <rect x="12" y="14" width="44" height="8" fill="#6245F5" />
+    <rect x="12" y="30" width="66" height="6" fill="#666666" />
+    <path d="M54 46 l10 10 l18 -20" fill="none" stroke="#010101" stroke-width="6" />
+  </g>
+
+  <!-- Test gate the belt runs through -->
+  <g>
+    <rect x="330" y="96" width="34" height="250" fill="#010101" />
+    <rect x="460" y="60" width="34" height="250" fill="#010101" />
+    <polygon points="320,96 504,44 504,82 320,134" fill="#6245F5" />
+    <g stroke="#7B61FF" stroke-width="4" opacity="0.85">
+      <line x1="368" y1="140" x2="456" y2="114" />
+      <line x1="368" y1="176" x2="456" y2="150" />
+      <line x1="368" y1="212" x2="456" y2="186" />
+      <line x1="368" y1="248" x2="456" y2="222" />
+    </g>
+    <circle cx="412" cy="84" r="16" fill="#F5F5F3" />
+    <path d="M403 84 l7 7 l12 -14" fill="none" stroke="#010101" stroke-width="5" />
+  </g>
+
+  <!-- Rejected ticket knocked off the line -->
+  <g transform="translate(330 380) rotate(24)">
+    <rect width="70" height="52" fill="#B3B3B3" stroke="#010101" stroke-width="4" />
+    <path d="M22 14 l26 24 M48 14 l-26 24" stroke="#010101" stroke-width="6" />
+  </g>
+  <g fill="#010101">
+    <rect x="300" y="452" width="14" height="14" transform="rotate(20 307 459)" />
+    <rect x="420" y="470" width="10" height="10" transform="rotate(-30 425 475)" />
+  </g>
+
+  <!-- Merge: two branches join into one main line -->
+  <g fill="none" stroke-linecap="square">
+    <path d="M520 268 C560 250 570 210 600 180" stroke="#010101" stroke-width="12" />
+    <path d="M560 70 C580 110 590 150 600 180" stroke="#666666" stroke-width="12" />
+    <line x1="600" y1="180" x2="600" y2="20" stroke="#6245F5" stroke-width="12" />
+  </g>
+  <circle cx="600" cy="180" r="24" fill="#6245F5" stroke="#010101" stroke-width="6" />
+  <circle cx="560" cy="70" r="12" fill="#F5F5F3" stroke="#010101" stroke-width="5" />
+  <circle cx="600" cy="20" r="12" fill="#F5F5F3" stroke="#010101" stroke-width="5" />
+
+  <!-- Large approval mark, echoing the first card -->
+  <circle cx="108" cy="482" r="66" fill="#F5F5F3" stroke="#010101" stroke-width="8" />
+  <path d="M74 482 l24 24 l42 -48" fill="none" stroke="#6245F5" stroke-width="16" />
+</svg>
