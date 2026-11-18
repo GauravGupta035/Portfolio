@@ -5,10 +5,14 @@ import { profile } from '../src/content/profile.ts';
 const frames = [profile.portrait.src, ...profile.portraitHoverFrames];
 const portraitImages = /\/images\/0[1-5]\.jpg$/;
 
-// Only the frame on show is exposed to assistive tech, so this is the visible image.
+// Only frame 01 is exposed to assistive tech; the later frames are decorative copies.
 const portrait = (page: Page) => page.getByRole('img', { name: profile.portrait.alt });
+const portraitMask = (page: Page) => page.locator('[tabindex="0"]').filter({ has: portrait(page) });
 const frameOnShow = async (page: Page) =>
-  ((await portrait(page).getAttribute('src')) ?? '').replace(/^\/Portfolio\//, '');
+  ((await portraitMask(page).locator('img[data-active="true"]').getAttribute('src')) ?? '').replace(
+    /^\/Portfolio\//,
+    '',
+  );
 
 async function loadHero(page: Page) {
   await page.goto('/Portfolio/');
@@ -19,7 +23,7 @@ async function loadHero(page: Page) {
 
 // Hovers the portrait and checks every frame shows in order, then 01 again.
 async function expectSequence(page: Page) {
-  await portrait(page).hover();
+  await portraitMask(page).hover();
   const seen = [await frameOnShow(page)];
   const started = Date.now();
   while (seen.length < frames.length + 1 && Date.now() - started < 4000) {
@@ -99,7 +103,7 @@ test.describe('hero portrait at 1440px', () => {
 
   test('mouse leave shows 01 within 100ms', async ({ page }) => {
     await loadHero(page);
-    await portrait(page).hover();
+    await portraitMask(page).hover();
     await expect.poll(() => frameOnShow(page)).toBe(frames[2]);
     await page.mouse.move(10, 880);
     await expect.poll(() => frameOnShow(page), { timeout: 100, intervals: [10] }).toBe(frames[0]);
@@ -107,13 +111,29 @@ test.describe('hero portrait at 1440px', () => {
 
   test('keyboard focus steps through the frames like hover', async ({ page }) => {
     await loadHero(page);
-    await page
-      .locator('[tabindex="0"]')
-      .filter({ has: portrait(page) })
-      .focus();
+    await portraitMask(page).focus();
     await expect.poll(() => frameOnShow(page)).not.toBe(frames[0]);
     await page.keyboard.press('Tab');
     await expect.poll(() => frameOnShow(page)).toBe(frames[0]);
+  });
+
+  test('only frame 01 has alt text, before and during the hover sequence', async ({ page }) => {
+    await loadHero(page);
+    const described = () =>
+      portraitMask(page)
+        .locator('img')
+        .evaluateAll((images) =>
+          images
+            .filter((image) => image.getAttribute('alt') !== '')
+            .map((image) => image.getAttribute('src')?.replace(/^\/Portfolio\//, '')),
+        );
+    await expect(portraitMask(page).locator('img')).toHaveCount(frames.length);
+    expect(await described()).toEqual([frames[0]]);
+    await expect(portraitMask(page).getByRole('img')).toHaveCount(1);
+    await portraitMask(page).hover();
+    await expect.poll(() => frameOnShow(page)).toBe(frames[2]);
+    expect(await described()).toEqual([frames[0]]);
+    await expect(portraitMask(page).getByRole('img')).toHaveCount(1);
   });
 
   test('no portrait image is requested after the first hover', async ({ page }) => {
@@ -122,10 +142,10 @@ test.describe('hero portrait at 1440px', () => {
     page.on('request', (request) => {
       if (portraitImages.test(new URL(request.url()).pathname)) requests.push(request.url());
     });
-    await portrait(page).hover();
+    await portraitMask(page).hover();
     await page.waitForTimeout(frames.length * 400 + 600);
     await page.mouse.move(10, 880);
-    await portrait(page).hover();
+    await portraitMask(page).hover();
     await page.waitForTimeout(1000);
     expect(requests).toEqual([]);
   });
@@ -136,7 +156,7 @@ test.describe('hero portrait with reduced motion', () => {
 
   test('hovering keeps image 01', async ({ page }) => {
     await loadHero(page);
-    await portrait(page).hover();
+    await portraitMask(page).hover();
     for (let i = 0; i < 10; i++) {
       await page.waitForTimeout(150);
       expect(await frameOnShow(page)).toBe(frames[0]);
