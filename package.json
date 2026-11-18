@@ -16,7 +16,8 @@
     "test": "vitest run",
     "e2e": "playwright test",
     "remotion": "remotion studio remotion/index.ts",
-    "render:previews": "node remotion/render.ts"
+    "render:previews": "node remotion/render.ts",
+    "render:og": "remotion still remotion/index.ts SocialPreview public/og.jpg --image-format=jpeg --jpeg-quality=85"
   },
   "dependencies": {
     "@react-three/fiber": "^9.8.2",
