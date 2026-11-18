@@ -1,13 +1,25 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import { App } from './App';
-import { navigation } from './content';
+import { navigation, profile } from './content';
 
 describe('App', () => {
   it('renders a target section for every nav link', () => {
     render(<App />);
     for (const { sectionId } of navigation.links) {
       expect(document.getElementById(sectionId)).toBeInTheDocument();
+    }
+  });
+
+  it('links each social exactly once on the page, in the footer', () => {
+    render(<App />);
+    const footer = screen.getByRole('contentinfo');
+    for (const { label, url } of profile.socials) {
+      const links = Array.from(document.querySelectorAll('a')).filter(
+        (link) => link.getAttribute('href') === url,
+      );
+      expect(links, label).toHaveLength(1);
+      expect(within(footer).getByRole('link', { name: label })).toBe(links[0]);
     }
   });
 });

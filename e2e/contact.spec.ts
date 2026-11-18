@@ -20,14 +20,20 @@ test.describe('footer at 1440px', () => {
     await expect(page.getByRole('heading', { name: 'Get in touch' })).toHaveCount(0);
     // The only list left in the footer is the link row.
     await expect(footer(page).getByRole('list')).toHaveCount(1);
-    await expect(footer(page).getByRole('listitem')).toHaveCount(4);
+    await expect(footer(page).getByRole('listitem')).toHaveCount(5);
   });
 
   test('links are regular weight with each arrow beside and centred on its label', async ({
     page,
   }) => {
     await showFooter(page);
-    await expect(links(page)).toHaveText(['Email', 'LinkedIn', 'GitHub', navigation.cvLabel]);
+    await expect(links(page)).toHaveText([
+      'Email',
+      'LinkedIn',
+      'GitHub',
+      'Medium',
+      navigation.cvLabel,
+    ]);
     for (const link of await links(page).all()) {
       const { weight, gap, offset } = await link.evaluate((element) => {
         const label = element.querySelector('span')?.getBoundingClientRect();
@@ -87,7 +93,7 @@ test.describe('footer at 375px', () => {
 
   test('shows every link with no horizontal scroll', async ({ page }) => {
     await showFooter(page);
-    await expect(links(page)).toHaveCount(4);
+    await expect(links(page)).toHaveCount(5);
     for (const link of await links(page).all()) {
       await expect(link).toBeInViewport({ ratio: 1 });
     }

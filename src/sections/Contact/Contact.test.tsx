@@ -14,16 +14,17 @@ describe('Contact', () => {
     expect(within(element).getAllByRole('list')).toHaveLength(1);
   });
 
-  it('points the footer links at the email, LinkedIn, GitHub and CV from content', () => {
+  it('points the footer links at the email, LinkedIn, GitHub, Medium and CV from content', () => {
     render(<Contact />);
     const links = within(footer()).getAllByRole('link');
     expect(links.map((link) => link.textContent)).toEqual([
       'Email',
       'LinkedIn',
       'GitHub',
+      'Medium',
       navigation.cvLabel,
     ]);
-    for (const label of ['Email', 'LinkedIn', 'GitHub'] as const) {
+    for (const label of ['Email', 'LinkedIn', 'GitHub', 'Medium'] as const) {
       const url = profile.socials.find((social) => social.label === label)?.url;
       expect(url).toBeDefined();
       expect(within(footer()).getByRole('link', { name: label })).toHaveAttribute('href', url);
@@ -34,9 +35,9 @@ describe('Contact', () => {
     );
   });
 
-  it('opens LinkedIn, GitHub and the CV in a new tab, and every link shows the arrow', () => {
+  it('opens LinkedIn, GitHub, Medium and the CV in a new tab, and every link shows the arrow', () => {
     render(<Contact />);
-    for (const label of ['LinkedIn', 'GitHub', navigation.cvLabel]) {
+    for (const label of ['LinkedIn', 'GitHub', 'Medium', navigation.cvLabel]) {
       const link = within(footer()).getByRole('link', { name: label });
       expect(link).toHaveAttribute('target', '_blank');
       expect(link.getAttribute('rel')?.split(' ')).toEqual(['noopener', 'noreferrer']);
