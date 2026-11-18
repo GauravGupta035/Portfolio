@@ -33,6 +33,13 @@ describe('Nav', () => {
     );
   });
 
+  it('shows only the blob and the monogram in the logo', () => {
+    render(<Nav />);
+    const logo = screen.getByRole('link', { name: navigation.logoLabel });
+    expect(logo.querySelectorAll('svg')).toHaveLength(1);
+    expect(logo).toHaveTextContent(profile.monogram);
+  });
+
   it('marks the link for the current hash as active', () => {
     window.history.replaceState(null, '', '/#blog');
     render(<Nav />);

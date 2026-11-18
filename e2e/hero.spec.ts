@@ -80,36 +80,35 @@ test.describe('hero portrait with reduced motion', () => {
   });
 });
 
+const logoPath = (page: Page) =>
+  page
+    .getByRole('link', { name: navigation.logoLabel })
+    .locator('svg path')
+    .first()
+    .getAttribute('d');
+
 test.describe('nav logo at 1440px', () => {
   test.use({ viewport: { width: 1440, height: 900 } });
 
-  // The arrow's top-right corner, in the logo shape's viewBox units, and whether it is on the
-  // outline: inside the fill, with a point just beyond it outside.
-  const arrowTip = (page: Page) =>
-    page.getByRole('link', { name: navigation.logoLabel }).evaluate((link) => {
-      const [shape, arrow] = Array.from(link.querySelectorAll('svg'));
-      const path = shape.querySelector('path') as SVGPathElement;
-      const box = shape.getBoundingClientRect();
-      const { width, height } = shape.viewBox.baseVal;
-      const tip = arrow.getBoundingClientRect();
-      const toShape = (x: number, y: number) =>
-        new DOMPoint(((x - box.left) / box.width) * width, ((y - box.top) / box.height) * height);
-      return {
-        onBorder:
-          path.isPointInFill(toShape(tip.right - 0.3, tip.top + 0.3)) &&
-          !path.isPointInFill(toShape(tip.right + 1, tip.top - 1)),
-        path: path.getAttribute('d'),
-      };
-    });
-
-  test('the arrow tip sits on the shape border at rest and on hover', async ({ page }) => {
+  test('is the blob and monogram only, and its outline morphs on hover', async ({ page }) => {
     await page.goto('/Portfolio/');
-    const rest = await arrowTip(page);
-    expect(rest.onBorder).toBe(true);
+    const logo = page.getByRole('link', { name: navigation.logoLabel });
+    await expect(logo.locator('svg')).toHaveCount(1);
+    const rest = await logoPath(page);
+    await logo.hover();
+    await page.waitForTimeout(600);
+    expect(await logoPath(page)).not.toBe(rest);
+  });
+});
+
+test.describe('nav logo with reduced motion', () => {
+  test.use({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
+
+  test('keeps its outline on hover', async ({ page }) => {
+    await page.goto('/Portfolio/');
+    const rest = await logoPath(page);
     await page.getByRole('link', { name: navigation.logoLabel }).hover();
     await page.waitForTimeout(600);
-    const hover = await arrowTip(page);
-    expect(hover.path).not.toBe(rest.path);
-    expect(hover.onBorder).toBe(true);
+    expect(await logoPath(page)).toBe(rest);
   });
 });

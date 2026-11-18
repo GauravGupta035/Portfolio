@@ -16,13 +16,11 @@ export interface WobbleOptions {
   amount: number;
   /** Shifts the ripple around the shape; each phase gives a different outline. */
   phase: number;
-  /** A point on the outline, in viewBox units, that stays where it is. */
-  anchor?: { x: number; y: number };
 }
 
 /** A variant of a shape with its outline rippled in and out around the centre. Nearby points
  * move together, so the outline stays smooth. */
-export function wobblePath(shape: OrganicShapeName, { amount, phase, anchor }: WobbleOptions) {
+export function wobblePath(shape: OrganicShapeName, { amount, phase }: WobbleOptions) {
   const { width, height, path } = organicShapes[shape];
   const values = numbersOf(path);
   const cx = width / 2;
@@ -31,11 +29,7 @@ export function wobblePath(shape: OrganicShapeName, { amount, phase, anchor }: W
     const x = values[i];
     const y = values[i + 1];
     const angle = Math.atan2((y - cy) / height, (x - cx) / width);
-    let push = amount * (Math.sin(3 * angle + phase) + 0.5 * Math.sin(5 * angle - 1.7 * phase));
-    if (anchor) {
-      const distance = Math.hypot((x - anchor.x) / width, (y - anchor.y) / height);
-      push *= 1 - Math.exp(-((distance / 0.3) ** 2));
-    }
+    const push = amount * (Math.sin(3 * angle + phase) + 0.5 * Math.sin(5 * angle - 1.7 * phase));
     values[i] = cx + (x - cx) * (1 + push);
     values[i + 1] = cy + (y - cy) * (1 + push);
   }
