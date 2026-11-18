@@ -1,13 +1,15 @@
 /// <reference types="node" />
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { render, screen, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { aboutSection, profile, skillCategories } from '../../content';
 import { About } from './About';
 
-const cards = () =>
-  within(screen.getByRole('list', { name: aboutSection.cardsLabel })).getAllByRole('article');
+const rows = () =>
+  within(screen.getByRole('list', { name: aboutSection.skillsLabel }))
+    .getAllByRole('listitem')
+    .filter((item) => item.querySelector('h3'));
 
 describe('About', () => {
   it('shows the heading and the intro', () => {
@@ -18,44 +20,34 @@ describe('About', () => {
     expect(screen.getByText(aboutSection.intro)).toBeInTheDocument();
   });
 
-  it('renders one card per skill category with all its skills', () => {
+  it('lists every skill category in order, each followed by exactly its skills as tags', () => {
     render(<About />);
-    expect(cards()).toHaveLength(skillCategories.length);
-    cards().forEach((card, index) => {
-      const { category, skills, illustration } = skillCategories[index];
-      expect(within(card).getByRole('heading', { level: 3, name: category })).toBeInTheDocument();
+    expect(rows()).toHaveLength(5);
+    rows().forEach((row, index) => {
+      const { category, skills } = skillCategories[index];
+      expect(within(row).getByRole('heading', { level: 3 })).toHaveTextContent(category);
+      const tags = within(row).getByRole('list', { name: `${category} skills` });
       expect(
-        within(within(card).getByRole('list'))
+        within(tags)
           .getAllByRole('listitem')
           .map((item) => item.textContent),
       ).toEqual(skills);
-      if (illustration) {
-        expect(within(card).getByRole('img', { name: illustration.alt })).toHaveAttribute(
-          'src',
-          `${import.meta.env.BASE_URL}${illustration.src}`,
-        );
-      } else {
-        expect(within(card).queryByRole('img')).not.toBeInTheDocument();
-      }
+      // Tags are plain text, not links or buttons.
+      expect(within(tags).queryByRole('link')).not.toBeInTheDocument();
+      expect(within(tags).queryByRole('button')).not.toBeInTheDocument();
     });
   });
 
-  it('shows an illustration with alt text on every card', () => {
+  it('has no illustrations, cards or tilt left', () => {
     render(<About />);
-    cards().forEach((card) => {
-      const image = within(card).getByRole('img');
-      expect(image.getAttribute('alt')?.trim()).not.toBe('');
-    });
-  });
-
-  it('draws the backend and testing illustrations as SVGs in the skills folder', () => {
-    for (const name of ['Backend Engineering', 'Testing & Tooling']) {
-      const src = skillCategories.find(({ category }) => category === name)?.illustration?.src;
-      expect(src, name).toMatch(/^images\/skills\/[\w-]+\.svg$/);
-      if (!src) continue;
-      const svg = readFileSync(join(process.cwd(), 'public', src), 'utf8');
-      expect(svg).toContain('viewBox="0 0 348 420"');
-    }
+    const section = screen.getByRole('region', { name: aboutSection.heading });
+    expect(within(section).queryByRole('img')).not.toBeInTheDocument();
+    expect(within(section).queryByRole('article')).not.toBeInTheDocument();
+    for (const category of skillCategories) expect(category).not.toHaveProperty('illustration');
+    expect(existsSync(join(process.cwd(), 'src/components/CapabilityCard'))).toBe(false);
+    expect(existsSync(join(process.cwd(), 'public/images/skills'))).toBe(false);
+    const source = readFileSync(join(process.cwd(), 'src/sections/About/About.tsx'), 'utf8');
+    expect(source).not.toMatch(/entranceQuery|rotation|CapabilityCard/);
   });
 
   it('downloads the CV from the CV button', () => {

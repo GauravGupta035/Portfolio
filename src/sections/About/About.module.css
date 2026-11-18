@@ -1,7 +1,7 @@
 /* Desktop positions follow Figma Page 1 at 1440px: a 900px section with the
    social column in the first 120px behind a hairline, the heading caps at
-   91px, the intro at 852px and the cards from 281px. Between 768px and
-   1440px the section, the header and the cards scale with the viewport. */
+   91px, the intro at 852px and the skill ledger from 281px. Between 768px and
+   1440px the section and the header scale with the viewport. */
 .about {
   --side: clamp(88px, 8.33vw, 120px);
 
@@ -73,25 +73,10 @@
   stroke-width: var(--stroke-strong);
 }
 
-/* Below 768px the rail scrolls by swipe or scrollbar and the cards stand upright. */
-.rail {
+/* The ledger starts at the heading's left edge and ends on a 48px right margin. */
+.ledger {
   grid-area: 2 / 2;
-  overflow-x: auto;
-  scroll-snap-type: x proximity;
-  padding-bottom: var(--space-24);
-}
-
-.track {
-  display: flex;
-  gap: var(--space-96);
-  width: max-content;
-  padding-inline: 22px var(--space-48);
-}
-
-.slot {
-  flex: none;
-  scroll-snap-align: start;
-  scroll-margin-left: 22px;
+  margin: 0 var(--space-48) var(--space-48) min(120px, 8.33vw);
 }
 
 .side {
@@ -103,42 +88,14 @@
   border-right: var(--stroke-hairline) solid var(--color-border-strong);
 }
 
-/* From 768px the cards rest upright in one row that fills the rail: five
-   cards share its width up to a 48px right margin, and stretch down to 48px
-   above the section's bottom edge, never shorter than the Figma 352 x 522
-   proportion. The rail is a size container so the card width follows it. */
-@media (min-width: 768px) {
-  .rail {
-    display: flex;
-    container-type: inline-size;
-    overflow-x: clip;
-    padding-bottom: 0;
-  }
-
-  .track {
-    --capability-card-width: calc((100cqw - 22px - var(--space-48) - 4 * var(--space-16)) / 5);
-    --capability-card-height: calc(522 * var(--capability-card-width) / 352);
-
-    flex: 1;
-    gap: var(--space-16);
-    width: auto;
-    padding-bottom: var(--space-48);
-  }
-
-  /* Cards in the wall share the track's height. */
-  .slot {
-    display: flex;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .cv {
     transition: none;
   }
 }
 
-/* No mobile design yet: heading, intro and CV button stack above a swipeable
-   rail, and the social links run in a row underneath. */
+/* No mobile design yet: heading, intro and CV button stack above the skill
+   ledger, and the social links run in a row underneath. */
 @media (max-width: 767px) {
   .about {
     display: flex;
@@ -166,17 +123,8 @@
     font-size: min(var(--type-action-size), 9vw);
   }
 
-  .track {
-    --capability-card-width: min(300px, 80vw);
-    --capability-card-height: 0;
-    --capability-card-unit: 1px;
-
-    gap: var(--space-16);
-    padding-inline: var(--grid-mobile-margin);
-  }
-
-  .slot {
-    scroll-margin-left: var(--grid-mobile-margin);
+  .ledger {
+    margin: 0 var(--grid-mobile-margin) var(--space-48);
   }
 
   .side {

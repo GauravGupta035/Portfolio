@@ -156,7 +156,6 @@ describe('content', () => {
       profile.portrait.src,
       ...profile.portraitHoverFrames,
       ...posts.map((post) => post.image.src),
-      ...skillCategories.flatMap(({ illustration }) => (illustration ? [illustration.src] : [])),
     ];
     for (const path of paths) expect(existsSync(join(publicDir, path)), path).toBe(true);
   });

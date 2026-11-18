@@ -1,1 +1,0 @@
-export { CapabilityCard } from './CapabilityCard';

@@ -63,8 +63,6 @@ export interface ExperienceSection {
 export interface SkillCategory {
   category: string;
   skills: readonly string[];
-  /** The card illustration. Figma only shows art for the first three categories. */
-  illustration?: Image;
 }
 
 export interface Image {
@@ -93,8 +91,8 @@ export interface ContactSection {
 export interface AboutSection {
   heading: string;
   intro: string;
-  /** Accessible name for the capability card rail. */
-  cardsLabel: string;
+  /** Accessible name for the skill ledger. */
+  skillsLabel: string;
   /** Accessible name for the vertical social links. */
   socialsLabel: string;
   cvLabel: string;
