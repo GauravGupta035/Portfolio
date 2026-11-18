@@ -44,9 +44,10 @@ describe('Hero', () => {
     afterEach(() => {
       vi.useRealTimers();
       vi.unstubAllGlobals();
+      Reflect.deleteProperty(HTMLImageElement.prototype, 'decode');
     });
 
-    it('steps through every frame while hovered and returns to the first on leave', () => {
+    it('steps through every frame while hovered and returns to the first on leave', async () => {
       vi.useFakeTimers();
       stubReducedMotion(false);
       render(<Hero />);
@@ -57,6 +58,14 @@ describe('Hero', () => {
       if (!portrait) return;
 
       fireEvent.pointerEnter(portrait);
+      // jsdom neither loads nor decodes images, so stand in for both.
+      Object.defineProperty(HTMLImageElement.prototype, 'decode', {
+        configurable: true,
+        value: () => Promise.resolve(),
+      });
+      await act(async () => {
+        for (const image of portrait.querySelectorAll('img')) fireEvent.load(image);
+      });
       const frames = [profile.portrait.src, ...profile.portraitHoverFrames, profile.portrait.src];
       for (const frame of frames) {
         expect(shownFrame()).toBe(`${base}${frame}`);
@@ -64,6 +73,18 @@ describe('Hero', () => {
       }
 
       fireEvent.pointerLeave(portrait);
+      expect(shownFrame()).toBe(`${base}${profile.portrait.src}`);
+    });
+
+    it('waits on a frame until the next one has decoded', () => {
+      vi.useFakeTimers();
+      stubReducedMotion(false);
+      render(<Hero />);
+      const portrait = screen
+        .getByRole('img', { name: profile.portrait.alt })
+        .closest('[tabindex]');
+      if (portrait) fireEvent.pointerEnter(portrait);
+      act(() => vi.advanceTimersByTime(frameDuration * 3));
       expect(shownFrame()).toBe(`${base}${profile.portrait.src}`);
     });
 

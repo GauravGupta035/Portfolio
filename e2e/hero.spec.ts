@@ -17,20 +17,84 @@ async function loadHero(page: Page) {
   await page.waitForLoadState('networkidle');
 }
 
+// Hovers the portrait and checks every frame shows in order, then 01 again.
+async function expectSequence(page: Page) {
+  await portrait(page).hover();
+  const seen = [await frameOnShow(page)];
+  const started = Date.now();
+  while (seen.length < frames.length + 1 && Date.now() - started < 4000) {
+    const current = await frameOnShow(page);
+    if (current !== seen[seen.length - 1]) seen.push(current);
+    await page.waitForTimeout(40);
+  }
+  expect(seen).toEqual([...frames, frames[0]]);
+}
+
+// Every image the page has fetched, with when it started and finished, whether it started before
+// the load event, and its size on the wire.
+async function imageRequests(page: Page) {
+  await page.waitForLoadState('load');
+  return page.evaluate(() => {
+    const [navigation] = performance.getEntriesByType(
+      'navigation',
+    ) as PerformanceNavigationTiming[];
+    return (performance.getEntriesByType('resource') as PerformanceResourceTiming[])
+      .filter((entry) => entry.initiatorType === 'img')
+      .map((entry) => ({
+        path: new URL(entry.name).pathname,
+        start: entry.startTime,
+        end: entry.responseEnd,
+        beforeLoad: entry.startTime < navigation.loadEventStart,
+        bytes: entry.encodedBodySize,
+      }));
+  });
+}
+
 test.describe('hero portrait at 1440px', () => {
   test.use({ viewport: { width: 1440, height: 900 } });
 
   test('hovering steps through 01 to 05 and back to 01', async ({ page }) => {
     await loadHero(page);
-    await portrait(page).hover();
-    const seen = [await frameOnShow(page)];
-    const started = Date.now();
-    while (seen.length < frames.length + 1 && Date.now() - started < 4000) {
-      const current = await frameOnShow(page);
-      if (current !== seen[seen.length - 1]) seen.push(current);
-      await page.waitForTimeout(40);
-    }
-    expect(seen).toEqual([...frames, frames[0]]);
+    await expectSequence(page);
+  });
+
+  test('only frame 01 is requested before the load event, the rest after it and on hover', async ({
+    page,
+  }) => {
+    // A slow 01 makes any hover frame that starts alongside it show up.
+    await page.route(`**/${frames[0]}`, async (route) => {
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      await route.continue();
+    });
+    await page.goto('/Portfolio/');
+    await expect(portrait(page)).toBeVisible();
+    const images = await imageRequests(page);
+    // React renders after the load event fires, so 01 may start after it too, but nothing else may.
+    const early = images.filter((image) => image.beforeLoad);
+    expect(early.map((image) => image.path).filter((path) => portraitImages.test(path))).toEqual(
+      early.some((image) => image.path === `/Portfolio/${frames[0]}`)
+        ? [`/Portfolio/${frames[0]}`]
+        : [],
+    );
+    // Frames 02 to 05 are hover only, so they come off the first load's image bytes.
+    const bytes = early.reduce((total, image) => total + image.bytes, 0);
+    expect(bytes).toBeLessThanOrEqual(850_000 - 500_000);
+
+    // Without a hover, the later frames still arrive once 01 is in.
+    const hoverFrames = frames.slice(1).map((frame) => `/Portfolio/${frame}`);
+    await expect
+      .poll(
+        async () =>
+          (await imageRequests(page)).filter((image) => hoverFrames.includes(image.path)).length,
+      )
+      .toBe(hoverFrames.length);
+    const after = await imageRequests(page);
+    const first = after.find((image) => image.path === `/Portfolio/${frames[0]}`);
+    expect(first).toBeDefined();
+    for (const image of after.filter((entry) => hoverFrames.includes(entry.path)))
+      expect(image.start, image.path).toBeGreaterThanOrEqual(first?.end ?? Infinity);
+
+    await expectSequence(page);
   });
 
   test('mouse leave shows 01 within 100ms', async ({ page }) => {
