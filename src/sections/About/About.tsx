@@ -1,75 +1,13 @@
-import { useEffect, useRef } from 'react';
-import { CapabilityCard } from '../../components/CapabilityCard';
+import { SkillLedger } from '../../components/SkillLedger';
 import { SocialLinks } from '../../components/SocialLinks';
 import { aboutSection, profile, skillCategories } from '../../content';
-import { loadScrollMotion } from '../../motion';
 import styles from './About.module.css';
-
-// The cards slide into their wall from 768px up. Below that, or with reduced
-// motion, they stay put: in the wall, or in a rail that scrolls sideways.
-export const entranceQuery = '(min-width: 768px) and (prefers-reduced-motion: no-preference)';
-
-// Each card arrives turned this far clockwise and lands upright.
-const tilt = 12;
-
-// Share of the entrance each card takes to slide in. The rest of the entrance
-// staggers the cards' starts, so they arrive one after another in content order.
-const slide = 0.6;
 
 const cvFile = profile.cvPath.split('/').pop();
 
 export function About() {
-  const section = useRef<HTMLElement>(null);
-  const track = useRef<HTMLUListElement>(null);
-
-  useEffect(() => {
-    const element = section.current;
-    const list = track.current;
-    if (!element || !list || !window.matchMedia) return;
-    let cancelled = false;
-    let revert: (() => void) | undefined;
-    void loadScrollMotion().then(({ gsap }) => {
-      if (cancelled) return;
-      const media = gsap.matchMedia();
-      media.add(entranceQuery, () => {
-        // Every card starts tilted just past the right edge of the viewport. The
-        // entrance runs from the section's top at the bottom of the viewport
-        // to its bottom there, which is where the footer's top edge reaches it.
-        const slots = gsap.utils.toArray<HTMLElement>(list.children);
-        const offscreen = (slot: HTMLElement) =>
-          window.innerWidth -
-          slot.getBoundingClientRect().left +
-          (Number(gsap.getProperty(slot, 'x')) || 0);
-        const timeline = gsap.timeline({
-          scrollTrigger: {
-            trigger: element,
-            start: 'top bottom',
-            end: 'bottom bottom',
-            scrub: true,
-            invalidateOnRefresh: true,
-          },
-        });
-        const stagger = slots.length > 1 ? (1 - slide) / (slots.length - 1) : 0;
-        slots.forEach((slot, index) => {
-          timeline.fromTo(
-            slot,
-            // Turning on the bottom-left corner keeps a card past the right edge at the start.
-            { x: () => offscreen(slot), rotation: tilt, transformOrigin: '0% 100%' },
-            { x: 0, rotation: 0, duration: slide, ease: 'power2.out' },
-            index * stagger,
-          );
-        });
-      });
-      revert = () => media.revert();
-    });
-    return () => {
-      cancelled = true;
-      revert?.();
-    };
-  }, []);
-
   return (
-    <section ref={section} id="about" className={styles.about} aria-labelledby="about-heading">
+    <section id="about" className={styles.about} aria-labelledby="about-heading">
       <header className={styles.header}>
         <h2 id="about-heading" className={styles.heading}>
           {aboutSection.heading}
@@ -88,15 +26,11 @@ export function About() {
           </a>
         </div>
       </header>
-      <div className={styles.rail}>
-        <ul ref={track} className={styles.track} aria-label={aboutSection.cardsLabel}>
-          {skillCategories.map((category) => (
-            <li key={category.category} className={styles.slot}>
-              <CapabilityCard category={category} />
-            </li>
-          ))}
-        </ul>
-      </div>
+      <SkillLedger
+        className={styles.ledger}
+        categories={skillCategories}
+        label={aboutSection.skillsLabel}
+      />
       <div className={styles.side}>
         <SocialLinks
           className={styles.socials}

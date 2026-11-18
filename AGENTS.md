@@ -67,7 +67,7 @@ remotion/        Remotion compositions and render scripts
 4. Project detail (dark): per project title, subtitle, description, metrics (Data L), year marker, VIEW SOURCE link, vertical tech rail on the right edge.
 5. Experience: pinned "EXPERIENCE" heading with stacked cards and a 01/03 progress indicator.
 6. Blog: article card grid.
-7. About: intro text, rotated capability cards (Backend Engineering, Cloud & DevOps, AI Engineering, Testing & Tooling, Frontend) in a horizontal rail, vertical social links.
+7. About: intro text, a skills ledger with one row per category (Backend Engineering, Cloud & DevOps, AI Engineering, Testing & Tooling, Frontend), label on the left and skill tags on the right, hairline between rows, vertical social links. The ledger replaces the Figma capability cards (issue #43).
 8. Footer (dark, `#contact`): a slim single row of links Email, LinkedIn, GitHub, CV, regular weight, each arrow right after its word. This replaces the Figma "Get in touch" heading and tag cloud (issue #37).
 
 ## Animation spec
@@ -78,7 +78,7 @@ remotion/        Remotion compositions and render scripts
 - Custom cursor: blob cursor with default, hover and labelled states (Interaction / Cursor component).
 - Blog cards: liquid hover distortion (WebGL).
 - Experience: scroll-pinned heading, cards advance with scroll, progress indicator updates.
-- About: capability cards rotate/drift in a scroll-driven rail.
+- About: skill ledger rows fade and rise one after another (about 400ms) as they scroll into view.
 
 ## Rules
 
