@@ -1,4 +1,4 @@
-import{a as e,n as t,o as n,r,s as i,t as a}from"./react-three-fiber.esm-BDzD8LDr.js";import{o,r as s,t as c}from"./index-CuKrHTjO.js";var l=o(s(),1),u=`// The card image, rippling out from the pointer like a touched water surface. uStrength fades
+import{a as e,n as t,o as n,r,s as i,t as a}from"./react-three-fiber.esm-Dzkz2iuu.js";import{o,r as s,t as c}from"./index-N9LNInJF.js";var l=o(s(),1),u=`// The card image, rippling out from the pointer like a touched water surface. uStrength fades
 // the whole effect, so at 0 this is the still image.
 uniform sampler2D uImage;
 uniform vec2 uPointer;
