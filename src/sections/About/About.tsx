@@ -1,5 +1,4 @@
 import { SkillLedger } from '../../components/SkillLedger';
-import { SocialLinks } from '../../components/SocialLinks';
 import { aboutSection, profile, skillCategories } from '../../content';
 import styles from './About.module.css';
 
@@ -31,13 +30,6 @@ export function About() {
         categories={skillCategories}
         label={aboutSection.skillsLabel}
       />
-      <div className={styles.side}>
-        <SocialLinks
-          className={styles.socials}
-          socials={profile.socials}
-          label={aboutSection.socialsLabel}
-        />
-      </div>
     </section>
   );
 }

@@ -97,6 +97,30 @@ test.describe('about at 1440px', () => {
     });
   });
 
+  test('the header and ledger share the page margin with no empty left column', async ({
+    page,
+  }) => {
+    await load(page);
+    await section(page).scrollIntoViewIfNeeded();
+    const {
+      heading,
+      ledger: list,
+      sectionLeft,
+    } = await section(page).evaluate((element) => {
+      const left = (selector: string) =>
+        element.querySelector(selector)?.getBoundingClientRect().left ?? NaN;
+      return {
+        heading: left('h2'),
+        ledger: left('ul'),
+        sectionLeft: element.getBoundingClientRect().left,
+      };
+    });
+    expect(Math.abs(heading - list)).toBeLessThanOrEqual(1);
+    // The 50px page margin, not a 120px social column.
+    expect(heading - sectionLeft).toBeLessThanOrEqual(51);
+    await expect(section(page).getByRole('link')).toHaveCount(1);
+  });
+
   test('rows start hidden and are revealed as they scroll into view', async ({ page }) => {
     await load(page);
     for (const { opacity } of await rowStyles(page)) expect(opacity).toBe('0');
