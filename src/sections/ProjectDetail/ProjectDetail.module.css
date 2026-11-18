@@ -166,7 +166,11 @@
     width: 48px;
   }
 
+  /* Padding with a matching negative margin grows the tap area to 44px
+     without moving the link. */
   .source {
+    padding-block: var(--space-8);
+    margin-block: calc(-1 * var(--space-8));
     font-size: var(--type-heading-s-size);
   }
 
