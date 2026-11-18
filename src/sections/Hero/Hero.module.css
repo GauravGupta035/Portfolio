@@ -45,7 +45,9 @@
   filter: grayscale(1);
 }
 
-.image[data-active='false'] {
+/* Frame 01 stays shown under the later frames, so assistive tech always finds
+   the one described portrait. */
+.image:not(:first-child)[data-active='false'] {
   visibility: hidden;
 }
 

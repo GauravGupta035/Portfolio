@@ -41,8 +41,9 @@ export function Hero() {
                 key={src}
                 className={styles.image}
                 src={`${import.meta.env.BASE_URL}${src}`}
-                alt={portrait.alt}
-                aria-hidden={index === frame ? undefined : true}
+                // Frames 02 to 05 are decorative copies of 01, which carries the description.
+                alt={index === 0 ? portrait.alt : ''}
+                aria-hidden={index === 0 ? undefined : true}
                 data-active={index === frame}
                 width={1200}
                 height={1600}

@@ -14,8 +14,7 @@ function stubReducedMotion(reduce: boolean) {
   }));
 }
 
-const shownFrame = () =>
-  screen.getByRole('img', { name: profile.portrait.alt }).getAttribute('src');
+const shownFrame = () => document.querySelector('img[data-active="true"]')?.getAttribute('src');
 
 describe('Hero', () => {
   it('shows the name as the page heading and the role', () => {
@@ -29,6 +28,20 @@ describe('Hero', () => {
     const portrait = screen.getByRole('img', { name: profile.portrait.alt });
     expect(profile.portrait.alt).not.toBe('');
     expect(portrait.getAttribute('src')).toBe(`${import.meta.env.BASE_URL}${profile.portrait.src}`);
+  });
+
+  it('describes only frame 01 and hides the later frames from assistive tech', () => {
+    // Hovering mounts every frame; reduced motion keeps the sequence timer off.
+    stubReducedMotion(true);
+    render(<Hero />);
+    const portrait = screen.getByRole('img', { name: profile.portrait.alt }).closest('[tabindex]');
+    if (portrait) fireEvent.pointerEnter(portrait);
+    const images = [...document.querySelectorAll('img')];
+    expect(images).toHaveLength(profile.portraitHoverFrames.length + 1);
+    expect(images.filter((image) => image.alt !== '')).toEqual([images[0]]);
+    for (const image of images.slice(1)) expect(image).toHaveAttribute('aria-hidden', 'true');
+    expect(screen.getAllByRole('img')).toHaveLength(1);
+    vi.unstubAllGlobals();
   });
 
   it('lists every metadata block from content', () => {
