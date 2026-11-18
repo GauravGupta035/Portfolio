@@ -1,87 +1,95 @@
 import { expect, test, type Page } from '@playwright/test';
 import { contactSection } from '../src/content/contactSection.ts';
+import { navigation } from '../src/content/navigation.ts';
 
-const section = (page: Page) => page.getByRole('region', { name: contactSection.heading });
-const tags = (page: Page) =>
-  section(page).getByRole('list', { name: contactSection.tagsLabel }).getByRole('listitem');
+const footer = (page: Page) => page.getByRole('contentinfo');
+const links = (page: Page) =>
+  footer(page).getByRole('list', { name: contactSection.linksLabel }).getByRole('link');
 
-// Every tag's on-screen top-left corner, rounded to the pixel.
-const tagPositions = (page: Page) =>
-  tags(page).evaluateAll((items) =>
-    items.map((item) => {
-      const { left, top } = item.getBoundingClientRect();
-      return `${Math.round(left)},${Math.round(top)}`;
-    }),
-  );
-
-async function showSection(page: Page) {
+async function showFooter(page: Page) {
   await page.goto('/Portfolio/');
-  await section(page).scrollIntoViewIfNeeded();
-  await expect(section(page)).toBeInViewport();
+  await footer(page).scrollIntoViewIfNeeded();
+  await expect(footer(page)).toBeInViewport();
 }
 
-test.describe('contact at 1440px', () => {
+test.describe('footer at 1440px', () => {
   test.use({ viewport: { width: 1440, height: 900 } });
 
-  test('tags drift without input', async ({ page }) => {
-    await showSection(page);
-    const before = await tagPositions(page);
-    await page.waitForTimeout(2000);
-    const after = await tagPositions(page);
-    expect(after).toHaveLength(contactSection.tags.length);
-    expect(after.filter((position, index) => position !== before[index]).length).toBeGreaterThan(0);
+  test('has no "Get in touch" heading or tag cloud', async ({ page }) => {
+    await page.goto('/Portfolio/');
+    await expect(page.getByRole('heading', { name: 'Get in touch' })).toHaveCount(0);
+    // The only list left in the footer is the link row.
+    await expect(footer(page).getByRole('list')).toHaveCount(1);
+    await expect(footer(page).getByRole('listitem')).toHaveCount(4);
   });
 
-  test('tags stay clear of the heading while the pointer moves across them', async ({ page }) => {
-    await showSection(page);
-    const heading = await section(page).getByRole('heading', { level: 2 }).boundingBox();
-    expect(heading).not.toBeNull();
-    if (!heading) return;
-    for (let step = 0; step < 40; step++) {
-      const x = heading.x + ((step * 97) % heading.width);
-      const y = heading.y + heading.height + 10 + ((step * 53) % 200);
-      await page.mouse.move(x, y, { steps: 4 });
-      const overlaps = await tags(page).evaluateAll(
-        (items, box) =>
-          items.filter((item) => {
-            const rect = item.getBoundingClientRect();
-            return (
-              rect.top < box.y + box.height - 0.5 &&
-              rect.bottom > box.y &&
-              rect.left < box.x + box.width &&
-              rect.right > box.x
-            );
-          }).length,
-        heading,
-      );
-      expect(overlaps).toBe(0);
+  test('links are regular weight with each arrow beside and centred on its label', async ({
+    page,
+  }) => {
+    await showFooter(page);
+    await expect(links(page)).toHaveText(['Email', 'LinkedIn', 'GitHub', navigation.cvLabel]);
+    for (const link of await links(page).all()) {
+      const { weight, gap, offset } = await link.evaluate((element) => {
+        const label = element.querySelector('span')?.getBoundingClientRect();
+        const arrow = element.querySelector('svg')?.getBoundingClientRect();
+        if (!label || !arrow) throw new Error('link is missing its label or arrow');
+        return {
+          weight: Number(getComputedStyle(element).fontWeight),
+          gap: arrow.left - label.right,
+          offset: arrow.top + arrow.height / 2 - (label.top + label.height / 2),
+        };
+      });
+      expect(weight).toBeLessThan(600);
+      expect(gap).toBeGreaterThanOrEqual(0);
+      expect(gap).toBeLessThanOrEqual(8);
+      expect(Math.abs(offset)).toBeLessThanOrEqual(1);
     }
   });
-});
 
-test.describe('contact with reduced motion', () => {
-  test.use({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
-
-  test('tags stay at their positions', async ({ page }) => {
-    await showSection(page);
-    const before = await tagPositions(page);
-    await page.mouse.move(720, 450);
-    await page.waitForTimeout(2000);
-    expect(await tagPositions(page)).toEqual(before);
+  test('is a slim footer at the end of the page', async ({ page }) => {
+    await showFooter(page);
+    const { height, bottom, scrollHeight } = await footer(page).evaluate((element) => {
+      const box = element.getBoundingClientRect();
+      return {
+        height: box.height,
+        bottom: box.bottom + scrollY,
+        scrollHeight: document.documentElement.scrollHeight,
+      };
+    });
+    expect(height).toBeLessThanOrEqual(140);
+    expect(Math.round(bottom)).toBe(scrollHeight);
   });
 });
 
-test.describe('contact at 375px', () => {
+test.describe('footer with reduced motion', () => {
+  test.use({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
+
+  test('nothing in the footer animates', async ({ page }) => {
+    await showFooter(page);
+    await links(page).first().hover();
+    const animated = await footer(page).evaluate(
+      (element) =>
+        [element, ...element.querySelectorAll('*')].filter((node) => {
+          const style = getComputedStyle(node);
+          const moving = (value: string) => value.split(',').some((part) => parseFloat(part) > 0);
+          return moving(style.transitionDuration) || moving(style.animationDuration);
+        }).length,
+    );
+    expect(animated).toBe(0);
+    expect(
+      await footer(page).evaluate((element) => element.getAnimations({ subtree: true }).length),
+    ).toBe(0);
+  });
+});
+
+test.describe('footer at 375px', () => {
   test.use({ viewport: { width: 375, height: 812 } });
 
-  test('lists the tags under the heading with no horizontal scroll', async ({ page }) => {
-    await showSection(page);
-    const headingBottom = await section(page)
-      .getByRole('heading', { level: 2 })
-      .evaluate((element) => element.getBoundingClientRect().bottom);
-    for (const tag of await tags(page).all()) {
-      const box = await tag.boundingBox();
-      expect(box?.y ?? 0).toBeGreaterThanOrEqual(headingBottom);
+  test('shows every link with no horizontal scroll', async ({ page }) => {
+    await showFooter(page);
+    await expect(links(page)).toHaveCount(4);
+    for (const link of await links(page).all()) {
+      await expect(link).toBeInViewport({ ratio: 1 });
     }
     const overflow = await page.evaluate(
       () => document.documentElement.scrollWidth - document.documentElement.clientWidth,

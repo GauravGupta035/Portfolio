@@ -68,7 +68,7 @@ remotion/        Remotion compositions and render scripts
 5. Experience: pinned "EXPERIENCE" heading with stacked cards and a 01/03 progress indicator.
 6. Blog: article card grid.
 7. About: intro text, rotated capability cards (Languages & Frameworks, Cloud & DevOps, AI & Intelligent Systems) in a horizontal rail, vertical social links.
-8. Get in touch (dark): floating technology tag cloud, footer links Email, LinkedIn, GitHub, CV.
+8. Footer (dark, `#contact`): a slim single row of links Email, LinkedIn, GitHub, CV, regular weight, each arrow right after its word. This replaces the Figma "Get in touch" heading and tag cloud (issue #37).
 
 ## Animation spec
 
@@ -79,7 +79,6 @@ remotion/        Remotion compositions and render scripts
 - Blog cards: liquid hover distortion (WebGL).
 - Experience: scroll-pinned heading, cards advance with scroll, progress indicator updates.
 - About: capability cards rotate/drift in a scroll-driven rail.
-- Contact: tech tags float and react to the pointer.
 
 ## Rules
 

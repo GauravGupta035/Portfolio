@@ -1,6 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
 import { aboutSection } from '../src/content/aboutSection.ts';
-import { contactSection } from '../src/content/contactSection.ts';
 import { skillCategories } from '../src/content/skills.ts';
 
 const section = (page: Page) => page.getByRole('region', { name: aboutSection.heading });
@@ -62,13 +61,15 @@ async function scrollTo(page: Page, y: number) {
 const sectionEntry = (page: Page) =>
   section(page).evaluate((element) => element.getBoundingClientRect().top + scrollY - innerHeight);
 
-// The scroll position where the contact heading's bottom sits on the viewport's bottom edge.
-const contactHeadingInView = (page: Page) =>
+// The scroll position where the footer's top edge sits on the viewport's bottom edge.
+const footerTopInView = (page: Page) =>
   page
-    .getByRole('heading', { name: contactSection.heading })
-    .evaluate((element) =>
-      Math.ceil(element.getBoundingClientRect().bottom + scrollY - innerHeight),
-    );
+    .locator('#contact')
+    .evaluate((element) => Math.ceil(element.getBoundingClientRect().top + scrollY - innerHeight));
+
+// The page's last scroll position, where the footer is fully in view.
+const pageBottom = (page: Page) =>
+  page.evaluate(() => document.documentElement.scrollHeight - innerHeight);
 
 async function load(page: Page) {
   await page.goto('/Portfolio/');
@@ -124,7 +125,7 @@ test.describe('about at 1440px', () => {
     expect(boxes.at(-1)?.left).toBeGreaterThanOrEqual(viewport.width);
     expect(boxes.some((box) => box.angle !== 0 && box.right > viewport.width)).toBe(true);
 
-    await scrollTo(page, await contactHeadingInView(page));
+    await scrollTo(page, await pageBottom(page));
     for (const box of await settledBoxes(page)) expect(box.angle).toBe(0);
   });
 });
@@ -136,11 +137,11 @@ for (const viewport of [
   test.describe(`about at ${viewport.width}px`, () => {
     test.use({ viewport });
 
-    test('the cards rest as an upright wall that fills the space once the contact heading is in view', async ({
+    test('the cards rest as an upright wall that fills the space once the footer reaches the viewport', async ({
       page,
     }) => {
       await load(page);
-      const y = await contactHeadingInView(page);
+      const y = await footerTopInView(page);
       await scrollTo(page, y);
       const wall = await settledBoxes(page);
       expectWall(wall, viewport);
@@ -162,7 +163,7 @@ for (const viewport of [
       expect(wall[0].left - socialsEdge).toBeGreaterThanOrEqual(0);
       expect(wall[0].left - socialsEdge).toBeLessThanOrEqual(48);
 
-      await scrollTo(page, y + 300);
+      await scrollTo(page, await pageBottom(page));
       const later = await settledBoxes(page);
       expect(later.map((box) => box.left)).toEqual(wall.map((box) => box.left));
     });
@@ -173,9 +174,9 @@ test.describe('about at 1024px', () => {
   const viewport = { width: 1024, height: 768 };
   test.use({ viewport });
 
-  test('all five cards fit once the contact heading is in view', async ({ page }) => {
+  test('all five cards fit once the footer is fully in view', async ({ page }) => {
     await load(page);
-    await scrollTo(page, await contactHeadingInView(page));
+    await scrollTo(page, await pageBottom(page));
     const wall = await settledBoxes(page);
     expectWall(wall, viewport);
     expectRightMargin(wall, viewport);
@@ -202,7 +203,7 @@ test.describe('about with reduced motion', () => {
     expect(after).toEqual(
       before.map((box) => ({ ...box, top: box.top - 400, bottom: box.bottom - 400 })),
     );
-    await scrollTo(page, await contactHeadingInView(page));
+    await scrollTo(page, await pageBottom(page));
     for (const box of await settledBoxes(page)) expect(box.upright).toBe(true);
   });
 });

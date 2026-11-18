@@ -31,8 +31,8 @@ export function App() {
         <Experience />
         <Blog />
         <About />
-        <Contact />
       </main>
+      <Contact />
       <Cursor />
       <WaterLoader />
       {showGrid() && (

@@ -13,8 +13,15 @@ test.describe('desktop nav', () => {
         .click();
       await expect(page).toHaveURL(new RegExp(`#${sectionId}$`));
       const section = page.locator(`#${sectionId}`);
+      // The footer is shorter than the viewport, so its bottom lands on the viewport's instead.
+      const footer = sectionId === 'contact';
       await expect
-        .poll(() => section.evaluate((element) => Math.round(element.getBoundingClientRect().top)))
+        .poll(() =>
+          section.evaluate((element, atBottom) => {
+            const box = element.getBoundingClientRect();
+            return Math.round(atBottom ? box.bottom - innerHeight : box.top);
+          }, footer),
+        )
         .toBe(0);
     });
   }

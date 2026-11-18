@@ -6,10 +6,12 @@ type NavLinkProps = ComponentPropsWithoutRef<'a'> & {
   active?: boolean;
   /** Opens in a new tab and shows the external arrow. */
   external?: boolean;
+  /** Shows the external arrow without opening a new tab. */
+  arrow?: boolean;
 };
 
 /** Navigation / Link: default, hover (violet underline) and active (arrow) states. */
-export function NavLink({ active, external, className, children, ...props }: NavLinkProps) {
+export function NavLink({ active, external, arrow, className, children, ...props }: NavLinkProps) {
   const classes = className ? `${styles.link} ${className}` : styles.link;
   return (
     <a
@@ -19,9 +21,9 @@ export function NavLink({ active, external, className, children, ...props }: Nav
       {...props}
     >
       <span className={styles.label}>{children}</span>
-      {(active || external) && (
+      {(active || external || arrow) && (
         <svg
-          className={external ? styles.externalArrow : styles.arrow}
+          className={external || arrow ? styles.externalArrow : styles.arrow}
           viewBox="0 0 16 16"
           aria-hidden="true"
           focusable="false"
