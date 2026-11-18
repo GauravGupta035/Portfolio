@@ -2,7 +2,6 @@ import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { NavLink } from '../../components/NavLink';
 import {
   easeLiquid,
-  logoArrowTip,
   OrganicShape,
   organicShapes,
   useMorphPath,
@@ -14,14 +13,9 @@ import styles from './Nav.module.css';
 
 const desktopQuery = '(min-width: 768px)';
 
-// The hover shape pins the arrow tip's point, so the tip stays on the border while it morphs.
 const logoPaths = {
   rest: organicShapes.logo.path,
-  hover: wobblePath('logo', { amount: 0.12, phase: 2.2, anchor: logoArrowTip }),
-};
-const arrowTip = {
-  left: `${(logoArrowTip.x / organicShapes.logo.width) * 100}%`,
-  top: `${(logoArrowTip.y / organicShapes.logo.height) * 100}%`,
+  hover: wobblePath('logo', { amount: 0.12, phase: 2.2 }),
 };
 
 function useLogoMorph() {
@@ -111,18 +105,7 @@ export function Nav() {
   return (
     <header className={styles.nav} id="top">
       <a className={styles.logo} href="#top" aria-label={navigation.logoLabel} {...logo.handlers}>
-        <span className={styles.logoMark}>
-          <OrganicShape shape="logo" path={logo.path} className={styles.logoShape} />
-          <svg
-            className={styles.logoArrow}
-            style={arrowTip}
-            viewBox="0 0 54 54"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <path d="M0 0H54V54H44V17L8 53L1 46L37 10H0Z" />
-          </svg>
-        </span>
+        <OrganicShape shape="logo" path={logo.path} className={styles.logoShape} />
         <span className={styles.monogram} aria-hidden="true">
           {profile.monogram}
         </span>

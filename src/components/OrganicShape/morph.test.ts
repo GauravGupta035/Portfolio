@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { interpolatePath, wobblePath } from './morph';
-import { logoArrowTip, organicShapes } from './shapes';
+import { organicShapes } from './shapes';
 
 const commands = (path: string) => path.replace(/[-\d.\s]+/g, ' ').trim();
 
@@ -9,12 +9,6 @@ describe('wobblePath', () => {
     const wobbled = wobblePath('portrait', { amount: 0.025, phase: 1.9 });
     expect(wobbled).not.toBe(organicShapes.portrait.path);
     expect(commands(wobbled)).toBe(commands(organicShapes.portrait.path));
-  });
-
-  it('leaves the anchor point where it is', () => {
-    const wobbled = wobblePath('logo', { amount: 0.12, phase: 2.2, anchor: logoArrowTip });
-    expect(organicShapes.logo.path).toContain(`${logoArrowTip.x} ${logoArrowTip.y}`);
-    expect(wobbled).toContain(`${logoArrowTip.x} ${logoArrowTip.y}`);
   });
 });
 

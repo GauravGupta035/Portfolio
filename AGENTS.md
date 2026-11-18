@@ -73,7 +73,7 @@ remotion/        Remotion compositions and render scripts
 ## Animation spec
 
 - Loader: "loading as water"; liquid fills/clears the screen, then the hero appears. Three.js shader (or a Remotion-rendered clip if the shader is too heavy).
-- Logo: the GG organic shape morphs on hover; the arrow tip sits on the shape's border.
+- Logo: the GG organic shape morphs on hover. No arrow on the logo.
 - Hero portrait: on hover cycle images 01 to 05 and repeat; on mouse leave return to 01. Blob mask can morph between frames.
 - Custom cursor: blob cursor with default, hover and labelled states (Interaction / Cursor component).
 - Blog cards: liquid hover distortion (WebGL).
