@@ -163,6 +163,26 @@ for (const width of [375, 768, 1024, 1440]) {
       await scrollTo(page, await pageBottom(page));
       expect(await horizontalOverflow(page)).toBe(0);
     });
+
+    test('the intro wraps within the header', async ({ page }) => {
+      await load(page);
+      await section(page).scrollIntoViewIfNeeded();
+      const { text, header, clipped } = await section(page).evaluate((element) => {
+        const box = (target: Element | null) => {
+          const { left, right } = target?.getBoundingClientRect() ?? { left: NaN, right: NaN };
+          return { left, right };
+        };
+        const intro = element.querySelector('header p');
+        return {
+          text: box(intro),
+          header: box(element.querySelector('header')),
+          clipped: !intro || intro.scrollWidth > intro.clientWidth,
+        };
+      });
+      expect(clipped).toBe(false);
+      expect(text.left).toBeGreaterThanOrEqual(header.left - 0.5);
+      expect(text.right).toBeLessThanOrEqual(Math.min(header.right, width) + 0.5);
+    });
   });
 }
 
