@@ -1,5 +1,5 @@
 /* Desktop positions follow Figma Page 1 at 1440px: each 900px frame is a
-   700px card above a 200px band with the shape at 101px and the heading cap
+   200px band and a 700px card, with the shape at 101px and the heading cap
    at 243px. Between 768px and 1440px the band scales with the viewport. */
 .experience {
   --band: min(200px, 13.9vw);
@@ -33,21 +33,16 @@
   text-transform: uppercase;
 }
 
-/* While pinned the section fills the viewport: cards on top, the heading
-   band fixed underneath, and each card stacked in the same cell. */
+/* While pinned the section fills the viewport: the heading band fixed at the
+   top, as in the list layout, and the cards below it stacked in the same
+   cell. The band sits at the top on purpose, unlike the Figma frame. */
 .experience[data-pinned] {
   display: grid;
-  grid-template-rows: minmax(0, 1fr) var(--band);
+  grid-template-rows: auto minmax(0, 1fr);
   height: 100vh;
 }
 
-.experience[data-pinned] .header {
-  grid-row: 2;
-  border-bottom: 0;
-}
-
 .experience[data-pinned] .cards {
-  grid-row: 1;
   display: grid;
   overflow: hidden;
 }
