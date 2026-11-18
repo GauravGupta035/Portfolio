@@ -11,6 +11,7 @@ describe('Projects', () => {
       screen.getByRole('heading', { level: 2, name: projectsSection.heading }),
     ).toBeInTheDocument();
     expect(screen.getByText(projectsSection.range)).toBeInTheDocument();
+    expect(projectsSection.range).toBe('‘21 - ’26');
   });
 
   it('shows one row per project, in content order', () => {

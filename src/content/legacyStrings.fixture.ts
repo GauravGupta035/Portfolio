@@ -1,5 +1,5 @@
 // Every string from the deleted legacy/initialListValues.ts, kept so the tests can prove the
-// migration lost or changed nothing.
+// migration lost or changed nothing. The two projects dropped in #36 are gone.
 export const legacyExperiences = [
   {
     title: 'Software Development Engineer - II',
@@ -46,22 +46,6 @@ export const legacyProjects = [
       'Console based AI-powered agent that generates personalised learning, revision and behavioural questions and uses LLM APIs to provide feedback.',
     stack: 'PYTHON + LLM APIs',
     link: 'https://github.com/GauravGupta035/interview-prep-agent',
-  },
-  {
-    id: 3,
-    name: 'GenieSpeaks',
-    description:
-      'It is one-stop shop for reviews for tech products aggregated from websites like Amazon and Flipkart.',
-    stack: 'REACTJS',
-    link: 'https://github.com/GauravGupta035/PD_GenieSpeaks',
-  },
-  {
-    id: 4,
-    name: 'Plagiarism Detector',
-    description:
-      'Application to help users detect plagiarism between two documents using Knuth Morris Pratt (KMP) Algorithm.',
-    stack: 'PYTHON',
-    link: 'https://github.com/GauravGupta035/PlagiarismDetector',
   },
 ];
 
