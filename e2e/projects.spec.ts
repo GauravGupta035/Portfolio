@@ -4,6 +4,32 @@ import { projects } from '../src/content/projects.ts';
 test.describe('projects index', () => {
   test.use({ viewport: { width: 1440, height: 900 } });
 
+  test('lists the four projects newest first', async ({ page }) => {
+    await page.goto('/Portfolio/');
+    const rows = page.getByRole('region', { name: 'Projects' }).getByRole('listitem');
+    await expect(rows).toHaveCount(4);
+    for (const [index, name] of [
+      'Jot',
+      'nimble-triage',
+      'Primaros',
+      'Interview Preparation Agent',
+    ].entries()) {
+      await expect(rows.nth(index).getByRole('link')).toHaveAccessibleName(new RegExp(`^${name}`));
+    }
+    await expect(page.getByText(/GenieSpeaks|Plagiarism Detector/)).toHaveCount(0);
+  });
+
+  test('has no horizontal scroll', async ({ page }) => {
+    await page.goto('/Portfolio/');
+    await page
+      .getByRole('article', { name: projects[projects.length - 1].name })
+      .scrollIntoViewIfNeeded();
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    );
+    expect(overflow).toBe(0);
+  });
+
   for (const project of projects) {
     test(`"${project.name}" row scrolls its detail block into view`, async ({ page }) => {
       await page.goto('/Portfolio/');
@@ -14,7 +40,10 @@ test.describe('projects index', () => {
       await expect(page).toHaveURL(new RegExp(`#project-${project.id}$`));
       const block = page.getByRole('article', { name: project.name });
       await expect
-        .poll(() => block.evaluate((element) => Math.round(element.getBoundingClientRect().top)))
+        .poll(() =>
+          // A block can sit a fraction of a pixel above the edge, which rounds to -0.
+          block.evaluate((element) => Math.abs(Math.round(element.getBoundingClientRect().top))),
+        )
         .toBe(0);
       await expect(block).toBeInViewport();
     });
