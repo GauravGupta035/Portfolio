@@ -24,7 +24,9 @@
   font-weight: var(--type-utility-m-weight);
 }
 
-/* No mobile design yet: the links wrap in a row or two. */
+/* No mobile design yet: the links wrap in a row or two. Each link's tap area
+   grows to at least 44px with padding that its negative margin cancels, and
+   the row gap leaves room for those areas not to overlap. */
 @media (max-width: 767px) {
   .contact {
     padding-inline: var(--grid-mobile-margin);
@@ -32,7 +34,12 @@
 
   .links {
     flex-wrap: wrap;
-    gap: var(--space-16) var(--space-24);
+    gap: var(--space-24);
     justify-content: flex-start;
+  }
+
+  .link {
+    padding-block: var(--space-12);
+    margin-block: calc(-1 * var(--space-12));
   }
 }

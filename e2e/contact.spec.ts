@@ -102,4 +102,20 @@ test.describe('footer at 375px', () => {
     );
     expect(overflow).toBe(0);
   });
+
+  test('gives each link a tap area at least 44px tall without overlaps', async ({ page }) => {
+    await showFooter(page);
+    const boxes = await Promise.all((await links(page).all()).map((link) => link.boundingBox()));
+    for (const box of boxes) expect(box?.height ?? 0).toBeGreaterThanOrEqual(44);
+    for (const [index, a] of boxes.entries())
+      for (const b of boxes.slice(index + 1)) {
+        if (!a || !b) throw new Error('a footer link has no box');
+        const overlap =
+          a.y < b.y + b.height &&
+          b.y < a.y + a.height &&
+          a.x < b.x + b.width &&
+          b.x < a.x + a.width;
+        expect(overlap).toBe(false);
+      }
+  });
 });

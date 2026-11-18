@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { projectsSection } from '../src/content/projectsSection.ts';
 import { projects } from '../src/content/projects.ts';
 
 test.describe('projects index', () => {
@@ -82,5 +83,34 @@ test.describe('projects at 375px', () => {
         (blockBox?.x ?? 0) + (blockBox?.width ?? 0),
       );
     }
+  });
+
+  test('gives each project link a tap area at least 44px tall without overlaps', async ({
+    page,
+  }) => {
+    await page.goto('/Portfolio/');
+    const labels = Object.values(projectsSection.linkLabels).join('|');
+    const links = page
+      .getByRole('article')
+      .getByRole('link', { name: new RegExp(`^(${labels}),`) });
+    await expect(links).toHaveCount(projects.filter((project) => project.link).length);
+    // Page coordinates, so links in different blocks compare without scrolling.
+    const boxes = await links.evaluateAll((elements) =>
+      elements.map((element) => {
+        const box = element.getBoundingClientRect();
+        return {
+          top: box.top + scrollY,
+          bottom: box.bottom + scrollY,
+          left: box.left,
+          right: box.right,
+        };
+      }),
+    );
+    for (const box of boxes) expect(box.bottom - box.top).toBeGreaterThanOrEqual(44);
+    for (const [index, a] of boxes.entries())
+      for (const b of boxes.slice(index + 1))
+        expect(a.top < b.bottom && b.top < a.bottom && a.left < b.right && b.left < a.right).toBe(
+          false,
+        );
   });
 });
