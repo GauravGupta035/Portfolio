@@ -1,13 +1,11 @@
 /* Desktop positions follow Figma Page 1 at 1440px: a 900px section with the
-   social column in the first 120px behind a hairline, the heading caps at
-   91px, the intro at 852px and the skill ledger from 281px. Between 768px and
-   1440px the section and the header scale with the viewport. */
+   heading caps at 91px, the intro at 852px and the skill ledger from 281px.
+   The Figma social column is dropped, the footer holds the links (issue #44).
+   Between 768px and 1440px the section and the header scale with the
+   viewport. */
 .about {
-  --side: clamp(88px, 8.33vw, 120px);
-
-  display: grid;
-  grid-template-columns: var(--side) minmax(0, 1fr);
-  grid-template-rows: auto 1fr;
+  display: flex;
+  flex-direction: column;
   min-height: min(900px, 62.5vw);
   overflow: clip;
 }
@@ -16,10 +14,9 @@
   position: relative;
   z-index: 1;
   display: flex;
-  grid-area: 1 / 2;
   align-items: flex-start;
   min-height: 281px;
-  padding: min(83px, 5.76vw) 0 var(--space-24) min(120px, 8.33vw);
+  padding: min(83px, 5.76vw) 0 var(--space-24) var(--grid-margin);
 }
 
 /* A line height of 0.8 makes the box hug the caps, as in the contact heading. */
@@ -73,19 +70,9 @@
   stroke-width: var(--stroke-strong);
 }
 
-/* The ledger starts at the heading's left edge and ends on a 48px right margin. */
+/* The ledger starts at the heading's left edge and spans the page margins. */
 .ledger {
-  grid-area: 2 / 2;
-  margin: 0 var(--space-48) var(--space-48) min(120px, 8.33vw);
-}
-
-.side {
-  display: flex;
-  grid-area: 1 / 1 / 3;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding-bottom: 44px;
-  border-right: var(--stroke-hairline) solid var(--color-border-strong);
+  margin: 0 var(--grid-margin) var(--space-48);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -95,11 +82,9 @@
 }
 
 /* No mobile design yet: heading, intro and CV button stack above the skill
-   ledger, and the social links run in a row underneath. */
+   ledger. */
 @media (max-width: 767px) {
   .about {
-    display: flex;
-    flex-direction: column;
     min-height: auto;
   }
 
@@ -125,16 +110,5 @@
 
   .ledger {
     margin: 0 var(--grid-mobile-margin) var(--space-48);
-  }
-
-  .side {
-    padding: var(--space-32) var(--grid-mobile-margin) var(--space-48);
-    border-top: var(--stroke-hairline) solid var(--color-border-strong);
-    border-right: 0;
-  }
-
-  .side .socials {
-    flex-direction: row;
-    justify-content: space-between;
   }
 }

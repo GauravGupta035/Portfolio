@@ -57,11 +57,14 @@ describe('About', () => {
     expect(cv).toHaveAttribute('download', 'Gaurav_Gupta_Resume.pdf');
   });
 
-  it('lists the social links by name', () => {
+  it('has no social links, the footer holds them', () => {
     render(<About />);
-    const socials = screen.getByRole('list', { name: aboutSection.socialsLabel });
-    for (const { label } of profile.socials) {
-      expect(within(socials).getByRole('link', { name: label })).toBeInTheDocument();
+    const section = screen.getByRole('region', { name: aboutSection.heading });
+    for (const { label, url } of profile.socials) {
+      expect(within(section).queryByRole('link', { name: label })).not.toBeInTheDocument();
+      expect(section.querySelector(`a[href="${url}"]`)).toBeNull();
     }
+    expect(within(section).getAllByRole('link')).toHaveLength(1);
+    expect(existsSync(join(process.cwd(), 'src/components/SocialLinks'))).toBe(false);
   });
 });

@@ -5,6 +5,5 @@ export const aboutSection: AboutSection = {
   intro:
     "I'm a Software Engineer with 2+ years of experience building distributed systems and cloud-native applications on AWS and OCI.",
   skillsLabel: 'Skills',
-  socialsLabel: 'Social links',
   cvLabel: 'Download CV',
 };

@@ -93,8 +93,6 @@ export interface AboutSection {
   intro: string;
   /** Accessible name for the skill ledger. */
   skillsLabel: string;
-  /** Accessible name for the vertical social links. */
-  socialsLabel: string;
   cvLabel: string;
 }
 
