@@ -38,29 +38,78 @@ async function expectCardsInNormalFlow(page: Page) {
   }
 }
 
+// Scrolls through every pinned card step, half way into each transition and
+// then to the step itself, and hands each settled step to the check.
+async function stepThroughPin(page: Page, check: (index: number) => Promise<void>) {
+  await page.goto('/Portfolio/');
+  await page.waitForLoadState('networkidle');
+  await expect(page.locator('#experience')).toHaveAttribute('data-pinned', '');
+  const height = page.viewportSize()?.height ?? 0;
+  for (let index = 0; index < experiences.length; index++) {
+    for (const offset of index ? [-0.4, 0] : [0]) {
+      const top = await pinStart(page);
+      await page.evaluate((y) => window.scrollTo(0, y), top + (index + offset) * height);
+      if (!offset) {
+        await expect.poll(() => visibleReading(page)).toBe(reading(index));
+        await check(index);
+      }
+    }
+  }
+}
+
+// The card painted on top of the stack at the given step.
+const topCard = (page: Page, index: number) =>
+  page.locator('#experience').getByRole('article').nth(index);
+
 test.describe('experience at 1440px', () => {
   test.use({ viewport: { width: 1440, height: 900 } });
 
-  test('keeps the heading fixed while the indicator steps through each card', async ({ page }) => {
-    await page.goto('/Portfolio/');
-    await page.waitForLoadState('networkidle');
-    await expect(page.locator('#experience')).toHaveAttribute('data-pinned', '');
+  test('keeps the heading fixed at the top, above the card on top', async ({ page }) => {
     const heading = page.getByRole('heading', { level: 2, name: 'Experience' });
     const headingTops: number[] = [];
-    for (let index = 0; index < experiences.length; index++) {
-      for (const offset of index ? [-0.4, 0] : [0]) {
-        const top = await pinStart(page);
-        await page.evaluate((y) => window.scrollTo(0, y), top + (index + offset) * 900);
-        if (!offset) await expect.poll(() => visibleReading(page)).toBe(reading(index));
-        const box = await heading.boundingBox();
-        headingTops.push(Math.round(box?.y ?? -1));
-      }
-    }
+    await stepThroughPin(page, async (index) => {
+      const headingBox = await heading.boundingBox();
+      const cardBox = await topCard(page, index).boundingBox();
+      headingTops.push(Math.round(headingBox?.y ?? -1));
+      expect((headingBox?.y ?? 0) + (headingBox?.height ?? 0)).toBeLessThanOrEqual(
+        cardBox?.y ?? -1,
+      );
+    });
     await expect(heading).toBeInViewport();
     expect(new Set(headingTops).size).toBe(1);
-    expect(headingTops[0]).toBeGreaterThan(900 / 2);
+    expect(headingTops[0]).toBeGreaterThanOrEqual(0);
+    expect(headingTops[0]).toBeLessThan(900 / 2);
   });
 });
+
+for (const viewport of [
+  { width: 1440, height: 900 },
+  { width: 1024, height: 768 },
+]) {
+  test.describe(`experience at ${viewport.width} x ${viewport.height}`, () => {
+    test.use({ viewport });
+
+    test('shows the whole top card and its indicator at every step', async ({ page }) => {
+      await stepThroughPin(page, async (index) => {
+        const card = topCard(page, index);
+        const clipped = await card.evaluate((article) => {
+          const area = article.closest('ol')?.getBoundingClientRect();
+          if (!area) return ['no card area'];
+          const bottom = Math.min(area.bottom, window.innerHeight);
+          const parts = article.querySelectorAll('h3, p, li');
+          return Array.from(parts)
+            .filter((part) => {
+              const box = part.getBoundingClientRect();
+              return box.height > 0 && (box.top < area.top - 0.5 || box.bottom > bottom + 0.5);
+            })
+            .map((part) => part.textContent ?? '');
+        });
+        expect(clipped).toEqual([]);
+        await expect(card.getByText(reading(index))).toBeInViewport({ ratio: 1 });
+      });
+    });
+  });
+}
 
 test.describe('experience with reduced motion', () => {
   test.use({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
