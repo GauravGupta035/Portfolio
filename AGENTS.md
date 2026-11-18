@@ -63,7 +63,7 @@ remotion/        Remotion compositions and render scripts
 
 1. Nav: GG blob logo, Projects, Experience, Blog, About, Contact, CV (external arrow).
 2. Hero: name in Display, "Software Engineer", portrait in an organic blob mask with violet stroke, violet "Scroll" blob, metadata row (Education, Based in, Focused on).
-3. Projects index: '21 to '26, rows with name, category, stack.
+3. Projects index: '25 to '26, rows with name, category, stack.
 4. Project detail (dark): per project title, subtitle, description, metrics (Data L), year marker, VIEW SOURCE link, vertical tech rail on the right edge.
 5. Experience: pinned "EXPERIENCE" heading with stacked cards and a 01/03 progress indicator.
 6. Blog: article card grid.
