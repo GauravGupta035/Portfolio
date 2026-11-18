@@ -10,7 +10,8 @@ const cards = (page: Page) =>
 type Box = { left: number; right: number; top: number; bottom: number };
 
 // Every card's box in the viewport and its rotation, read from the slot's
-// `rotate` and the slot's and the card's transforms.
+// `rotate` and the slot's and the card's transforms. `angle` is the slot's
+// transform rotation in degrees.
 const cardBoxes = (page: Page) =>
   cards(page).evaluateAll((items) =>
     items.map((item) => {
@@ -27,6 +28,12 @@ const cardBoxes = (page: Page) =>
         right: Math.round(right),
         top: Math.round(top),
         bottom: Math.round(bottom),
+        angle: slot
+          ? (() => {
+              const { a, b } = new DOMMatrix(getComputedStyle(slot).transform);
+              return Math.round((Math.atan2(b, a) * 180) / Math.PI);
+            })()
+          : 0,
         upright: turns[0] === 'none' && turns[1] === 'none' && turns[2] === 0 && turns[3] === 0,
       };
     }),
@@ -74,6 +81,13 @@ async function load(page: Page) {
 const overlaps = (a: Box, b: Box) =>
   a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
 
+// The wall ends 48px from the viewport's right edge, give or take 8px.
+function expectRightMargin(boxes: Box[], viewport: { width: number }) {
+  const margin = viewport.width - (boxes.at(-1)?.right ?? 0);
+  expect(margin).toBeGreaterThanOrEqual(40);
+  expect(margin).toBeLessThanOrEqual(56);
+}
+
 function expectWall(boxes: Box[], viewport: { width: number; height: number }) {
   expect(boxes).toHaveLength(skillCategories.length);
   for (const box of boxes) {
@@ -103,34 +117,57 @@ test.describe('about at 1440px', () => {
     expect(download.suggestedFilename()).toBe('Gaurav_Gupta_Resume.pdf');
   });
 
-  test('the cards start beyond the right edge as the section enters', async ({ page }) => {
+  test('the cards start tilted beyond the right edge as the section enters', async ({ page }) => {
     await load(page);
     await scrollTo(page, await sectionEntry(page));
     const boxes = await settledBoxes(page);
     expect(boxes.at(-1)?.left).toBeGreaterThanOrEqual(viewport.width);
-  });
+    expect(boxes.some((box) => box.angle !== 0 && box.right > viewport.width)).toBe(true);
 
-  test('the cards rest as an upright wall once the contact heading is in view', async ({
-    page,
-  }) => {
-    await load(page);
-    const y = await contactHeadingInView(page);
-    await scrollTo(page, y);
-    const wall = await settledBoxes(page);
-    expectWall(wall, viewport);
-    for (const box of wall) expect(box.upright).toBe(true);
-
-    const socialsEdge = await section(page)
-      .getByRole('list', { name: aboutSection.socialsLabel })
-      .evaluate((list) => list.parentElement?.getBoundingClientRect().right ?? 0);
-    expect(wall[0].left - socialsEdge).toBeGreaterThanOrEqual(0);
-    expect(wall[0].left - socialsEdge).toBeLessThanOrEqual(48);
-
-    await scrollTo(page, y + 300);
-    const later = await settledBoxes(page);
-    expect(later.map((box) => box.left)).toEqual(wall.map((box) => box.left));
+    await scrollTo(page, await contactHeadingInView(page));
+    for (const box of await settledBoxes(page)) expect(box.angle).toBe(0);
   });
 });
+
+for (const viewport of [
+  { width: 1440, height: 900 },
+  { width: 1920, height: 1080 },
+]) {
+  test.describe(`about at ${viewport.width}px`, () => {
+    test.use({ viewport });
+
+    test('the cards rest as an upright wall that fills the space once the contact heading is in view', async ({
+      page,
+    }) => {
+      await load(page);
+      const y = await contactHeadingInView(page);
+      await scrollTo(page, y);
+      const wall = await settledBoxes(page);
+      expectWall(wall, viewport);
+      expectRightMargin(wall, viewport);
+      for (const box of wall) expect(box.upright).toBe(true);
+
+      const sectionBottom = await section(page).evaluate((element) =>
+        Math.round(element.getBoundingClientRect().bottom),
+      );
+      for (const box of wall) {
+        expect(sectionBottom - box.bottom).toBeGreaterThanOrEqual(40);
+        expect(sectionBottom - box.bottom).toBeLessThanOrEqual(56);
+        expect(box.bottom - box.top).toBe(wall[0].bottom - wall[0].top);
+      }
+
+      const socialsEdge = await section(page)
+        .getByRole('list', { name: aboutSection.socialsLabel })
+        .evaluate((list) => list.parentElement?.getBoundingClientRect().right ?? 0);
+      expect(wall[0].left - socialsEdge).toBeGreaterThanOrEqual(0);
+      expect(wall[0].left - socialsEdge).toBeLessThanOrEqual(48);
+
+      await scrollTo(page, y + 300);
+      const later = await settledBoxes(page);
+      expect(later.map((box) => box.left)).toEqual(wall.map((box) => box.left));
+    });
+  });
+}
 
 test.describe('about at 1024px', () => {
   const viewport = { width: 1024, height: 768 };
@@ -139,7 +176,9 @@ test.describe('about at 1024px', () => {
   test('all five cards fit once the contact heading is in view', async ({ page }) => {
     await load(page);
     await scrollTo(page, await contactHeadingInView(page));
-    expectWall(await settledBoxes(page), viewport);
+    const wall = await settledBoxes(page);
+    expectWall(wall, viewport);
+    expectRightMargin(wall, viewport);
   });
 });
 
@@ -149,6 +188,8 @@ test.describe('about with reduced motion', () => {
   test('the cards are already in the wall and do not move on scroll', async ({ page }) => {
     await load(page);
     const entry = await sectionEntry(page);
+    await scrollTo(page, entry);
+    for (const box of await settledBoxes(page)) expect(box.upright).toBe(true);
     await scrollTo(page, entry + 100);
     const before = await settledBoxes(page);
     expect(before).toHaveLength(skillCategories.length);
@@ -161,6 +202,8 @@ test.describe('about with reduced motion', () => {
     expect(after).toEqual(
       before.map((box) => ({ ...box, top: box.top - 400, bottom: box.bottom - 400 })),
     );
+    await scrollTo(page, await contactHeadingInView(page));
+    for (const box of await settledBoxes(page)) expect(box.upright).toBe(true);
   });
 });
 

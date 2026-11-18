@@ -103,28 +103,29 @@
   border-right: var(--stroke-hairline) solid var(--color-border-strong);
 }
 
-/* From 768px the cards rest upright in one row that fits the rail: five
-   cards share its width, up to 240px each at 1440px. The rail is a size
-   container so the card width follows it. */
+/* From 768px the cards rest upright in one row that fills the rail: five
+   cards share its width up to a 48px right margin, and stretch down to 48px
+   above the section's bottom edge, never shorter than the Figma 352 x 522
+   proportion. The rail is a size container so the card width follows it. */
 @media (min-width: 768px) {
   .rail {
+    display: flex;
     container-type: inline-size;
     overflow-x: clip;
     padding-bottom: 0;
   }
 
   .track {
-    --capability-card-width: min(
-      240px,
-      (100cqw - 22px - var(--space-48) - 4 * var(--space-16)) / 5
-    );
+    --capability-card-width: calc((100cqw - 22px - var(--space-48) - 4 * var(--space-16)) / 5);
     --capability-card-height: calc(522 * var(--capability-card-width) / 352);
 
+    flex: 1;
     gap: var(--space-16);
     width: auto;
+    padding-bottom: var(--space-48);
   }
 
-  /* Cards in the wall share the tallest card's height. */
+  /* Cards in the wall share the track's height. */
   .slot {
     display: flex;
   }
