@@ -3,12 +3,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { experiences, posts, profile, projects, skillCategories } from '.';
-import { legacyExperiences, legacyProjects, legacySkillCategories } from './legacyStrings.fixture';
-
-// The owner asked for the Figma category wording where it differs from the legacy text.
-const renamedSkillCategories: Record<string, string> = {
-  'AI and Intelligent Systems': 'AI & Intelligent Systems',
-};
+import { legacyExperiences, legacyProjects } from './legacyStrings.fixture';
 
 const isHttpsUrl = (value: string) => {
   try {
@@ -38,13 +33,68 @@ describe('content', () => {
     }
   });
 
-  it('keeps every legacy skill string unchanged', () => {
-    expect(skillCategories.map(({ category, skills }) => ({ category, skills }))).toEqual(
-      legacySkillCategories.map(({ category, skills }) => ({
-        category: renamedSkillCategories[category] ?? category,
-        skills,
-      })),
-    );
+  it("lists the CV's skills by category, in order", () => {
+    expect(skillCategories.map(({ category, skills }) => ({ category, skills }))).toEqual([
+      {
+        category: 'Backend Engineering',
+        skills: [
+          'C++',
+          'Python',
+          'Java',
+          'FastAPI',
+          'REST APIs',
+          'PostgreSQL',
+          'Redis',
+          'MongoDB',
+          'SQL',
+          'Multi-threading',
+        ],
+      },
+      {
+        category: 'Cloud & DevOps',
+        skills: [
+          'AWS (Lambda, EC2, S3)',
+          'Oracle Cloud (OCI)',
+          'Docker',
+          'Docker Compose',
+          'CI/CD',
+          'GitHub Actions',
+        ],
+      },
+      {
+        category: 'AI Engineering',
+        skills: [
+          'LangGraph agents',
+          'LLM integration',
+          'Gemini API',
+          'Ollama',
+          'Claude Code',
+          'Tessl',
+          'Software Factory development',
+        ],
+      },
+      {
+        category: 'Testing & Tooling',
+        skills: [
+          'pytest',
+          'Unit testing',
+          'LLM mocking',
+          'Git',
+          'GitHub',
+          'Postman',
+          'Jira',
+          'Confluence',
+        ],
+      },
+      { category: 'Frontend', skills: ['JavaScript', 'TypeScript', 'React'] },
+    ]);
+  });
+
+  it('drops the skills the CV no longer lists', () => {
+    const source = readFileSync(join(process.cwd(), 'src/content/skills.ts'), 'utf8');
+    for (const removed of ['Haskell', 'HTML', 'CSS', 'Sass', 'Figma', 'ReactJS', 'LangChain']) {
+      expect(source, removed).not.toContain(removed);
+    }
   });
 
   it('lists the projects newest first, with Jot and nimble-triage as ids 3 and 4', () => {
