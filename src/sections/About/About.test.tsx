@@ -20,6 +20,12 @@ describe('About', () => {
     expect(screen.getByText(aboutSection.intro)).toBeInTheDocument();
   });
 
+  it('mentions the agentic engineering work in the intro', () => {
+    expect(aboutSection.intro).toBe(
+      "I'm a Software Engineer with 2+ years of experience building distributed systems and cloud-native applications on AWS and OCI. Now I build spec-driven agentic development pipelines.",
+    );
+  });
+
   it('lists every skill category in order, each followed by exactly its skills as tags', () => {
     render(<About />);
     expect(rows()).toHaveLength(5);
