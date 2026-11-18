@@ -1,7 +1,8 @@
-import { Composition } from 'remotion';
+import { Composition, Still } from 'remotion';
 import { projects } from '../src/content/projects';
-import { compositionId, durationInFrames, fps, previewSize } from './config';
+import { compositionId, durationInFrames, fps, previewSize, socialPreviewSize } from './config';
 import { ProjectPreview } from './ProjectPreview';
+import { SocialPreview } from './SocialPreview';
 
 export function Root() {
   return (
@@ -17,6 +18,7 @@ export function Root() {
           {...previewSize}
         />
       ))}
+      <Still id="SocialPreview" component={SocialPreview} {...socialPreviewSize} />
     </>
   );
 }

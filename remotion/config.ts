@@ -10,3 +10,6 @@ export const fps = 30;
 export const durationInFrames = 6 * fps;
 
 export const compositionId = (projectId: number) => `ProjectPreview-${projectId}`;
+
+/** The Open Graph image size most link previews expect. */
+export const socialPreviewSize = { width: 1200, height: 630 };
